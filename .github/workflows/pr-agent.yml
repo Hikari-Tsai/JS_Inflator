@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Review pull request
-        uses: the-pr-agent/pr-agent@v0.35.0
+        uses: the-pr-agent/pr-agent@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}

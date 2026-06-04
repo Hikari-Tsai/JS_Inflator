@@ -1,0 +1,734 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		15DD6D23BE5741F082FDFCDF /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 308FB67B66FA4973B020E9A7 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				6DC4E313FD1EC45F87C36559 /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				D932CCCE063F461E8F86E459 /* PBXTargetDependency */,
+				D3E5160105314DE5ADB5BF68 /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		FA43C16D70A79A835C2B68DB /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 60C306412FC74E489E7604E7 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				7AF1F56159D09FE4EED3E79F /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		024F012AE87742CB9B1E70AF /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ftypes.h */ = {isa = PBXBuildFile; fileRef = B5FB920B645340B295A7B37A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ftypes.h */; };
+		09679E7235E3472D8AEA63BA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknown.h */ = {isa = PBXBuildFile; fileRef = 7CC8ECEE615640F5A756ADC9 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknown.h */; };
+		16F60EAC95C24DE49FBD9EF8 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstpshpack4.h */ = {isa = PBXBuildFile; fileRef = AB94C99289B34C3CBF43E62F /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstpshpack4.h */; };
+		1AA6F3FEF2B344B1B99C57C6 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/typesizecheck.h */ = {isa = PBXBuildFile; fileRef = AC788748A74D48DCA2BE3FD8 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/typesizecheck.h */; };
+		1AC0270632C340448BEB1FD2 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/icloneable.h */ = {isa = PBXBuildFile; fileRef = D25C2352F0484C3289B0DCB7 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/icloneable.h */; };
+		1C7B62A5563C4A91BDFE14CB /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 7C5AFCDA48E145E08FDCD46F /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/CMakeLists.txt */; };
+		1DF3A6F4C1BD46109C659230 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstparameterchanges.h */ = {isa = PBXBuildFile; fileRef = 4CE6FB4333054C418AF98508 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstparameterchanges.h */; };
+		1EB3D0BD88C64F56B2260507 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/conststringtable.cpp */ = {isa = PBXBuildFile; fileRef = C4EFB208EAF34DA28E1C0E7B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/conststringtable.cpp */; };
+		22F015FB999F4EFAB3C3FD63 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstprocesscontext.h */ = {isa = PBXBuildFile; fileRef = 842934BB083246C8A79BC452 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstprocesscontext.h */; };
+		27BA408547E143A0AE5F6178 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/smartpointer.h */ = {isa = PBXBuildFile; fileRef = E746E0648FB144F794DA22D8 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/smartpointer.h */; };
+		2904719B182442AA81B7106A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmessage.h */ = {isa = PBXBuildFile; fileRef = A2A78B6161C648C299A2EF23 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmessage.h */; };
+		29C4618405F84DEB803A0C70 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmidilearn.h */ = {isa = PBXBuildFile; fileRef = FDCA9B390F574B9DBBD3DD5E /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmidilearn.h */; };
+		29E65EF0FC61442499242260 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstaudioprocessor.h */ = {isa = PBXBuildFile; fileRef = D359674DB60A46C0BA0B3D66 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstaudioprocessor.h */; };
+		342E908691774C58A869854A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivsthostapplication.h */ = {isa = PBXBuildFile; fileRef = 0BAD42F25C984DF6AED99199 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivsthostapplication.h */; };
+		34A9ABA716D047158A9D8B89 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/iupdatehandler.h */ = {isa = PBXBuildFile; fileRef = 6CA4EB06647044979FDFEF05 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/iupdatehandler.h */; };
+		36038F45C89246BDB166DAF1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fplatform.h */ = {isa = PBXBuildFile; fileRef = 741882D874FF4B58A52A42B4 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fplatform.h */; };
+		3A7E1E8DD2324664A0C9B656 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ustring.cpp */ = {isa = PBXBuildFile; fileRef = D3D8360A923C44F7999277AF /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ustring.cpp */; };
+		3C4882254D4043AF8AD0BAE4 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/gui/iplugview.h */ = {isa = PBXBuildFile; fileRef = B520D3763E414C33B6690794 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/gui/iplugview.h */; };
+		3DA7D060037D491BBBCF39D1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/coreiids.cpp */ = {isa = PBXBuildFile; fileRef = 372E242777864B59805EB4AB /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/coreiids.cpp */; };
+		413EA7A6702D4FD4A014DFAD /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstdataexchange.h */ = {isa = PBXBuildFile; fileRef = B0BCDBF81D284594A3BDE410 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstdataexchange.h */; };
+		4AC5F9D07B594352A6B956A1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstunits.h */ = {isa = PBXBuildFile; fileRef = B50710F135C946D881BB1876 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstunits.h */; };
+		4F35E0F27733480BB22B6B53 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstinterappaudio.h */ = {isa = PBXBuildFile; fileRef = 7D0EAD6BF93941CDA50CB687 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstinterappaudio.h */; };
+		5B511CAB49104AADB6F560A3 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknown.cpp */ = {isa = PBXBuildFile; fileRef = B3DE151CC8344CB59275A7C1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknown.cpp */; };
+		66FA7AF9B83049A0AC1A3B66 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstautomationstate.h */ = {isa = PBXBuildFile; fileRef = E69D6CAD59DF42F194A8E264 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstautomationstate.h */; };
+		77994B9E62C049C78C42A408 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vsttypes.h */ = {isa = PBXBuildFile; fileRef = 3BE5903EC5DF434B8E2664BB /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vsttypes.h */; };
+		7A1CB2E16890441CAB52015C /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstprefetchablesupport.h */ = {isa = PBXBuildFile; fileRef = ED349A76BBC449B3BFE94FC4 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstprefetchablesupport.h */; };
+		7DC425BA64F04327A8E54907 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstevents.h */ = {isa = PBXBuildFile; fileRef = 9B95AEC3DDB8445AB152B43E /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstevents.h */; };
+		85CA6EEEA6454E82BE28148E /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivsteditcontroller.h */ = {isa = PBXBuildFile; fileRef = EEB9802CB57F4F77BA214E7B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivsteditcontroller.h */; };
+		8869B07A0C894FCC8654E62A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ibstream.h */ = {isa = PBXBuildFile; fileRef = 2AA9F6E94E1E4B24B544B36B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ibstream.h */; };
+		89A72D0A62FA41B48DD44774 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/futils.h */ = {isa = PBXBuildFile; fileRef = 54CEA3EFB7264C568560BF11 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/futils.h */; };
+		8D69F6CFE26A421A8BA41390 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstrepresentation.h */ = {isa = PBXBuildFile; fileRef = 09E5A600698348B39C520758 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstrepresentation.h */; };
+		8E9025D1C8354299B9DB1C18 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstchannelcontextinfo.h */ = {isa = PBXBuildFile; fileRef = AA58B18D80554C78B247C380 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstchannelcontextinfo.h */; };
+		9385860BB7EB49EC99B961FE /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ucolorspec.h */ = {isa = PBXBuildFile; fileRef = 9B87DC22116344B98BE74A5D /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ucolorspec.h */; };
+		93FE738B4C574D5F860986C8 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstparameterfunctionname.h */ = {isa = PBXBuildFile; fileRef = 59E1F6C8C6674FA79875E815 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstparameterfunctionname.h */; };
+		95A47AAB87C143F1AD4E0D89 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstremapparamid.h */ = {isa = PBXBuildFile; fileRef = 3D05013A457247319E389ABC /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstremapparamid.h */; };
+		9EB727C58EEE4426A999172A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstplugview.h */ = {isa = PBXBuildFile; fileRef = AFCD996B6B7C46CBB398C1B1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstplugview.h */; };
+		A00D9E60C04743AC8B365A73 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstattributes.h */ = {isa = PBXBuildFile; fileRef = 3EBF080088D54123B7802824 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstattributes.h */; };
+		A7CE7C231AD94FAAB47E7152 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/geoconstants.h */ = {isa = PBXBuildFile; fileRef = B6D10081E17048B2974D634A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/geoconstants.h */; };
+		A8EC920118FE4066ACBDD7D8 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstcomponent.h */ = {isa = PBXBuildFile; fileRef = B2AB7AA2133045018A5BC96C /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstcomponent.h */; };
+		AC3B4AB3DCB94B89BA769063 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/keycodes.h */ = {isa = PBXBuildFile; fileRef = 875636F1D7634393A731F9F1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/keycodes.h */; };
+		AC6437D290DD461E8674B65C /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/istringresult.h */ = {isa = PBXBuildFile; fileRef = 184BD655F9DE4C968C64C18B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/istringresult.h */; };
+		ADCAF2F7664141B9814DE340 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/pluginbasefwd.h */ = {isa = PBXBuildFile; fileRef = 6EFC9D208A014364B09FAF67 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/pluginbasefwd.h */; };
+		AE670A83157F47FE9DF2779C /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstphysicalui.h */ = {isa = PBXBuildFile; fileRef = E47BBB3C1C334DACB47ADE14 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstphysicalui.h */; };
+		AEF57C65A5004295A9A8FFAB /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ierrorcontext.h */ = {isa = PBXBuildFile; fileRef = 29B0020CA5374DD2839F95AA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ierrorcontext.h */; };
+		BA743A485725451BB95F2E39 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fvariant.h */ = {isa = PBXBuildFile; fileRef = D33D1BB670894238A38447BE /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fvariant.h */; };
+		C5A894339D59444FBA2ED4F9 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstpluginterfacesupport.h */ = {isa = PBXBuildFile; fileRef = 6E9CF89877FE4811977362DA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstpluginterfacesupport.h */; };
+		C6D3981306FF4FB2870C92B1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/falignpush.h */ = {isa = PBXBuildFile; fileRef = 51EEBC8A24A54B8CB02BD8E7 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/falignpush.h */; };
+		C6FAFC097AA3455B99E06BD0 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknownimpl.h */ = {isa = PBXBuildFile; fileRef = 2E58F1698E6D4E619D6D5AD6 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknownimpl.h */; };
+		C90264BB2F8348AD9E864358 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/falignpop.h */ = {isa = PBXBuildFile; fileRef = 21CAD74EFB844826A8A66AE7 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/falignpop.h */; };
+		CF79F2E4B2C74471B7C9093A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ipersistent.h */ = {isa = PBXBuildFile; fileRef = 72F73B084CD940679627CA19 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ipersistent.h */; };
+		D0FC27448D76463794F4A8F9 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstspeaker.h */ = {isa = PBXBuildFile; fileRef = DDC0B985EE92432C9ABA5AB5 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstspeaker.h */; };
+		D2CBAA43D5EC4258974EE2EB /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/conststringtable.h */ = {isa = PBXBuildFile; fileRef = BF9655D163AA4D09B7C39C60 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/conststringtable.h */; };
+		E972BD1990F04DBAAB104CA7 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/gui/iplugviewcontentscalesupport.h */ = {isa = PBXBuildFile; fileRef = 901207D1F17240FA98BD2427 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/gui/iplugviewcontentscalesupport.h */; };
+		E9DBA3773DB54EC486567425 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstnoteexpression.h */ = {isa = PBXBuildFile; fileRef = 89635755CB16454E882F9DFA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstnoteexpression.h */; };
+		F051B4D44D9C4718A1BB03CA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstpresetkeys.h */ = {isa = PBXBuildFile; fileRef = 43CDFF6656B44CF4871D2734 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstpresetkeys.h */; };
+		F07CF629F33545958CC7A20B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fstrdefs.h */ = {isa = PBXBuildFile; fileRef = 213459C5EFC4426F88DC8FBC /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fstrdefs.h */; };
+		F12C6B56362B4E6C85E054B8 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmidicontrollers.h */ = {isa = PBXBuildFile; fileRef = 03E23A3C4E00462B8F2E9372 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmidicontrollers.h */; };
+		F59EF4320359430D8F505637 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ustring.h */ = {isa = PBXBuildFile; fileRef = B45A127B07634084A00121FE /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ustring.h */; };
+		F790613E1B3B42859F874716 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstcontextmenu.h */ = {isa = PBXBuildFile; fileRef = 8CEF40B740944598A4E26F59 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstcontextmenu.h */; };
+		FFC9CAA8B2574A248D1C3B10 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ipluginbase.h */ = {isa = PBXBuildFile; fileRef = 568073CA98184E5296F4C008 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ipluginbase.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		D10F691F7C0F4F27B78A9D6F /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+		E8A822B883044ACA81082063 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		405ADFD56664433BB4C7D864 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0DF5624675454F998661C05D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA43C16D70A79A835C2B68DB;
+			remoteInfo = ZERO_CHECK;
+		};
+		46C7AFBF0CF04E6BAE82D8C0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0DF5624675454F998661C05D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA43C16D70A79A835C2B68DB;
+			remoteInfo = ZERO_CHECK;
+		};
+		931D918A561F46C691A8E5D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0DF5624675454F998661C05D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CBF62E78AF7A6E13883678CD;
+			remoteInfo = pluginterfaces;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		03E23A3C4E00462B8F2E9372 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmidicontrollers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstmidicontrollers.h; path = vst/ivstmidicontrollers.h; sourceTree = SOURCE_ROOT; };
+		09E5A600698348B39C520758 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstrepresentation.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstrepresentation.h; path = vst/ivstrepresentation.h; sourceTree = SOURCE_ROOT; };
+		0BAD42F25C984DF6AED99199 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivsthostapplication.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivsthostapplication.h; path = vst/ivsthostapplication.h; sourceTree = SOURCE_ROOT; };
+		184BD655F9DE4C968C64C18B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/istringresult.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = istringresult.h; path = base/istringresult.h; sourceTree = SOURCE_ROOT; };
+		213459C5EFC4426F88DC8FBC /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fstrdefs.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = fstrdefs.h; path = base/fstrdefs.h; sourceTree = SOURCE_ROOT; };
+		21CAD74EFB844826A8A66AE7 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/falignpop.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = falignpop.h; path = base/falignpop.h; sourceTree = SOURCE_ROOT; };
+		29B0020CA5374DD2839F95AA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ierrorcontext.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ierrorcontext.h; path = base/ierrorcontext.h; sourceTree = SOURCE_ROOT; };
+		2AA9F6E94E1E4B24B544B36B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ibstream.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ibstream.h; path = base/ibstream.h; sourceTree = SOURCE_ROOT; };
+		2BCF19F1B53348A4812BA2FC /* pluginterfaces */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libpluginterfaces.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E58F1698E6D4E619D6D5AD6 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknownimpl.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = funknownimpl.h; path = base/funknownimpl.h; sourceTree = SOURCE_ROOT; };
+		372E242777864B59805EB4AB /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/coreiids.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = coreiids.cpp; path = base/coreiids.cpp; sourceTree = SOURCE_ROOT; };
+		3BE5903EC5DF434B8E2664BB /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vsttypes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = vsttypes.h; path = vst/vsttypes.h; sourceTree = SOURCE_ROOT; };
+		3D05013A457247319E389ABC /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstremapparamid.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstremapparamid.h; path = vst/ivstremapparamid.h; sourceTree = SOURCE_ROOT; };
+		3EBF080088D54123B7802824 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstattributes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstattributes.h; path = vst/ivstattributes.h; sourceTree = SOURCE_ROOT; };
+		43CDFF6656B44CF4871D2734 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstpresetkeys.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = vstpresetkeys.h; path = vst/vstpresetkeys.h; sourceTree = SOURCE_ROOT; };
+		4CE6FB4333054C418AF98508 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstparameterchanges.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstparameterchanges.h; path = vst/ivstparameterchanges.h; sourceTree = SOURCE_ROOT; };
+		51EEBC8A24A54B8CB02BD8E7 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/falignpush.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = falignpush.h; path = base/falignpush.h; sourceTree = SOURCE_ROOT; };
+		54CEA3EFB7264C568560BF11 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/futils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = futils.h; path = base/futils.h; sourceTree = SOURCE_ROOT; };
+		568073CA98184E5296F4C008 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ipluginbase.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ipluginbase.h; path = base/ipluginbase.h; sourceTree = SOURCE_ROOT; };
+		59E1F6C8C6674FA79875E815 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstparameterfunctionname.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstparameterfunctionname.h; path = vst/ivstparameterfunctionname.h; sourceTree = SOURCE_ROOT; };
+		6CA4EB06647044979FDFEF05 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/iupdatehandler.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = iupdatehandler.h; path = base/iupdatehandler.h; sourceTree = SOURCE_ROOT; };
+		6E9CF89877FE4811977362DA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstpluginterfacesupport.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstpluginterfacesupport.h; path = vst/ivstpluginterfacesupport.h; sourceTree = SOURCE_ROOT; };
+		6EFC9D208A014364B09FAF67 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/pluginbasefwd.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = pluginbasefwd.h; path = base/pluginbasefwd.h; sourceTree = SOURCE_ROOT; };
+		72F73B084CD940679627CA19 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ipersistent.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ipersistent.h; path = base/ipersistent.h; sourceTree = SOURCE_ROOT; };
+		741882D874FF4B58A52A42B4 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fplatform.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = fplatform.h; path = base/fplatform.h; sourceTree = SOURCE_ROOT; };
+		7437BF8C90604DA0859D3B72 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		7C5AFCDA48E145E08FDCD46F /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		7CC8ECEE615640F5A756ADC9 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknown.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = funknown.h; path = base/funknown.h; sourceTree = SOURCE_ROOT; };
+		7D0EAD6BF93941CDA50CB687 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstinterappaudio.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstinterappaudio.h; path = vst/ivstinterappaudio.h; sourceTree = SOURCE_ROOT; };
+		842934BB083246C8A79BC452 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstprocesscontext.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstprocesscontext.h; path = vst/ivstprocesscontext.h; sourceTree = SOURCE_ROOT; };
+		875636F1D7634393A731F9F1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/keycodes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = keycodes.h; path = base/keycodes.h; sourceTree = SOURCE_ROOT; };
+		89635755CB16454E882F9DFA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstnoteexpression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstnoteexpression.h; path = vst/ivstnoteexpression.h; sourceTree = SOURCE_ROOT; };
+		8CEF40B740944598A4E26F59 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstcontextmenu.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstcontextmenu.h; path = vst/ivstcontextmenu.h; sourceTree = SOURCE_ROOT; };
+		901207D1F17240FA98BD2427 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/gui/iplugviewcontentscalesupport.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = iplugviewcontentscalesupport.h; path = gui/iplugviewcontentscalesupport.h; sourceTree = SOURCE_ROOT; };
+		9B87DC22116344B98BE74A5D /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ucolorspec.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ucolorspec.h; path = base/ucolorspec.h; sourceTree = SOURCE_ROOT; };
+		9B95AEC3DDB8445AB152B43E /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstevents.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstevents.h; path = vst/ivstevents.h; sourceTree = SOURCE_ROOT; };
+		A2A78B6161C648C299A2EF23 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmessage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstmessage.h; path = vst/ivstmessage.h; sourceTree = SOURCE_ROOT; };
+		AA58B18D80554C78B247C380 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstchannelcontextinfo.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstchannelcontextinfo.h; path = vst/ivstchannelcontextinfo.h; sourceTree = SOURCE_ROOT; };
+		AB94C99289B34C3CBF43E62F /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstpshpack4.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = vstpshpack4.h; path = vst/vstpshpack4.h; sourceTree = SOURCE_ROOT; };
+		AC788748A74D48DCA2BE3FD8 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/typesizecheck.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = typesizecheck.h; path = base/typesizecheck.h; sourceTree = SOURCE_ROOT; };
+		AFCD996B6B7C46CBB398C1B1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstplugview.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstplugview.h; path = vst/ivstplugview.h; sourceTree = SOURCE_ROOT; };
+		B0BCDBF81D284594A3BDE410 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstdataexchange.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstdataexchange.h; path = vst/ivstdataexchange.h; sourceTree = SOURCE_ROOT; };
+		B2AB7AA2133045018A5BC96C /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstcomponent.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstcomponent.h; path = vst/ivstcomponent.h; sourceTree = SOURCE_ROOT; };
+		B3DE151CC8344CB59275A7C1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknown.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = funknown.cpp; path = base/funknown.cpp; sourceTree = SOURCE_ROOT; };
+		B45A127B07634084A00121FE /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ustring.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ustring.h; path = base/ustring.h; sourceTree = SOURCE_ROOT; };
+		B50710F135C946D881BB1876 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstunits.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstunits.h; path = vst/ivstunits.h; sourceTree = SOURCE_ROOT; };
+		B520D3763E414C33B6690794 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/gui/iplugview.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = iplugview.h; path = gui/iplugview.h; sourceTree = SOURCE_ROOT; };
+		B5FB920B645340B295A7B37A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ftypes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ftypes.h; path = base/ftypes.h; sourceTree = SOURCE_ROOT; };
+		B6D10081E17048B2974D634A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/geoconstants.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = geoconstants.h; path = base/geoconstants.h; sourceTree = SOURCE_ROOT; };
+		BF9655D163AA4D09B7C39C60 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/conststringtable.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = conststringtable.h; path = base/conststringtable.h; sourceTree = SOURCE_ROOT; };
+		C4EFB208EAF34DA28E1C0E7B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/conststringtable.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = conststringtable.cpp; path = base/conststringtable.cpp; sourceTree = SOURCE_ROOT; };
+		D25C2352F0484C3289B0DCB7 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/icloneable.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = icloneable.h; path = base/icloneable.h; sourceTree = SOURCE_ROOT; };
+		D33D1BB670894238A38447BE /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fvariant.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = fvariant.h; path = base/fvariant.h; sourceTree = SOURCE_ROOT; };
+		D359674DB60A46C0BA0B3D66 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstaudioprocessor.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstaudioprocessor.h; path = vst/ivstaudioprocessor.h; sourceTree = SOURCE_ROOT; };
+		D3D8360A923C44F7999277AF /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ustring.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ustring.cpp; path = base/ustring.cpp; sourceTree = SOURCE_ROOT; };
+		DDC0B985EE92432C9ABA5AB5 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstspeaker.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = vstspeaker.h; path = vst/vstspeaker.h; sourceTree = SOURCE_ROOT; };
+		E47BBB3C1C334DACB47ADE14 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstphysicalui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstphysicalui.h; path = vst/ivstphysicalui.h; sourceTree = SOURCE_ROOT; };
+		E69D6CAD59DF42F194A8E264 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstautomationstate.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstautomationstate.h; path = vst/ivstautomationstate.h; sourceTree = SOURCE_ROOT; };
+		E746E0648FB144F794DA22D8 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/smartpointer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = smartpointer.h; path = base/smartpointer.h; sourceTree = SOURCE_ROOT; };
+		ED349A76BBC449B3BFE94FC4 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstprefetchablesupport.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstprefetchablesupport.h; path = vst/ivstprefetchablesupport.h; sourceTree = SOURCE_ROOT; };
+		EEB9802CB57F4F77BA214E7B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivsteditcontroller.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivsteditcontroller.h; path = vst/ivsteditcontroller.h; sourceTree = SOURCE_ROOT; };
+		FDCA9B390F574B9DBBD3DD5E /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmidilearn.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ivstmidilearn.h; path = vst/ivstmidilearn.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C8A17A0BB4754ACFABFC4C24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		06FDBF3D66274BD6916087BA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2BCF19F1B53348A4812BA2FC /* pluginterfaces */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1B6E309DF43448EF9C28D56D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		32DB6B290201425AAEC2350D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		7E8FBCE60CDB44C5AB3CD100 = {
+			isa = PBXGroup;
+			children = (
+				9C0775B1025E4B4084DB96DC /* ALL_BUILD */,
+				8DC69EBAF4924D599985EDB3 /* Libraries */,
+				06FDBF3D66274BD6916087BA /* Products */,
+				1B6E309DF43448EF9C28D56D /* Frameworks */,
+				32DB6B290201425AAEC2350D /* Resources */,
+			);
+			sourceTree = "<group>";
+		};
+		8DC69EBAF4924D599985EDB3 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				D726E3D1FDE94FF099C190DF /* pluginterfaces */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		97C68D84C1D5466A96A5A11B /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				C4EFB208EAF34DA28E1C0E7B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/conststringtable.cpp */,
+				372E242777864B59805EB4AB /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/coreiids.cpp */,
+				B3DE151CC8344CB59275A7C1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknown.cpp */,
+				D3D8360A923C44F7999277AF /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ustring.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		9C0775B1025E4B4084DB96DC /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				AC0D093A30DA4E198FFE68AB /* CMake Rules */,
+				7437BF8C90604DA0859D3B72 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		AC0D093A30DA4E198FFE68AB /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		D726E3D1FDE94FF099C190DF /* pluginterfaces */ = {
+			isa = PBXGroup;
+			children = (
+				E6A6FD9ADCA749E3AED52338 /* Header Files */,
+				97C68D84C1D5466A96A5A11B /* Source Files */,
+				7C5AFCDA48E145E08FDCD46F /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/CMakeLists.txt */,
+			);
+			name = pluginterfaces;
+			sourceTree = "<group>";
+		};
+		E6A6FD9ADCA749E3AED52338 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				BF9655D163AA4D09B7C39C60 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/conststringtable.h */,
+				21CAD74EFB844826A8A66AE7 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/falignpop.h */,
+				51EEBC8A24A54B8CB02BD8E7 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/falignpush.h */,
+				741882D874FF4B58A52A42B4 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fplatform.h */,
+				213459C5EFC4426F88DC8FBC /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fstrdefs.h */,
+				B5FB920B645340B295A7B37A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ftypes.h */,
+				7CC8ECEE615640F5A756ADC9 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknown.h */,
+				2E58F1698E6D4E619D6D5AD6 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknownimpl.h */,
+				54CEA3EFB7264C568560BF11 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/futils.h */,
+				D33D1BB670894238A38447BE /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/fvariant.h */,
+				B6D10081E17048B2974D634A /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/geoconstants.h */,
+				2AA9F6E94E1E4B24B544B36B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ibstream.h */,
+				D25C2352F0484C3289B0DCB7 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/icloneable.h */,
+				29B0020CA5374DD2839F95AA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ierrorcontext.h */,
+				72F73B084CD940679627CA19 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ipersistent.h */,
+				568073CA98184E5296F4C008 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ipluginbase.h */,
+				184BD655F9DE4C968C64C18B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/istringresult.h */,
+				6CA4EB06647044979FDFEF05 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/iupdatehandler.h */,
+				875636F1D7634393A731F9F1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/keycodes.h */,
+				6EFC9D208A014364B09FAF67 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/pluginbasefwd.h */,
+				E746E0648FB144F794DA22D8 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/smartpointer.h */,
+				AC788748A74D48DCA2BE3FD8 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/typesizecheck.h */,
+				9B87DC22116344B98BE74A5D /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ucolorspec.h */,
+				B45A127B07634084A00121FE /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ustring.h */,
+				B520D3763E414C33B6690794 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/gui/iplugview.h */,
+				901207D1F17240FA98BD2427 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/gui/iplugviewcontentscalesupport.h */,
+				3EBF080088D54123B7802824 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstattributes.h */,
+				D359674DB60A46C0BA0B3D66 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstaudioprocessor.h */,
+				E69D6CAD59DF42F194A8E264 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstautomationstate.h */,
+				AA58B18D80554C78B247C380 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstchannelcontextinfo.h */,
+				B2AB7AA2133045018A5BC96C /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstcomponent.h */,
+				8CEF40B740944598A4E26F59 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstcontextmenu.h */,
+				B0BCDBF81D284594A3BDE410 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstdataexchange.h */,
+				EEB9802CB57F4F77BA214E7B /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivsteditcontroller.h */,
+				9B95AEC3DDB8445AB152B43E /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstevents.h */,
+				0BAD42F25C984DF6AED99199 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivsthostapplication.h */,
+				7D0EAD6BF93941CDA50CB687 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstinterappaudio.h */,
+				A2A78B6161C648C299A2EF23 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmessage.h */,
+				03E23A3C4E00462B8F2E9372 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmidicontrollers.h */,
+				FDCA9B390F574B9DBBD3DD5E /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstmidilearn.h */,
+				89635755CB16454E882F9DFA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstnoteexpression.h */,
+				4CE6FB4333054C418AF98508 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstparameterchanges.h */,
+				59E1F6C8C6674FA79875E815 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstparameterfunctionname.h */,
+				E47BBB3C1C334DACB47ADE14 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstphysicalui.h */,
+				6E9CF89877FE4811977362DA /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstpluginterfacesupport.h */,
+				AFCD996B6B7C46CBB398C1B1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstplugview.h */,
+				ED349A76BBC449B3BFE94FC4 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstprefetchablesupport.h */,
+				842934BB083246C8A79BC452 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstprocesscontext.h */,
+				3D05013A457247319E389ABC /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstremapparamid.h */,
+				09E5A600698348B39C520758 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstrepresentation.h */,
+				B50710F135C946D881BB1876 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/ivstunits.h */,
+				43CDFF6656B44CF4871D2734 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstpresetkeys.h */,
+				AB94C99289B34C3CBF43E62F /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstpshpack4.h */,
+				DDC0B985EE92432C9ABA5AB5 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vstspeaker.h */,
+				3BE5903EC5DF434B8E2664BB /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/vst/vsttypes.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CBF62E78AF7A6E13883678CD /* pluginterfaces */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0C9524D8F1B14769BFCB162E /* Build configuration list for PBXNativeTarget "pluginterfaces" */;
+			buildPhases = (
+				AF6828970DB94A43B3849073 /* Sources */,
+				C8A17A0BB4754ACFABFC4C24 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1CCA27C0545645B4B3F5235A /* PBXTargetDependency */,
+			);
+			name = pluginterfaces;
+			productName = pluginterfaces;
+			productReference = 2BCF19F1B53348A4812BA2FC /* pluginterfaces */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0DF5624675454F998661C05D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1620;
+			};
+			buildConfigurationList = 986749AE64EF41FD8FADF5B1 /* Build configuration list for PBXProject "smtg_pluginterfaces" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				E8A822B883044ACA81082063 /* Debug */,
+				D10F691F7C0F4F27B78A9D6F /* Release */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 7E8FBCE60CDB44C5AB3CD100;
+			projectDirPath = /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces;
+			projectRoot = "";
+			targets = (
+				15DD6D23BE5741F082FDFCDF /* ALL_BUILD */,
+				CBF62E78AF7A6E13883678CD /* pluginterfaces */,
+				FA43C16D70A79A835C2B68DB /* ZERO_CHECK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		6DC4E313FD1EC45F87C36559 /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+"/Users/hikaritsai/JS_Inflator/build-ci-macos/vst3sdk/pluginterfaces/CMakeFiles/ALL_BUILD"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/hikaritsai/JS_Inflator/build-ci-macos/vst3sdk/pluginterfaces
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/hikaritsai/JS_Inflator/build-ci-macos/vst3sdk/pluginterfaces
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		7AF1F56159D09FE4EED3E79F /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+"/Users/hikaritsai/JS_Inflator/build-ci-macos/vst3sdk/pluginterfaces/CMakeFiles/ZERO_CHECK"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/hikaritsai/JS_Inflator/build-ci-macos/vst3sdk/pluginterfaces
+  make -f /Users/hikaritsai/JS_Inflator/build-ci-macos/vst3sdk/pluginterfaces/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/hikaritsai/JS_Inflator/build-ci-macos/vst3sdk/pluginterfaces
+  make -f /Users/hikaritsai/JS_Inflator/build-ci-macos/vst3sdk/pluginterfaces/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AF6828970DB94A43B3849073 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1EB3D0BD88C64F56B2260507 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/conststringtable.cpp */,
+				3DA7D060037D491BBBCF39D1 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/coreiids.cpp */,
+				5B511CAB49104AADB6F560A3 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/funknown.cpp */,
+				3A7E1E8DD2324664A0C9B656 /* /Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/base/ustring.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1CCA27C0545645B4B3F5235A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA43C16D70A79A835C2B68DB /* ZERO_CHECK */;
+			targetProxy = 46C7AFBF0CF04E6BAE82D8C0 /* PBXContainerItemProxy */;
+		};
+		D3E5160105314DE5ADB5BF68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA43C16D70A79A835C2B68DB /* ZERO_CHECK */;
+			targetProxy = 405ADFD56664433BB4C7D864 /* PBXContainerItemProxy */;
+		};
+		D932CCCE063F461E8F86E459 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CBF62E78AF7A6E13883678CD /* pluginterfaces */;
+			targetProxy = 931D918A561F46C691A8E5D4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		11180C437B5A4E09A4C1A35F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "x86_64 arm64";
+				CLANG_CXX_LIBRARY = "libc++";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/hikaritsai/JS_Inflator/build-ci-macos/build";
+			};
+			name = Release;
+		};
+		62127DAB85CD49CEA9A6F77E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/hikaritsai/JS_Inflator/build-ci-macos/lib/Debug";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'SMTG_USE_STDATOMIC_H=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/hikaritsai/JS_Inflator/vst3sdk,/Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/..,"$(inherited)");
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = YES;
+				OSX_ARCHITECTURES = "x86_64;arm64;arm64e";
+				OTHER_CPLUSPLUSFLAGS = "   '-std=gnu++17' -fvisibility=hidden -fvisibility-inlines-hidden '-DSMTG_RENAME_ASSERT=1' -Winconsistent-missing-override '-Werror=return-type' -ffast-math '-ffp-contract=fast' ";
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pluginterfaces;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/hikaritsai/JS_Inflator/build-ci-macos/build/pluginterfaces.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		82B4A6C1428D41979C81A14F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		9610F3D03FD043B38F2756DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		990F397040FA401FA36FD060 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/hikaritsai/JS_Inflator/build-ci-macos/lib/Release";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'SMTG_USE_STDATOMIC_H=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/hikaritsai/JS_Inflator/vst3sdk,/Users/hikaritsai/JS_Inflator/vst3sdk/pluginterfaces/..,"$(inherited)");
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OSX_ARCHITECTURES = "x86_64;arm64;arm64e";
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG '-std=gnu++17' -fvisibility=hidden -fvisibility-inlines-hidden '-DSMTG_RENAME_ASSERT=1' -Winconsistent-missing-override '-Werror=return-type' -ffast-math '-ffp-contract=fast' ";
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = pluginterfaces;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/hikaritsai/JS_Inflator/build-ci-macos/build/pluginterfaces.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		AB807AAB66A2403995C0FE68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "x86_64 arm64";
+				CLANG_CXX_LIBRARY = "libc++";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk;
+				SYMROOT = "/Users/hikaritsai/JS_Inflator/build-ci-macos/build";
+			};
+			name = Debug;
+		};
+		C2954770A697468F8738F414 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		FBA1EF0F22AA442F81B5F566 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0C9524D8F1B14769BFCB162E /* Build configuration list for PBXNativeTarget "pluginterfaces" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62127DAB85CD49CEA9A6F77E /* Debug */,
+				990F397040FA401FA36FD060 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		308FB67B66FA4973B020E9A7 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82B4A6C1428D41979C81A14F /* Debug */,
+				9610F3D03FD043B38F2756DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		60C306412FC74E489E7604E7 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBA1EF0F22AA442F81B5F566 /* Debug */,
+				C2954770A697468F8738F414 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		986749AE64EF41FD8FADF5B1 /* Build configuration list for PBXProject "smtg_pluginterfaces" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB807AAB66A2403995C0FE68 /* Debug */,
+				11180C437B5A4E09A4C1A35F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0DF5624675454F998661C05D /* Project object */;
+}

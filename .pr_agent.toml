@@ -1,6 +1,12 @@
 [config]
-response_language = "en-US"
-ignore_pr_labels = ["skip-pr-agent"]
+model = "gpt-5.5-2026-04-23"
+fallback_models = ["gpt-5.4-mini"]
+response_language = "zh-TW"
+
+[github_action_config]
+auto_describe = true
+auto_review = true
+auto_improve = true
 
 [pr_reviewer]
 require_score_review = true

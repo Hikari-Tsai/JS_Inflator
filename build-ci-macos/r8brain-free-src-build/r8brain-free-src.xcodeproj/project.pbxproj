@@ -1,0 +1,539 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		15DD6D23BE5741F082FDFCDF /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9D6CB5E532CD41A7B2935876 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				25E27AB4B7503D38FA3D706D /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				D285BAC083684DFC837431E7 /* PBXTargetDependency */,
+				1508E6875EA74B1FB342C4E9 /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		FA43C16D70A79A835C2B68DB /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F9E6A456E1174EC2AC3DE76A /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				4D43086663B4934E6AC473F1 /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		5CAC8799B8D74BC392707E1A /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = C181F183434F4BE494C62D58 /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/CMakeLists.txt */; };
+		D5693D0C01764CBD951E8DEE /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/r8bbase.cpp */ = {isa = PBXBuildFile; fileRef = 2AE8DD3D37E840F5BE6EC4DD /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/r8bbase.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		2EA4933F00A54A2E90F4D982 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+		B48E77754FFB4F0B9530DE29 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		0CCFC63187F84ACCB2D06D6D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 88C4556378B2427FBDAE3D09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA43C16D70A79A835C2B68DB;
+			remoteInfo = ZERO_CHECK;
+		};
+		6E7B1539D1D04A03873D9F1A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 88C4556378B2427FBDAE3D09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 251A13B58B6BBB87CCB9FFDC;
+			remoteInfo = "r8brain-free-src";
+		};
+		DB130A74AB0B45B78D4B9E20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 88C4556378B2427FBDAE3D09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA43C16D70A79A835C2B68DB;
+			remoteInfo = ZERO_CHECK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		14972A81FCE244C081C285B6 /* r8brain-free-src */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libr8brain-free-src.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AE8DD3D37E840F5BE6EC4DD /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/r8bbase.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = r8bbase.cpp; path = r8bbase.cpp; sourceTree = SOURCE_ROOT; };
+		5DD63DFD63A546BDAB670B24 /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		C181F183434F4BE494C62D58 /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4255BF4D22F44EAA95F73BC6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5C0ABF39912F4DA7B492CB0E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				14972A81FCE244C081C285B6 /* r8brain-free-src */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5F4CF29080A04D2FB5A89F4F /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				2AE8DD3D37E840F5BE6EC4DD /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/r8bbase.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		71CE207E16A54E208BD863DE = {
+			isa = PBXGroup;
+			children = (
+				B07E1F972084427D8D772200 /* ALL_BUILD */,
+				CBFB67E73DF145488E19A537 /* r8brain-free-src */,
+				5C0ABF39912F4DA7B492CB0E /* Products */,
+				B26008645DDC4BDCB3223767 /* Frameworks */,
+				99ADA40B10E344368DE3ED8D /* Resources */,
+			);
+			sourceTree = "<group>";
+		};
+		99ADA40B10E344368DE3ED8D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		ADC5A2F921CB43D192130322 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		B07E1F972084427D8D772200 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				ADC5A2F921CB43D192130322 /* CMake Rules */,
+				5DD63DFD63A546BDAB670B24 /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		B26008645DDC4BDCB3223767 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CBFB67E73DF145488E19A537 /* r8brain-free-src */ = {
+			isa = PBXGroup;
+			children = (
+				5F4CF29080A04D2FB5A89F4F /* Source Files */,
+				C181F183434F4BE494C62D58 /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/CMakeLists.txt */,
+			);
+			name = "r8brain-free-src";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		251A13B58B6BBB87CCB9FFDC /* r8brain-free-src */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B9550C52E6A4276859E9ED7 /* Build configuration list for PBXNativeTarget "r8brain-free-src" */;
+			buildPhases = (
+				B03EDE8A418449ECA6E85718 /* Sources */,
+				4255BF4D22F44EAA95F73BC6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8C0962E973AB44488D00EC6A /* PBXTargetDependency */,
+			);
+			name = "r8brain-free-src";
+			productName = "r8brain-free-src";
+			productReference = 14972A81FCE244C081C285B6 /* r8brain-free-src */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		88C4556378B2427FBDAE3D09 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1620;
+			};
+			buildConfigurationList = D8E6026C4D27494D80275A6C /* Build configuration list for PBXProject "r8brain-free-src" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				B48E77754FFB4F0B9530DE29 /* Debug */,
+				2EA4933F00A54A2E90F4D982 /* Release */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 71CE207E16A54E208BD863DE;
+			projectDirPath = "/Users/hikaritsai/JS_Inflator/libs/r8brain-free-src";
+			projectRoot = "";
+			targets = (
+				15DD6D23BE5741F082FDFCDF /* ALL_BUILD */,
+				251A13B58B6BBB87CCB9FFDC /* r8brain-free-src */,
+				FA43C16D70A79A835C2B68DB /* ZERO_CHECK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		25E27AB4B7503D38FA3D706D /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+"/Users/hikaritsai/JS_Inflator/build-ci-macos/r8brain-free-src-build/CMakeFiles/ALL_BUILD"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/hikaritsai/JS_Inflator/build-ci-macos/r8brain-free-src-build
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/hikaritsai/JS_Inflator/build-ci-macos/r8brain-free-src-build
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		4D43086663B4934E6AC473F1 /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+"/Users/hikaritsai/JS_Inflator/build-ci-macos/r8brain-free-src-build/CMakeFiles/ZERO_CHECK"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/hikaritsai/JS_Inflator/build-ci-macos/r8brain-free-src-build
+  make -f /Users/hikaritsai/JS_Inflator/build-ci-macos/r8brain-free-src-build/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/hikaritsai/JS_Inflator/build-ci-macos/r8brain-free-src-build
+  make -f /Users/hikaritsai/JS_Inflator/build-ci-macos/r8brain-free-src-build/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B03EDE8A418449ECA6E85718 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5693D0C01764CBD951E8DEE /* /Users/hikaritsai/JS_Inflator/libs/r8brain-free-src/r8bbase.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1508E6875EA74B1FB342C4E9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA43C16D70A79A835C2B68DB /* ZERO_CHECK */;
+			targetProxy = DB130A74AB0B45B78D4B9E20 /* PBXContainerItemProxy */;
+		};
+		8C0962E973AB44488D00EC6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA43C16D70A79A835C2B68DB /* ZERO_CHECK */;
+			targetProxy = 0CCFC63187F84ACCB2D06D6D /* PBXContainerItemProxy */;
+		};
+		D285BAC083684DFC837431E7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 251A13B58B6BBB87CCB9FFDC /* r8brain-free-src */;
+			targetProxy = 6E7B1539D1D04A03873D9F1A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2D980503F8D042C0B1BBB380 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "x86_64 arm64";
+				CLANG_CXX_LIBRARY = "libc++";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				SDKROOT = "";
+				SYMROOT = "/Users/hikaritsai/JS_Inflator/build-ci-macos/build";
+			};
+			name = Debug;
+		};
+		3E2846A620A84BDFBEE443ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		497F18D8C6EF4E3391FE6D20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		63E7E8DFE55442AD950CA405 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		9FEE11CC39924D70A6807E4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		CB505407A4F440AD8BFC8D0E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/hikaritsai/JS_Inflator/build-ci-macos/lib/Release";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OSX_ARCHITECTURES = "x86_64;arm64;arm64e";
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden '-DSMTG_RENAME_ASSERT=1' -Winconsistent-missing-override '-Werror=return-type' -ffast-math '-ffp-contract=fast' ";
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "r8brain-free-src";
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/hikaritsai/JS_Inflator/build-ci-macos/build/r8brain-free-src.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		D8AD35C22EB64D4E835389C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "x86_64 arm64";
+				CLANG_CXX_LIBRARY = "libc++";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				SDKROOT = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/hikaritsai/JS_Inflator/build-ci-macos/build";
+			};
+			name = Release;
+		};
+		EF420B17F67B43979B39249F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/hikaritsai/JS_Inflator/build-ci-macos/lib/Debug";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = YES;
+				OSX_ARCHITECTURES = "x86_64;arm64;arm64e";
+				OTHER_CPLUSPLUSFLAGS = "   -fvisibility=hidden -fvisibility-inlines-hidden '-DSMTG_RENAME_ASSERT=1' -Winconsistent-missing-override '-Werror=return-type' -ffast-math '-ffp-contract=fast' ";
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "r8brain-free-src";
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/hikaritsai/JS_Inflator/build-ci-macos/build/r8brain-free-src.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2B9550C52E6A4276859E9ED7 /* Build configuration list for PBXNativeTarget "r8brain-free-src" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF420B17F67B43979B39249F /* Debug */,
+				CB505407A4F440AD8BFC8D0E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9D6CB5E532CD41A7B2935876 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				497F18D8C6EF4E3391FE6D20 /* Debug */,
+				63E7E8DFE55442AD950CA405 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D8E6026C4D27494D80275A6C /* Build configuration list for PBXProject "r8brain-free-src" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D980503F8D042C0B1BBB380 /* Debug */,
+				D8AD35C22EB64D4E835389C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F9E6A456E1174EC2AC3DE76A /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9FEE11CC39924D70A6807E4A /* Debug */,
+				3E2846A620A84BDFBEE443ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 88C4556378B2427FBDAE3D09 /* Project object */;
+}
