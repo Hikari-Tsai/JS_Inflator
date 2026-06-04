@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.14.0)
-set(CMAKE_OSX_DEPLOYMENT_TARGET 10.11 CACHE STRING "")
+cmake_minimum_required(VERSION 3.19.0)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "Minimum supported macOS version" FORCE)
 
 if(SMTG_MAC)
     set(vst3sdk_SOURCE_DIR "/Users/yoon/VST_SDK/vst3sdk")
@@ -109,6 +109,71 @@ smtg_target_setup_universal_binary(r8brain-free-src)
 
 smtg_target_configure_version_file(JS_Inflator)
 
+# Add an AAX Native/AudioSuite target through Steinberg's VST3-to-AAX wrapper.
+# The target is intentionally absent when the proprietary AAX SDK is not supplied.
+if(SMTG_AAX_SDK_PATH AND SMTG_ENABLE_VSTGUI_SUPPORT)
+    list(APPEND CMAKE_MODULE_PATH "${vst3sdk_SOURCE_DIR}/cmake/modules")
+    include(SMTG_AddAAXLibrary)
+
+    smtg_add_aaxplugin(JS_Inflator-aax
+        PACKAGE_NAME "JS_Inflator"
+        SOURCES_LIST
+            source/version.h
+            source/JSIF_cids.h
+            source/JSIF_shared.h
+            source/JSIF_processor.h
+            source/JSIF_processor.cpp
+            source/JSIF_controller.h
+            source/JSIF_controller.cpp
+            source/JSIF_entry.cpp
+            source/JSIF_aax.cpp
+    )
+
+    target_link_libraries(JS_Inflator-aax
+        PRIVATE
+            sdk
+            aax_wrapper
+            vstgui_support
+            r8brain-free-src
+    )
+
+    target_compile_features(JS_Inflator-aax PUBLIC cxx_std_17)
+
+    smtg_target_add_plugin_resources(JS_Inflator-aax
+        RESOURCES
+            "resource/JSIF_editor.uidesc"
+            "resource/orig_background.png"
+            "resource/orig_button_onoff.png"
+            "resource/orig_handle.png"
+            "resource/orig_knob_green_.png"
+            "resource/orig_knob_red_.png"
+            "resource/orig_LED_cover.png"
+            "resource/orig_LED_ON.png"
+            "resource/orig_LED_OFF.png"
+            "resource/orig_LED_FX_ON.png"
+            "resource/orig_LED_FX_OFF.png"
+            "resource/twarch/twarch_background.png"
+            "resource/twarch/twarch_btn_CLIP.png"
+            "resource/twarch/twarch_btn_IN.png"
+            "resource/twarch/twarch_btn_SPLIT.png"
+            "resource/twarch/twarch_handle.png"
+            "resource/twarch/twarch_knob_red_.png"
+            "resource/twarch/twarch_knob_yellow_.png"
+            "resource/twarch/twarch_meter_off.png"
+            "resource/twarch/twarch_meter_on.png"
+            "resource/twarch/twarch_meter_fx_on.png"
+    )
+
+    smtg_target_configure_version_file(JS_Inflator-aax)
+
+    if(SMTG_MAC)
+        smtg_target_set_bundle(JS_Inflator-aax
+            BUNDLE_IDENTIFIER io.github.yg331.JS.Inflator.aax
+            COMPANY_NAME "yg331"
+        )
+    endif()
+endif()
+
 if(SMTG_MAC)
     smtg_target_set_bundle(JS_Inflator
         BUNDLE_IDENTIFIER io.github.yg331.JS.Inflator
@@ -139,12 +204,19 @@ if(SMTG_WIN)
 endif(SMTG_WIN)
 
 # Add an AUv2 target
-if (SMTG_MAC AND XCODE AND SMTG_COREAUDIO_SDK_PATH)
+if(SMTG_MAC AND XCODE AND SMTG_ENABLE_AUV2_BUILDS
+   AND (SMTG_AUDIOUNIT_SDK_PATH OR SMTG_COREAUDIO_SDK_PATH))
     list(APPEND CMAKE_MODULE_PATH "${vst3sdk_SOURCE_DIR}/cmake/modules")
-    include(SMTG_AddVST3AuV2) 
+    include(SMTG_AddVST3AuV2)
 	smtg_target_add_auv2(JS_Inflator-au
 		BUNDLE_NAME JS_Inflator
 		BUNDLE_IDENTIFIER io.github.yg331.JS.Inflator.audiounit
 		INFO_PLIST_TEMPLATE resource/au-info.plist
 		VST3_PLUGIN_TARGET JS_Inflator)
-endif(SMTG_MAC AND XCODE AND SMTG_COREAUDIO_SDK_PATH)
+    target_compile_features(JS_Inflator-au PUBLIC cxx_std_20)
+    set_target_properties(JS_Inflator-au
+        PROPERTIES
+            XCODE_ATTRIBUTE_MARKETING_VERSION "${PROJECT_VERSION}"
+            XCODE_ATTRIBUTE_CURRENT_PROJECT_VERSION "${PROJECT_VERSION}"
+    )
+endif()

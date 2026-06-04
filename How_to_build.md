@@ -2,16 +2,28 @@
 
 Following guide is based on VSTSDK v3.7.12, where Windows bundle build is fixed and AudioUnit SDK is supported.  
 
+CMake 3.19 or later is required by VSTSDK 3.7.12.
+
+All macOS plug-in targets are built with macOS 10.13 as the minimum deployment
+target. Apple Silicon binaries require macOS 11.0 or later because that is the
+first macOS release supporting Apple Silicon.
+
 ## 0. Set VSTSDK  
 
 Download or clone VSTSDK and place it where you're least likely to move/rename/etc.  
 
 ### macOS - Check AudioUnit SDK Path  
 
-To build AUv2 plugin, you need official AudioUnit SDK and the SMTG_AUDIOUNIT_SDK_PATH must be set.  
+To build the AUv2 plug-in with macOS 10.13 support, use official AudioUnitSDK
+1.3.0 and set `SMTG_AUDIOUNIT_SDK_PATH`. AudioUnitSDK 1.4.0 requires macOS
+11.0 and cannot be used for a 10.13-compatible build.
 Repo : [https://github.com/apple/AudioUnitSDK](https://github.com/apple/AudioUnitSDK)  
 
 Clone the repo right next to vst3sdk folder so it looks like this;  
+
+``` console
+git -C AudioUnitSDK checkout AudioUnitSDK-1.3.0
+```
 
 ![Clone this repo using VS Code](screenshots/Guide/0-1.png)  
 
@@ -82,3 +94,34 @@ BUT, I still prefer single file plugin.
 ![Clone this repo using VS Code](screenshots/Guide/4-1.png)  
 
 Done!
+
+## AAX Native / AudioSuite
+
+The AAX build uses Steinberg's VST3-to-AAX wrapper. It supports the existing
+VST3 processor, parameters, state handling, VSTGUI editor, Mono/Stereo AAX
+Native variants, and AudioSuite IDs.
+
+The proprietary AAX SDK is not included in this repository. Obtain it from
+the Avid developer program and pass its absolute path to CMake. This target
+has been verified with AAX SDK 2.9.0:
+
+``` console
+cmake -S . -B build-aax -G Xcode \
+  -DSMTG_MAC=ON \
+  -DSMTG_AAX_SDK_PATH=/absolute/path/to/AAX_SDK \
+  -DSMTG_ENABLE_VSTGUI_SUPPORT=ON \
+  -DSMTG_ENABLE_VST3_PLUGIN_EXAMPLES=OFF \
+  -DSMTG_ENABLE_VST3_HOSTING_EXAMPLES=OFF
+
+cmake --build build-aax --config Release --target JS_Inflator-aax
+```
+
+On Windows, use a supported Visual Studio generator and provide the same
+`SMTG_AAX_SDK_PATH` option.
+
+When `SMTG_AAX_SDK_PATH` is not set, CMake intentionally skips the AAX target
+and continues to generate the existing VST3 targets.
+
+The generated development build is not a distributable AAX release. Avid/PACE
+signing and validation are required before distribution, and the repository's
+GPLv3 license must be reviewed for compatibility with the AAX SDK license.
