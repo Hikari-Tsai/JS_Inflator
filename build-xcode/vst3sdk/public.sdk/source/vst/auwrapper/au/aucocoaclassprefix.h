@@ -1,1 +1,0 @@
-#define SMTG_AUCocoaUIBase_CLASS_NAME SMTG_AUCocoaUIBase_McQaAPc4cbjnyvsxPvzq
