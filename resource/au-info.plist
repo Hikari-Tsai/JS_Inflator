@@ -17,6 +17,7 @@
 			<string>yJSI</string>
 			<key>type</key>
 			<string>aufx</string>
+			<!-- AudioComponent versions use 0xMMMMmmDD, so 2.0.3.2 is represented as 2.0.3. -->
 			<key>version</key>
 			<integer>131075</integer>
 		</dict>
@@ -56,7 +57,11 @@
 	<string>BNDL</string>
 	<key>CFBundleSignature</key>
 	<string>Yg31</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 </dict>
 </plist>

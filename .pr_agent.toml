@@ -1,0 +1,35 @@
+[config]
+response_language = "en-US"
+ignore_pr_labels = ["skip-pr-agent"]
+
+[pr_reviewer]
+require_score_review = true
+require_tests_review = true
+require_security_review = true
+require_estimate_effort_to_review = true
+persistent_comment = true
+num_max_findings = 5
+extra_instructions = """\
+Focus on correctness, regressions, and real-time audio safety.
+Flag allocations, locks, blocking operations, or unbounded work in audio-processing paths.
+Check that VST3, AUv2, and AAX wrappers preserve parameter IDs, state compatibility, channel layouts, and latency reporting.
+Verify that macOS changes preserve the 10.13 deployment target for Intel builds and do not introduce APIs unavailable on macOS 10.13.
+For CMake and SDK changes, check compatibility with VST3 SDK 3.7.12, VSTGUI 4.14, AudioUnitSDK 1.3.0, and AAX SDK 2.9.0.
+"""
+
+[pr_description]
+publish_labels = false
+add_original_user_description = true
+enable_pr_diagram = false
+
+[pr_code_suggestions]
+focus_only_on_problems = true
+suggestions_score_threshold = 7
+
+[ignore]
+glob = [
+    "build/**",
+    "build-*/**",
+    "vst3sdk/**",
+    "AudioUnitSDK/**",
+]

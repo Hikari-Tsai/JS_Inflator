@@ -1,0 +1,126 @@
+name: Mac Build
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      build_aax:
+        description: Build AAX using the private AAX SDK repository
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+env:
+  BUILD_DIR: build-macos
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout plugin repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Checkout VST3 SDK 3.7.12
+        uses: actions/checkout@v4
+        with:
+          repository: steinbergmedia/vst3sdk
+          ref: v3.7.12_build_20
+          path: vst3sdk
+          submodules: recursive
+
+      - name: Validate AAX SDK secrets
+        if: github.event_name == 'workflow_dispatch' && inputs.build_aax
+        env:
+          AAX_SDK_REPOSITORY: ${{ secrets.AAX_SDK_REPOSITORY }}
+          AAX_SDK_TOKEN: ${{ secrets.AAX_SDK_TOKEN }}
+        run: |
+          test -n "${AAX_SDK_REPOSITORY}" || {
+            echo "::error::AAX_SDK_REPOSITORY is not configured."
+            exit 1
+          }
+          test -n "${AAX_SDK_TOKEN}" || {
+            echo "::error::AAX_SDK_TOKEN is not configured."
+            exit 1
+          }
+
+      - name: Checkout private AAX SDK
+        if: github.event_name == 'workflow_dispatch' && inputs.build_aax
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.AAX_SDK_REPOSITORY }}
+          token: ${{ secrets.AAX_SDK_TOKEN }}
+          path: aax-sdk
+
+      - name: Select Xcode 16.2
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.2'
+
+      - name: Show toolchain versions
+        run: |
+          xcodebuild -version
+          cmake --version
+
+      - name: Configure Xcode project
+        shell: bash
+        run: |
+          cmake_args=(
+            -S "${GITHUB_WORKSPACE}"
+            -B "${GITHUB_WORKSPACE}/${BUILD_DIR}"
+            -G Xcode
+            -DGITHUB_ACTIONS=ON
+            -DSMTG_MAC=ON
+            -DSMTG_ENABLE_VSTGUI_SUPPORT=ON
+            -DSMTG_ENABLE_VST3_PLUGIN_EXAMPLES=OFF
+            -DSMTG_ENABLE_VST3_HOSTING_EXAMPLES=OFF
+            -DSMTG_CODE_SIGN_IDENTITY_MAC=-
+            "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64"
+          )
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.build_aax }}" == "true" ]]; then
+            cmake_args+=("-DSMTG_AAX_SDK_PATH=${GITHUB_WORKSPACE}/aax-sdk")
+          fi
+
+          cmake "${cmake_args[@]}"
+
+      - name: Build VST3
+        run: cmake --build "${GITHUB_WORKSPACE}/${BUILD_DIR}" --config "${BUILD_TYPE}" --target JS_Inflator
+
+      - name: Verify VST3 architectures
+        run: |
+          binary="${BUILD_DIR}/VST3/${BUILD_TYPE}/JS_Inflator.vst3/Contents/MacOS/JS_Inflator"
+          lipo "${binary}" -verify_arch x86_64 arm64
+          lipo -archs "${binary}"
+
+      - name: Build AAX
+        if: github.event_name == 'workflow_dispatch' && inputs.build_aax
+        run: cmake --build "${GITHUB_WORKSPACE}/${BUILD_DIR}" --config "${BUILD_TYPE}" --target JS_Inflator-aax
+
+      - name: Verify AAX architectures
+        if: github.event_name == 'workflow_dispatch' && inputs.build_aax
+        run: |
+          binary="${BUILD_DIR}/AAXPLUGIN/${BUILD_TYPE}/JS_Inflator.aaxplugin/Contents/MacOS/JS_Inflator"
+          lipo "${binary}" -verify_arch x86_64 arm64
+          lipo -archs "${binary}"
+
+      - name: Upload VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: JS_Inflator-macOS-VST3-${{ github.sha }}
+          path: ${{ env.BUILD_DIR }}/VST3/${{ env.BUILD_TYPE }}/JS_Inflator.vst3
+
+      - name: Upload AAX
+        if: github.event_name == 'workflow_dispatch' && inputs.build_aax
+        uses: actions/upload-artifact@v4
+        with:
+          name: JS_Inflator-macOS-AAX-${{ github.sha }}
+          path: ${{ env.BUILD_DIR }}/AAXPLUGIN/${{ env.BUILD_TYPE }}/JS_Inflator.aaxplugin

@@ -1,5 +1,7 @@
 # JS Inflator
 
+[English](README.md) | [繁體中文](README.zh-TW.md)
+
 JS Inflator is a copy of Sonox Inflator.  
 Runs in double precision 64-bit internal processing.  
 Also double precision input / output if supported.  
@@ -13,18 +15,24 @@ Also double precision input / output if supported.
 
 Comes in two GUIs. The alternative GUI is made by Twarch.  
 
-### Compatibility  
+### Compatibility
 
-VST3, AUv2  
+VST3, AUv2, AAX Native / AudioSuite
 
 ### System Requirements
 
-Audio Units  
-* Mac OS X 10.13 or later (Intel or Apple Silicon Native) 
+Audio Units
+* Mac OS X 10.13 or later on Intel
+* macOS 11.0 or later on Apple Silicon
 
-VST3  
-* Mac OS X 10.13 or later (Intel or Apple Silicon Native) 
+VST3
+* Mac OS X 10.13 or later on Intel
+* macOS 11.0 or later on Apple Silicon
 * Windows 10 or later
+
+AAX Native / AudioSuite
+* Mac OS X 10.13 or later on Intel
+* macOS 11.0 or later on Apple Silicon
 
 ### Supported DAW
 
@@ -84,13 +92,82 @@ Tested as working are;
 
 <img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/VST_Compatible_Logo_Steinberg_with_TM.png"  width="200"/>
 
-VSTSDK 3.7.9 used  
-VSTGUI 4.12 used  
+## Current Build Support
 
-## Project Build  
+This repository builds the same audio-processing algorithm in the following plug-in formats:
 
-Use CMake to build itself or make IDE project file.  
-Supports Windows, Mac, Linux(same as VSTSDK).  
+* VST3
+* AUv2 through Steinberg's VST3-to-AUv2 wrapper
+* AAX Native and AudioSuite through Steinberg's VST3-to-AAX wrapper
+
+The macOS targets are universal binaries containing Intel `x86_64` and Apple Silicon `arm64` slices. All macOS targets use a deployment target of macOS 10.13. Intel slices support macOS 10.13 or later, while Apple Silicon slices require macOS 11.0 or later.
+
+The project and bundle version is `2.0.3.2`. The AU `AudioComponent` version is `2.0.3` because Apple's `0xMMMMmmDD` component-version field cannot represent a fourth version component.
+
+### Required Toolchain
+
+The following versions are currently used or verified:
+
+* CMake 3.19 or later
+* Xcode 16.2 / AppleClang 16
+* VST3 SDK 3.7.12
+* VSTGUI 4.14
+* AudioUnitSDK 1.3.0 for macOS 10.13-compatible AUv2 builds
+* AAX SDK 2.9.0 for AAX builds
+
+AudioUnitSDK 1.4.0 requires C++23 and macOS 11.0, so it cannot be used while preserving macOS 10.13 AUv2 compatibility.
+
+### macOS Build
+
+Configure an Xcode build with the required SDK paths:
+
+```console
+cmake -S . -B build -G Xcode \
+  -DSMTG_MAC=ON \
+  -DGITHUB_ACTIONS=ON \
+  -DSMTG_AUDIOUNIT_SDK_PATH=/absolute/path/to/AudioUnitSDK-1.3.0 \
+  -DSMTG_AAX_SDK_PATH=/absolute/path/to/aax-sdk-2-9-0 \
+  -DSMTG_ENABLE_AUV2_BUILDS=ON \
+  -DSMTG_CODE_SIGN_IDENTITY_MAC=- \
+  -DSMTG_ENABLE_VST3_PLUGIN_EXAMPLES=OFF \
+  -DSMTG_ENABLE_VST3_HOSTING_EXAMPLES=OFF
+```
+
+Build each plug-in format:
+
+```console
+cmake --build build --config Release --target JS_Inflator
+cmake --build build --config Release --target JS_Inflator-au
+cmake --build build --config Release --target JS_Inflator-aax
+```
+
+The AAX target is only generated when `SMTG_AAX_SDK_PATH` points to a valid AAX SDK. See [How_to_build.md](How_to_build.md) for additional build details.
+
+### Validation Status
+
+The current macOS builds have been verified as follows:
+
+* VST3 validator: 47 tests passed, 0 failed
+* Apple `auval`: validation succeeded
+* AAX: universal bundle build, required AAX/ACF symbols, and bundle loading verified
+* Intel `x86_64` Mach-O minimum system version: macOS 10.13 for VST3, AUv2, and AAX
+
+AAX development builds are not distributable or loadable in public Pro Tools releases without Avid/PACE signing. Unsigned AAX testing requires a Pro Tools developer build. The current AAX wrapper target supports Native and AudioSuite processing, not AAX DSP.
+
+Windows and Linux VST3 builds continue to follow the supported platforms and toolchains of the VST3 SDK.
+
+### GitHub Actions macOS Build
+
+The `Mac Build` workflow builds and uploads a universal macOS VST3 artifact using Xcode 16.2. It runs automatically for pull requests and pushes to `main`.
+
+The AAX SDK is proprietary and cannot be included in this public repository. To build AAX in GitHub Actions:
+
+1. Store the AAX SDK at the root of a private GitHub repository.
+2. Add `AAX_SDK_REPOSITORY` as a repository secret containing `owner/private-aax-sdk-repository`.
+3. Add `AAX_SDK_TOKEN` as a repository secret containing a fine-grained token with read access to that private repository.
+4. Run the `Mac Build` workflow manually and enable the `build_aax` input.
+
+The generated AAX artifact is a development build and still requires Avid/PACE signing before distribution.
 
 ## Version logs
 
