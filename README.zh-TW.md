@@ -4,6 +4,8 @@
 
 [English](README.md) | [繁體中文](README.zh-TW.md)
 
+[GitHub Actions：建置、下載與發布說明](#github-actions)
+
 ![JS Inflator 系統架構：宿主、AAX wrapper、音訊處理、VSTGUI 與建置輸出](screenshots/js-inflator-architecture.webp)
 
 JS Inflator 是 Sonox Inflator 的仿製版本。  
@@ -170,39 +172,155 @@ AAX 版本仍在測試中。本輪尚未驗證主機 automation 錄製、session
 
 Windows 與 Linux VST3 build 仍遵循 VST3 SDK 支援的平台與工具鏈。
 
-### GitHub Actions 跨平台建置
+## GitHub Actions
 
-`Build plug-ins` workflow 在 pull request、推送至 `main`、推送 `v*` 標籤或手動執行時，並行呼叫 `Mac Build` 與 `Windows Build`：
+### Workflow 分工與檔案對照
 
-| 平台 | 格式 | 架構與工具鏈 |
+實際行為以 [`.github/workflows`](.github/workflows) 內的 YAML 為準。Actions 顯示名稱與檔名不完全相同：
+
+| Actions 顯示名稱 | Workflow 檔案 | 負責工作 |
 |---|---|---|
-| macOS | VST3、AUv2、AAX | Intel `x86_64` + Apple Silicon `arm64`，Xcode 16.2 |
-| Windows | VST3、AAX | `x64`，Visual Studio 2022 |
+| **Build plug-ins** | [Mac Build.yml](.github/workflows/Mac%20Build.yml) | 統一入口：並行呼叫兩個平台，僅在版本 Tag 推送時發布 |
+| **Mac Build** | [macOS Build.yml](.github/workflows/macOS%20Build.yml) | 可重用或單獨手動執行的 macOS 建置：VST3、AUv2、AAX |
+| **Windows Build** | [Windows Build.yml](.github/workflows/Windows%20Build.yml) | 可重用或單獨手動執行的 Windows x64 建置：VST3、AAX |
+| **PR Agent** | [pr-agent.yml](.github/workflows/pr-agent.yml) | AI 輔助 PR 描述與審查，獨立於編譯及發布工作 |
 
-兩個平台 workflow 也保留各自的手動入口。一般推送至 `staging` 不會直接觸發建置；若有開啟中的 PR，PR 更新會觸發統一 workflow。
+統一入口保留歷史檔名 `Mac Build.yml`，現在會建置**兩個平台**。每個平台內的格式依序編譯，兩個平台工作則獨立並行，實際開始時間取決於 runner 是否可用。AU 是 Apple 平台格式，本專案沒有 Windows AU 建置。
 
-VST3 SDK 固定為 3.7.12。macOS AU 使用 Apple AudioUnitSDK 1.3.0；兩個平台的 AAX 使用 [JUCE repository 中的 Avid SDK 2.9.0 副本](https://github.com/juce-framework/JUCE/tree/72782788ce18c2d4d760b28e0921d6ffc6431102/modules/juce_audio_plugin_client/AAX/SDK)，採用 GPLv3 授權選項。SDK 版本固定於 workflow；沒有連結 JUCE 模組，也不需要額外 SDK secret。
+### 什麼情況會觸發？
 
-各格式均打包成 ZIP 後上傳 Artifacts。AU bundle 會嵌入完整 VST3 實作，取代 SDK 預設的開發用捷徑，因此可獨立安裝。macOS 使用 ad-hoc 簽章並保留 bundle 權限；Windows 使用完整外掛 bundle 結構並檢查 x64 PE 標頭。兩個平台的 AAX 都尚未經 Avid/PACE 簽章，需使用 Pro Tools Developer。建置與打包檢查不代表通過 Pro Tools 功能測試，workflow 不執行宿主 GUI 測試。
+| 事件 | Build plug-ins | 發布 Release | PR Agent workflow |
+|---|---|---|---|
+| 推送 commit 至 `main` | 兩個平台 | 否 | 否，除非另有 PR 事件 |
+| 推送至 `staging` 或其他非 main 分支，沒有 PR | 不執行 | 否 | 不執行 |
+| 開啟、重新開啟 PR，或向既有 PR 推送新 commit | 兩個平台 | 否 | 觸發；Bot 發送者跳過 |
+| 將草稿 PR 改為 ready for review | 此事件本身不觸發 | 否 | 觸發；Bot 發送者跳過 |
+| 推送符合 `v*` 的 Tag | 兩個平台 | 兩個平台成功後發布 | 不執行 |
+| 手動執行 **Build plug-ins** | 兩個平台 | 否，即使選擇 Tag 也不發布 | 不執行 |
+| 手動執行 **Mac Build**／**Windows Build** | 僅所選平台 | 否 | 不執行 |
 
-### 自動發布預發行版
+目前沒有路徑篩選或 PR 目標分支篩選，因此只改 README 的 PR 也會建置，目標為 `staging` 的 PR 也適用。`pull_request` 建置通常使用 GitHub 產生的暫時合併 commit，不只是來源分支最後一筆 commit；Artifact 名稱中的 SHA 也對應這個 revision。PR 建置預設事件為 `opened`、`synchronize`、`reopened`，詳見 [GitHub 事件文件](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)。
 
-推送符合 `v*` 的版本標籤會觸發 `Build plug-ins`。macOS 與 Windows 的建置工作都成功後，單一發布 job 會收集五份 ZIP，建立 **GitHub Pre-release**：
+所以，`staging` 有開啟中的 PR 時，推送可以透過 PR 更新事件觸發建置。合併至 `main` 後，則另起一次 main 分支建置。發布 job 不依賴 PR Agent 成功。目前未設定排程或 `issue_comment` 觸發。
 
-* `JS_Inflator-macOS-VST3.zip`
-* `JS_Inflator-macOS-AU.zip`
-* `JS_Inflator-macOS-AAX.zip`
-* `JS_Inflator-Windows-VST3.zip`
-* `JS_Inflator-Windows-AAX.zip`
-
-PR、分支推送及手動執行只上傳 Artifacts。版本標籤必須指向包含此 workflow 的 commit。例如，選定要發布的 commit 與尚未使用的版本號後：
-
-```console
-git tag v2.0.3.3-aax-beta.1
-git push origin v2.0.3.3-aax-beta.1
+```mermaid
+flowchart TD
+    event["PR / main 推送 / v* Tag 推送 / 手動"] --> entry["Build plug-ins"]
+    entry --> mac["macOS：VST3 → AAX → AU"]
+    entry --> win["Windows：VST3 → AAX"]
+    mac --> ma["3 份 ZIP Artifacts"]
+    win --> wa["2 份 ZIP Artifacts"]
+    ma --> gate{"兩個工作成功，且為 v* Tag 推送？"}
+    wa --> gate
+    gate -->|是| release["同一個 Pre-release，附上 5 份 ZIP"]
+    gate -->|否| stop["跳過發布；保留已上傳的 Artifacts"]
 ```
 
-上述標籤只是範例，不代表已發布此版本。AAX 測試期間會標示為預發行版。發布 job 使用 GitHub 內建 token，不需新增 secret。同名標籤若已有 Release，流程不會覆寫；發布新版本請使用新標籤。
+### 建置環境與依賴
+
+| 平台 | Runner | 建置工具與設定 | 二進位架構 |
+|---|---|---|---|
+| macOS | `macos-15` | CMake → Xcode 16.2，`Release` | Universal `x86_64` + `arm64` |
+| Windows | `windows-2022` | CMake → Visual Studio 17 2022，PowerShell，`Release` | `x64` |
+| 僅發布工作 | `ubuntu-latest` | 下載 Artifacts，再執行 GitHub CLI | 不編譯外掛 |
+
+兩個平台都會 checkout 本 repository 與 recursive submodules，包括 `r8brain-free-src`。SDK 固定使用：
+
+| 依賴 | Revision | 用途 |
+|---|---|---|
+| Steinberg VST3 SDK | `v3.7.12_build_20` | 兩個平台；包含 VSTGUI 與 AAX／AU wrapper |
+| Apple AudioUnitSDK | `e789bc83ddc07cbf80e7bfaf84f1ade975287400`（1.3.0） | macOS AUv2 |
+| JUCE repository 中的 Avid AAX SDK | `72782788ce18c2d4d760b28e0921d6ffc6431102`（SDK 2.9.0） | 兩個平台的 AAX |
+
+AAX 僅 checkout `modules/juce_audio_plugin_client/AAX/SDK`，並檢查 `LICENSE.txt` 與版本常數 `20209000`。使用的是 Avid SDK 的 GPLv3 授權選項，**沒有連結 JUCE 模組**，也不需要私人 SDK repository 或 SDK token。AudioUnitSDK 1.3.0 配合專案既有的 AU 相容性要求。
+
+工作流使用 `actions/checkout@v4`、`actions/upload-artifact@v4`、`actions/download-artifact@v4`；macOS 另使用 `maxim-lobanov/setup-xcode@v1`。這些 Action 版本標籤與 runner 映像仍可能收到上游更新，因此固定 SDK 版本不代表整個環境能逐位元重現。
+
+### 每個平台實際檢查與打包什麼？
+
+**macOS：** CMake 開啟 VSTGUI、AAX、AUv2，依序編譯 `JS_Inflator`、`JS_Inflator-aax`、`JS_Inflator-au`。每種格式的主要二進位都以 `lipo` 檢查 Intel 與 Apple Silicon 架構。VST3 驗證既有簽章；AAX 加上 ad-hoc 簽章後驗證。AU 打包會將 `Contents/Resources/plugin.vst3` 的外部開發用捷徑換成完整、已簽章的 VST3 bundle，再簽署外層 AU，以 `codesign --verify --deep --strict` 驗證，讓 AU 可獨立安裝。最後使用 `ditto` 製作 ZIP，保留 bundle 結構與執行權限。
+
+**Windows：** 開啟 `SMTG_CREATE_BUNDLE_FOR_WINDOWS`、關閉安裝用連結，再編譯 `JS_Inflator` 與 `JS_Inflator-aax`。打包前檢查預期 bundle 路徑內有實際二進位，並驗證 DOS 標頭、PE signature 與 x64 machine type。PowerShell `Compress-Archive` 將完整 bundle 打包；Windows 成品未簽章。
+
+VST3 SDK 在 validator target 可用時，也能於 post-build 階段執行 validator，實際結果請查建置紀錄。這些 workflow **沒有明確執行** `auval`、repository 的 96 項 processor 回歸測試、Pro Tools GUI 測試、session 儲存／重開測試或 AudioSuite 功能測試。先前的本地及人工驗證另見[測試紀錄](tests/results/aax-verification.md)。
+
+兩個平台的 AAX 成品都需要 **Pro Tools Developer**。ad-hoc 簽章不是 Avid/PACE 簽章；這套流程不執行 PACE 簽章或 Apple notarization。CI 成功表示通過既定的建置／打包檢查，不等於完整宿主相容性驗證。
+
+### 成品位置與下載方式
+
+下表路徑相對於 runner 的暫時 checkout 目錄。上傳前，各 ZIP 直接存於 `build-macos/` 或 `build-windows/`。
+
+| 格式 | Runner 內的 bundle 路徑 | 上傳 ZIP／Release asset |
+|---|---|---|
+| macOS VST3 | `build-macos/VST3/Release/JS_Inflator.vst3` | `JS_Inflator-macOS-VST3.zip` |
+| macOS AUv2 | `build-macos/VST3/Release/JS_Inflator.component` | `JS_Inflator-macOS-AU.zip` |
+| macOS AAX | `build-macos/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-macOS-AAX.zip` |
+| Windows VST3 | `build-windows/VST3/Release/JS_Inflator.vst3` | `JS_Inflator-Windows-VST3.zip` |
+| Windows AAX | `build-windows/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-Windows-AAX.zip` |
+
+Windows 二進位位於 `JS_Inflator.vst3/Contents/x86_64-win/JS_Inflator.vst3` 與 `JS_Inflator.aaxplugin/Contents/x64/JS_Inflator.aaxplugin`。安裝時應複製整個 bundle，不是只拿最內層的二進位檔。
+
+**Artifacts** 是附在單次 Actions 執行上的檔案，名稱為 `JS_Inflator-<platform>-<format>-<github.sha>`，內含上述 ZIP。到 [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions) → 點選一次執行 → **Artifacts** 下載。GitHub 網頁下載需要登入及 repository 讀取權限；下載封裝內可能還有外掛 ZIP，因此需要再解壓一次。workflow 未設定 `retention-days`，保留期限依 repository／organization 設定，詳見 [GitHub Artifact 下載文件](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts)。
+
+**Release assets** 則是將同一次建置的相同 ZIP，從 Artifacts 複製到[版本發布頁](https://github.com/Hikari-Tsai/JS_Inflator/releases)，不會隨 Actions Artifact 到期而一起消失。兩者都不會自動將外掛安裝到你的電腦。本地與 CI 使用相同專案原始碼及 target，但 SDK、工具鏈、編譯選項、簽章與打包方式也要一致，才能期待相近結果；不保證二進位檔案逐位元相同。
+
+### Release 的條件與失敗處理
+
+發布 job 設定 `needs: [macos, windows]`，且只有 `github.event_name == 'push'`、`github.ref` 以 `refs/tags/v` 開頭時才執行。它從**同一次 workflow run** 下載符合 `JS_Inflator-*-${{ github.sha }}` 的 Artifacts，合併到 `dist/`，再確認五份預期 ZIP 都存在且不是空檔。
+
+接著以 `gh release create` 上傳五份檔案，使用 `--verify-tag --prerelease --latest=false`，依 Tag 產生標題。Release notes 包含平台、簽章限制，以及指向建置 SHA 的原始碼與測試紀錄連結；這份說明由 workflow 產生，不是 PR Agent 產生。
+
+- 任一平台工作失敗或取消，就不發布。先前成功的上傳步驟仍可能留下部分 Artifacts，不能只看到有檔案就認定整次建置成功。
+- 上傳來源不存在會讓 upload 步驟失敗；發布階段若缺 ZIP 或檔案為空，腳本會在執行 `gh release create` 前停止。
+- `--verify-tag` 會拒絕不存在的 Tag。同名 Tag 已有 Release 時，不會更新或覆寫，而是建立失敗。若發布途中出現網路／上傳錯誤，可能已留下部分建立的 Release，重跑前先檢查發布頁。
+- 同一 Tag 使用 `plugin-release-${{ github.ref }}` concurrency group，避免兩個發布工作同時進行；`cancel-in-progress: false` 會保留正在執行的發布工作。這不代表會自動去重或更新既有 Release。
+- 目前所有符合 `v*` 的 Tag 都發布成 **Pre-release**，即使名稱沒有 `beta` 也一樣；不標示 **Latest**，也不會自動升級成正式發布。
+- Tag 選定的是原始碼 revision，不會移動 `main`／`staging`，也不會自動修改 `CMakeLists.txt` 內的版本號。Tag 指向的 commit 必須包含統一入口與兩個可重用 workflow。
+
+### 手動建置與發布操作
+
+到 [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions)，選擇 **Build plug-ins** → **Run workflow** → 選擇如 `staging` 的分支。只建置單一平台則選 **Mac Build** 或 **Windows Build**。手動觸發需要 workflow 存在於預設分支；新增的 workflow 尚未合併到預設分支前，網頁入口可能不會出現。
+
+在此 repository 目錄中完成 `gh auth login` 後，也可用 GitHub CLI：
+
+```bash
+# 兩個平台；這裡刻意使用保留的歷史檔名。
+gh workflow run 'Mac Build.yml' --ref staging
+
+# 僅單一平台。
+gh workflow run 'macOS Build.yml' --ref staging
+gh workflow run 'Windows Build.yml' --ref staging
+
+# 將 RUN_ID 換成實際執行編號。
+gh run list --branch staging
+gh run view RUN_ID --log-failed
+gh run download RUN_ID --dir downloaded-artifacts
+```
+
+要發布時，先 checkout 到要發布的 commit，確認 Tag 尚未使用。下例會標記目前的 `HEAD`，不代表這個版本已發布：
+
+```bash
+git tag -a v2.0.3.2-hikari-beta.2 -m "Hikari beta 2"
+git push origin v2.0.3.2-hikari-beta.2
+```
+
+推送這個新 Tag 會啟動兩個平台，成功後發布五份 ZIP。只推送 `staging`、手動選 Tag 建置，或重跑非 Tag 的執行，都不會發布 Release。尚未發布的 Tag 若因暫時性問題失敗，可先確認發布頁是否已有 Release，再使用 **Re-run failed jobs**。若修改了原始碼或 workflow，則需要新 commit，通常也應使用新 Tag，重跑舊 revision 不會包含修正。
+
+### PR Agent、權限與 Secrets
+
+PR Agent 與 `Build plug-ins` 各自執行。workflow 訂閱 `opened`、`reopened`、`synchronize`、`ready_for_review`，事件發送者類型為 `Bot` 時跳過 review job。它在 `ubuntu-latest` 執行 `the-pr-agent/pr-agent@main`；每個 PR 使用 `pr-agent-<number>` concurrency group，有新執行時取消舊的進行中審查。
+
+workflow 指定自動產生描述與審查（`auto_describe: true`、`auto_review: true`），並設定 `auto_improve: false`。**目前有一處設定不一致：** [`.pr_agent.toml`](.pr_agent.toml) 同時設定 `auto_improve = true`。這是兩處實際設定值，不能因此保證程式碼建議已停用；請依該次 Action 使用版本的解析結果 `auto_improve` 與執行紀錄判定。這次文件更新沒有修改任一設定。上游使用 `@main`，其實作可能獨立更新；workflow 被觸發不代表每個審查工具都一定執行。
+
+repository 設定要求模型 `gpt-5.5-2026-04-23`、fallback `gpt-5.4-mini`、繁體中文（`zh-TW`）回覆。審查至多五項發現，使用持續更新的評論，重點包含正確性、回歸、測試／安全／修改難度、即時音訊執行緒安全、參數／狀態／聲道／延遲相容性，以及 SDK 與 macOS 相容性。PR 描述不發布 labels、不產生圖，保留使用者原始描述；ignore patterns 排除建置目錄、`vst3sdk/**` 與 `AudioUnitSDK/**`。Action 行為可參考[上游自動化文件](https://github.com/the-pr-agent/pr-agent/blob/main/docs/docs/usage-guide/automations_and_usage.md)。
+
+| 工作 | Token 權限／Secrets |
+|---|---|
+| 平台建置 | 內建 `GITHUB_TOKEN`，`contents: read`；不需私人 SDK secret |
+| Release | 內建 token 以 `GH_TOKEN` 傳入，僅發布 job 使用 `contents: write`；不需另建 PAT |
+| PR Agent | 內建 `GITHUB_TOKEN`，`contents: read`、`issues: write`、`pull-requests: write`；另需 repository secret `OPENAI_KEY` |
+
+`OPENAI_KEY` 設於 **Settings → Secrets and variables → Actions**，建置工作不使用這個 key。Fork PR 可能需要核准執行 Actions，通常不會取得 repository secrets，且 token 為唯讀，因此公開 SDK 的建置可用時，PR Agent 仍可能無法驗證身分或寫入審查。PR Agent 失敗不等於編譯失敗；看到紅色檢查時，應先開啟對應 workflow／job，查出失敗步驟再重跑。
 
 ## 版本紀錄
 

@@ -4,6 +4,8 @@
 
 [English](README.md) | [繁體中文](README.zh-TW.md)
 
+[GitHub Actions: builds, downloads and releases](#github-actions)
+
 ![JS Inflator system architecture: hosts, AAX wrapper, audio processing, VSTGUI, and build outputs](screenshots/js-inflator-architecture.webp)
 
 JS Inflator is a copy of Sonox Inflator.  
@@ -170,39 +172,155 @@ The AAX version remains in testing. Recorded host automation, session save/reloa
 
 Windows and Linux VST3 builds continue to follow the supported platforms and toolchains of the VST3 SDK.
 
-### GitHub Actions cross-platform builds
+## GitHub Actions
 
-`Build plug-ins` runs on pull requests, pushes to `main`, `v*` tag pushes, and manual dispatch. It calls `Mac Build` and `Windows Build` in parallel:
+### Workflow map
 
-| Platform | Formats | Architecture and toolchain |
+The YAML files in [`.github/workflows`](.github/workflows) are the source of truth. The Actions display name and filename are different in two places:
+
+| Actions display name | Workflow file | Responsibility |
 |---|---|---|
-| macOS | VST3, AUv2, AAX | Intel `x86_64` + Apple Silicon `arm64`, Xcode 16.2 |
-| Windows | VST3, AAX | `x64`, Visual Studio 2022 |
+| **Build plug-ins** | [Mac Build.yml](.github/workflows/Mac%20Build.yml) | Main entry: run both platforms in parallel, then publish only for a version-tag push |
+| **Mac Build** | [macOS Build.yml](.github/workflows/macOS%20Build.yml) | Reusable or manually dispatched macOS build: VST3, AUv2, AAX |
+| **Windows Build** | [Windows Build.yml](.github/workflows/Windows%20Build.yml) | Reusable or manually dispatched Windows x64 build: VST3, AAX |
+| **PR Agent** | [pr-agent.yml](.github/workflows/pr-agent.yml) | AI-assisted PR description and review; separate from compilation and release jobs |
 
-Both platform workflows also retain independent manual entry points. A push to `staging` does not directly trigger builds; updating an open PR triggers the unified workflow.
+The main entry keeps its historical filename `Mac Build.yml`; it now builds **both platforms**. Each platform job builds its formats sequentially. The two platform jobs run independently in parallel, subject to runner availability. AU is an Apple format and has no Windows build here.
 
-VST3 SDK is pinned to 3.7.12. macOS AU uses Apple AudioUnitSDK 1.3.0. Both platforms use [Avid AAX SDK 2.9.0 from JUCE's repository](https://github.com/juce-framework/JUCE/tree/72782788ce18c2d4d760b28e0921d6ffc6431102/modules/juce_audio_plugin_client/AAX/SDK) under its GPLv3 option. SDK revisions are pinned in the workflows; no JUCE modules are linked and no extra SDK secrets are needed.
+### What triggers a run?
 
-Each format is packaged as a ZIP and uploaded to Artifacts. The AU bundle embeds its VST3 implementation instead of retaining the SDK's development symlink, so it is self-contained. macOS bundles are ad-hoc signed with bundle permissions preserved; Windows uses complete plug-in bundles and checks x64 PE headers. AAX on both platforms requires Pro Tools Developer because these builds have no Avid/PACE signature. Build and package checks do not establish Pro Tools functional compatibility; workflows do not run host GUI tests.
+| Event | Build plug-ins | Release publication | PR Agent workflow |
+|---|---|---|---|
+| Push a commit to `main` | Both platforms | No | No, unless a separate PR event occurs |
+| Push to `staging` or another non-main branch, without a PR | No | No | No |
+| Open, reopen, or update an existing PR with new commits | Both platforms | No | Triggered; Bot senders are skipped |
+| Change a draft PR to ready for review | Not by this event alone | No | Triggered; Bot senders are skipped |
+| Push a tag matching `v*` | Both platforms | Yes, after both succeed | No |
+| Manually run **Build plug-ins** | Both platforms | No, even when selecting a tag | No |
+| Manually run **Mac Build** / **Windows Build** | Selected platform only | No | No |
 
-### Automatic pre-releases
+There are no path filters or PR target-branch filters: documentation-only PR updates also build, and a PR targeting `staging` can build. For `pull_request`, the build normally checks GitHub's synthetic merge commit, not just the source branch tip; this also explains the SHA in its artifact names. The default PR build activity types are `opened`, `synchronize`, and `reopened`. See [GitHub's event reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows).
 
-Pushing a version tag matching `v*` triggers `Build plug-ins`. After both platform build jobs succeed, a single release job collects all five ZIPs and creates a **GitHub Pre-release**:
+A `staging` push with an open PR can therefore build through the PR event. Merging into `main` starts a new main-branch build. PR Agent success is not a dependency of the release job. No schedule or `issue_comment` trigger is configured.
 
-* `JS_Inflator-macOS-VST3.zip`
-* `JS_Inflator-macOS-AU.zip`
-* `JS_Inflator-macOS-AAX.zip`
-* `JS_Inflator-Windows-VST3.zip`
-* `JS_Inflator-Windows-AAX.zip`
-
-PRs, branch pushes, and manual runs only upload Artifacts. Version tags must point to a commit containing this workflow. For example, after choosing the release commit and an unused version:
-
-```console
-git tag v2.0.3.3-aax-beta.1
-git push origin v2.0.3.3-aax-beta.1
+```mermaid
+flowchart TD
+    event["PR / main push / v* tag push / manual"] --> entry["Build plug-ins"]
+    entry --> mac["macOS: VST3 → AAX → AU"]
+    entry --> win["Windows: VST3 → AAX"]
+    mac --> ma["3 ZIP artifacts"]
+    win --> wa["2 ZIP artifacts"]
+    ma --> gate{"Both jobs succeeded AND v* tag push?"}
+    wa --> gate
+    gate -->|Yes| release["One Pre-release with 5 ZIP assets"]
+    gate -->|No| stop["Skip release; retain any uploaded artifacts"]
 ```
 
-The tag above is an example, not an already published release. Releases remain marked as pre-releases while AAX is in testing. The release job uses GitHub's built-in token, so no extra secret is needed. An existing release with the same tag is not overwritten; use a new version tag for a new release.
+### Build environments and dependencies
+
+| Platform | Runner | Build tools and configuration | Binary architectures |
+|---|---|---|---|
+| macOS | `macos-15` | CMake → Xcode 16.2, `Release` | Universal `x86_64` + `arm64` |
+| Windows | `windows-2022` | CMake → Visual Studio 17 2022, PowerShell, `Release` | `x64` |
+| Release only | `ubuntu-latest` | Download artifacts and run GitHub CLI | No plug-in compilation |
+
+Both builders check out this repository and its recursive submodules, including `r8brain-free-src`. Dependencies are fixed to:
+
+| Dependency | Revision | Use |
+|---|---|---|
+| Steinberg VST3 SDK | `v3.7.12_build_20` | Both platforms; includes VSTGUI and the AAX/AU wrappers |
+| Apple AudioUnitSDK | `e789bc83ddc07cbf80e7bfaf84f1ade975287400` (1.3.0) | macOS AUv2 |
+| Avid AAX SDK from the JUCE repository | `72782788ce18c2d4d760b28e0921d6ffc6431102` (SDK 2.9.0) | Both platforms' AAX builds |
+
+AAX checkout is restricted to `modules/juce_audio_plugin_client/AAX/SDK`; the job checks for `LICENSE.txt` and revision constant `20209000`. Only Avid's SDK is used under its GPLv3 option: **JUCE modules are not linked**. No private SDK repository or SDK token is required. AudioUnitSDK 1.3.0 matches the project's existing AU compatibility requirements.
+
+The workflows use `actions/checkout@v4`, `actions/upload-artifact@v4`, and `actions/download-artifact@v4`; macOS also uses `maxim-lobanov/setup-xcode@v1`. These action version tags and runner images can receive upstream updates; pinning the SDK does not make the entire environment byte-for-byte reproducible.
+
+### What each build checks and packages
+
+**macOS:** configure CMake with VSTGUI, AAX and AUv2 enabled; build targets `JS_Inflator`, `JS_Inflator-aax`, and `JS_Inflator-au`. Each format's main binary must contain Intel and Apple Silicon slices, checked with `lipo`. VST3 signing is verified; AAX receives an ad-hoc signature and is verified. AU packaging replaces the SDK's external development symlink at `Contents/Resources/plugin.vst3` with a full copy of the signed VST3 bundle, signs the outer AU, and verifies it with `codesign --verify --deep --strict`. This makes the AU self-contained. `ditto` creates ZIPs while retaining bundle structure and executable permissions.
+
+**Windows:** enable `SMTG_CREATE_BUNDLE_FOR_WINDOWS`, disable installation links, then build `JS_Inflator` and `JS_Inflator-aax`. Packaging requires a real binary at each expected bundle path and checks the DOS header, PE signature, and x64 machine type. PowerShell `Compress-Archive` packages each complete bundle. These Windows builds are unsigned.
+
+The VST3 SDK can also invoke its validator as a post-build step when the validator target is available; consult the build log for that output. The workflows do **not** explicitly run `auval`, the repository's 96-case processor regression suite, Pro Tools GUI tests, session save/reload tests, or AudioSuite functional tests. Earlier local/manual verification is documented separately in the [test report](tests/results/aax-verification.md).
+
+Both platforms' AAX builds require **Pro Tools Developer**. Ad-hoc signing is not Avid/PACE signing, and this pipeline does not perform PACE signing or Apple notarization. A successful CI run establishes the configured build/package checks, not full host compatibility.
+
+### Output locations and downloads
+
+Paths below are relative to the temporary runner checkout. Each named ZIP is created directly inside `build-macos/` or `build-windows/` before upload.
+
+| Format | Runner bundle path | Uploaded ZIP / Release asset |
+|---|---|---|
+| macOS VST3 | `build-macos/VST3/Release/JS_Inflator.vst3` | `JS_Inflator-macOS-VST3.zip` |
+| macOS AUv2 | `build-macos/VST3/Release/JS_Inflator.component` | `JS_Inflator-macOS-AU.zip` |
+| macOS AAX | `build-macos/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-macOS-AAX.zip` |
+| Windows VST3 | `build-windows/VST3/Release/JS_Inflator.vst3` | `JS_Inflator-Windows-VST3.zip` |
+| Windows AAX | `build-windows/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-Windows-AAX.zip` |
+
+Windows binaries are inside `JS_Inflator.vst3/Contents/x86_64-win/JS_Inflator.vst3` and `JS_Inflator.aaxplugin/Contents/x64/JS_Inflator.aaxplugin`. Install the whole bundle, not only the inner binary.
+
+**Artifacts** are files attached to an individual Actions run, named `JS_Inflator-<platform>-<format>-<github.sha>`. They contain the ZIPs above. Open [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions) → a run → **Artifacts**. Downloading through the GitHub UI requires signing in and repository read access; its download archive may wrap the plug-in ZIP, requiring a second extraction. These workflows do not set `retention-days`, so the repository/organization retention policy applies. See [GitHub's artifact download guide](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts).
+
+**Release assets** are the same packaged ZIP files copied from that run's Artifacts to a [versioned Release page](https://github.com/Hikari-Tsai/JS_Inflator/releases). Their availability is separate from Actions artifact expiration. Neither mechanism installs the plug-in on your computer. Local and CI builds use the same project sources and targets, but SDK versions, toolchains, flags, signatures and packaging must also match before expecting equivalent results; byte-identical binaries are not guaranteed.
+
+### Release gating and failure behavior
+
+The release job declares `needs: [macos, windows]` and runs only when `github.event_name == 'push'` and `github.ref` starts with `refs/tags/v`. It downloads artifacts from the **same workflow run**, matching `JS_Inflator-*-${{ github.sha }}`, merges them into `dist/`, and checks all five expected ZIPs exist and are non-empty.
+
+It then runs `gh release create` with all five files, `--verify-tag --prerelease --latest=false`, a title based on the tag, and generated notes containing platform/signing information plus source and test-report links at the build SHA. The notes are generated by this workflow, not by PR Agent.
+
+- Any failed or cancelled platform job prevents publication. Earlier successful upload steps may still leave partial Artifacts; inspect both jobs before treating a run as complete.
+- Missing upload files fail the upload step. Missing or empty release ZIPs stop the script before `gh release create`.
+- A missing tag fails `--verify-tag`. An existing Release with the same tag is not updated or overwritten; the create command fails. If publication fails, inspect the Release page before retrying, since a network/upload failure can leave a partially created Release.
+- `plugin-release-${{ github.ref }}` is the release concurrency group. The same tag cannot run two release jobs simultaneously; `cancel-in-progress: false` preserves an already running release job. This is not deduplication or an update mechanism.
+- Every matching `v*` tag is currently published as a **Pre-release**, even if its name does not contain `beta`. It is not marked **Latest**, and no stable release is automatically promoted.
+- The tag selects a source revision; it does not move `main` or `staging`, nor automatically change the version in `CMakeLists.txt`. The tagged commit must contain the unified workflow and both reusable workflow files.
+
+### Manual builds and version releases
+
+In [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions), select **Build plug-ins** → **Run workflow** → choose a branch such as `staging`. For one platform, select **Mac Build** or **Windows Build**. Manual dispatch requires the workflow to be present on the default branch; newly introduced workflow files may not appear in the UI until merged there.
+
+Equivalent GitHub CLI commands from this repository, after `gh auth login`:
+
+```bash
+# Both platforms; historical filename is intentional.
+gh workflow run 'Mac Build.yml' --ref staging
+
+# One platform only.
+gh workflow run 'macOS Build.yml' --ref staging
+gh workflow run 'Windows Build.yml' --ref staging
+
+# Inspect a run, replacing RUN_ID with its numeric ID.
+gh run list --branch staging
+gh run view RUN_ID --log-failed
+gh run download RUN_ID --dir downloaded-artifacts
+```
+
+To publish, first check out the intended release commit and confirm the version tag is unused. This example tags the current `HEAD`; it does not imply that this version has been released:
+
+```bash
+git tag -a v2.0.3.2-hikari-beta.2 -m "Hikari beta 2"
+git push origin v2.0.3.2-hikari-beta.2
+```
+
+Pushing that new tag starts both builds and, if successful, publishes the five ZIPs. Pushing only `staging`, manually building a tag, or rerunning a non-tag build does not publish a Release. For an unpublished tag run with a transient failure, use **Re-run failed jobs** after checking whether a Release already exists. A source/workflow fix requires a new commit and normally a new tag, not merely rerunning an old revision.
+
+### PR Agent, permissions and secrets
+
+PR Agent is independent of `Build plug-ins`. Its workflow subscribes to `opened`, `reopened`, `synchronize`, and `ready_for_review`; a sender with type `Bot` skips the review job. It runs `the-pr-agent/pr-agent@main` on `ubuntu-latest`. One concurrency group per PR (`pr-agent-<number>`) cancels an older in-progress review when a new one starts.
+
+The workflow requests automatic description and review (`auto_describe: true`, `auto_review: true`) and sets `auto_improve: false`. **There is a configuration inconsistency:** [`.pr_agent.toml`](.pr_agent.toml) sets `auto_improve = true`. These are the actual current values, not a guarantee that code suggestions are disabled; consult the resolved `auto_improve` value and execution log for the action version used. This documentation update does not change either setting. The upstream action follows `@main`, so its implementation can change independently of this repository; a triggered workflow does not necessarily mean every review tool ran.
+
+The repository config requests model `gpt-5.5-2026-04-23`, fallback `gpt-5.4-mini`, and Traditional Chinese (`zh-TW`). It asks for up to five findings, persistent review comments, correctness/regression checks, tests/security/effort assessment, real-time audio safety, parameter/state/channel/latency compatibility, and SDK/macOS compatibility. PR description label publication and diagrams are disabled; the original user description is retained. Build directories, `vst3sdk/**`, and `AudioUnitSDK/**` are excluded from review by the configured ignore patterns. See [the upstream automation guide](https://github.com/the-pr-agent/pr-agent/blob/main/docs/docs/usage-guide/automations_and_usage.md) for action behavior.
+
+| Job | Token permissions / secrets |
+|---|---|
+| Platform builds | Built-in `GITHUB_TOKEN`, `contents: read`; no private SDK secrets |
+| Release | Built-in token exposed as `GH_TOKEN`, `contents: write` only on the release job; no extra PAT |
+| PR Agent | Built-in `GITHUB_TOKEN`, `contents: read`, `issues: write`, `pull-requests: write`; requires repository secret `OPENAI_KEY` |
+
+Set `OPENAI_KEY` under **Settings → Secrets and variables → Actions**. Build jobs do not use this key. Fork PRs may require Actions approval, do not normally receive repository secrets, and generally have a read-only token; therefore the public-SDK builds can be available while PR Agent cannot authenticate or write its review. A PR Agent failure is not a compilation failure. When diagnosing a red check, open the specific workflow/job and its failing step before rerunning.
 
 ## Version logs
 
