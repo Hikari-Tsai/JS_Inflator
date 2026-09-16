@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [main]
+    tags: ['v*']
   workflow_dispatch:
 
 permissions:
@@ -102,11 +103,18 @@ jobs:
           # ZIP the bundle before upload to preserve executable permissions.
           ditto -c -k --sequesterRsrc --keepParent "${bundle}" "${BUILD_DIR}/JS_Inflator-macOS-AAX.zip"
 
+      - name: Package VST3
+        run: |
+          bundle="${BUILD_DIR}/VST3/${BUILD_TYPE}/JS_Inflator.vst3"
+          codesign --verify --deep --strict "${bundle}"
+          ditto -c -k --sequesterRsrc --keepParent "${bundle}" "${BUILD_DIR}/JS_Inflator-macOS-VST3.zip"
+
       - name: Upload VST3
         uses: actions/upload-artifact@v4
         with:
           name: JS_Inflator-macOS-VST3-${{ github.sha }}
-          path: ${{ env.BUILD_DIR }}/VST3/${{ env.BUILD_TYPE }}/JS_Inflator.vst3
+          path: ${{ env.BUILD_DIR }}/JS_Inflator-macOS-VST3.zip
+          if-no-files-found: error
 
       - name: Upload AAX
         uses: actions/upload-artifact@v4
@@ -114,3 +122,45 @@ jobs:
           name: JS_Inflator-macOS-AAX-${{ github.sha }}
           path: ${{ env.BUILD_DIR }}/JS_Inflator-macOS-AAX.zip
           if-no-files-found: error
+
+  release:
+    name: Publish macOS pre-release
+    needs: build
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: mac-release-${{ github.ref }}
+      cancel-in-progress: false
+    steps:
+      - name: Download packaged plug-ins
+        uses: actions/download-artifact@v4
+        with:
+          pattern: JS_Inflator-macOS-*-${{ github.sha }}
+          path: dist
+          merge-multiple: true
+
+      - name: Publish AAX testing pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          test -s dist/JS_Inflator-macOS-VST3.zip
+          test -s dist/JS_Inflator-macOS-AAX.zip
+          cat > release-notes.md <<EOF
+          AAX 改作測試版 / Experimental AAX adaptation.
+
+          - macOS VST3 and AAX universal binaries: Intel x86_64 and Apple Silicon arm64.
+          - AAX requires Pro Tools Developer. It is ad-hoc signed, not Avid/PACE signed for standard Pro Tools.
+          - Build, architecture, and bundle checks do not replace Pro Tools functional testing.
+          - GPLv3: source and build instructions are available at ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_SHA}. Clone this revision with recursive submodules and use the SDK revisions pinned in the workflow.
+          - Test coverage: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/${GITHUB_SHA}/tests/results/aax-verification.md
+          EOF
+          gh release create "${RELEASE_TAG}" \
+            dist/JS_Inflator-macOS-VST3.zip \
+            dist/JS_Inflator-macOS-AAX.zip \
+            --verify-tag --prerelease --latest=false \
+            --title "JS Inflator ${RELEASE_TAG} — AAX testing" \
+            --notes-file release-notes.md

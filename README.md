@@ -174,7 +174,23 @@ The `Mac Build` workflow automatically builds **both VST3 and AAX** for pull req
 
 CI downloads AAX SDK 2.9.0 from [JUCE's public SDK copy](https://github.com/juce-framework/JUCE/tree/72782788ce18c2d4d760b28e0921d6ffc6431102/modules/juce_audio_plugin_client/AAX/SDK), pinned to commit `72782788ce18c2d4d760b28e0921d6ffc6431102`, and uses its GPLv3 license option. Only the SDK is used; JUCE modules are not linked into the plug-in. No `AAX_SDK_REPOSITORY` or `AAX_SDK_TOKEN` secret is required, including for fork PRs.
 
-Each successful run uploads VST3 and AAX artifacts. The AAX bundle receives a local ad-hoc signature and is packaged as `JS_Inflator-macOS-AAX.zip` to preserve executable permissions. This is a development build for Pro Tools Developer; ad-hoc signing does not provide the Avid/PACE signature required by standard Pro Tools. Redistribution must comply with GPLv3 and the applicable SDK terms. The workflow does not publish a GitHub Release or run Pro Tools GUI tests.
+Each successful run uploads VST3 and AAX artifacts. The AAX bundle receives a local ad-hoc signature and is packaged as `JS_Inflator-macOS-AAX.zip` to preserve executable permissions. This is a development build for Pro Tools Developer; ad-hoc signing does not provide the Avid/PACE signature required by standard Pro Tools. Redistribution must comply with GPLv3 and the applicable SDK terms. Both formats are uploaded as ZIP files. The workflow does not run Pro Tools GUI tests.
+
+### Automatic pre-releases
+
+Pushing a version tag matching `v*` triggers `Mac Build`. After both builds, architecture checks, signing/package checks, and artifact uploads succeed, a separate job publishes a **GitHub Pre-release** with:
+
+* `JS_Inflator-macOS-VST3.zip`
+* `JS_Inflator-macOS-AAX.zip`
+
+PRs, branch pushes, and manual runs only upload Artifacts. Version tags must point to a commit containing this workflow. For example, after choosing the release commit and an unused version:
+
+```console
+git tag v2.0.3.3-aax-beta.1
+git push origin v2.0.3.3-aax-beta.1
+```
+
+The tag above is an example, not an already published release. Releases remain marked as pre-releases while AAX is in testing. The release job uses GitHub's built-in token, so no extra secret is needed. An existing release with the same tag is not overwritten; use a new version tag for a new release.
 
 ## Version logs
 

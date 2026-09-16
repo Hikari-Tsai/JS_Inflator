@@ -174,7 +174,23 @@ Windows 與 Linux VST3 build 仍遵循 VST3 SDK 支援的平台與工具鏈。
 
 CI 從 [JUCE 公開提供的 SDK 副本](https://github.com/juce-framework/JUCE/tree/72782788ce18c2d4d760b28e0921d6ffc6431102/modules/juce_audio_plugin_client/AAX/SDK) 下載 AAX SDK 2.9.0，固定在 commit `72782788ce18c2d4d760b28e0921d6ffc6431102`，並採用其 GPLv3 授權選項。僅使用 SDK，不會將 JUCE 模組連結至外掛。不需要 `AAX_SDK_REPOSITORY` 或 `AAX_SDK_TOKEN` secret，因此 fork PR 也能建置。
 
-每次成功執行都會上傳 VST3 與 AAX artifact。AAX bundle 會加上本機 ad-hoc 簽章，再打包為 `JS_Inflator-macOS-AAX.zip`，保留執行檔權限。這是供 Pro Tools Developer 使用的開發版本；ad-hoc 簽章無法取代標準版 Pro Tools 所需的 Avid/PACE 簽章。再散布須遵守 GPLv3 與適用的 SDK 條款。此 workflow 不會發布 GitHub Release，也不會執行 Pro Tools 介面測試。
+每次成功執行都會上傳 VST3 與 AAX artifact。AAX bundle 會加上本機 ad-hoc 簽章，再打包為 `JS_Inflator-macOS-AAX.zip`，保留執行檔權限。這是供 Pro Tools Developer 使用的開發版本；ad-hoc 簽章無法取代標準版 Pro Tools 所需的 Avid/PACE 簽章。再散布須遵守 GPLv3 與適用的 SDK 條款。兩種格式均以 ZIP 檔保存於 Artifacts。此 workflow 不會執行 Pro Tools 介面測試。
+
+### 自動發布預發行版
+
+推送符合 `v*` 的版本標籤會觸發 `Mac Build`。兩種格式都完成編譯、架構檢查、簽章／打包檢查與 artifact 上傳後，獨立的發布 job 會建立 **GitHub Pre-release**，附上：
+
+* `JS_Inflator-macOS-VST3.zip`
+* `JS_Inflator-macOS-AAX.zip`
+
+PR、分支推送及手動執行只上傳 Artifacts。版本標籤必須指向包含此 workflow 的 commit。例如，選定要發布的 commit 與尚未使用的版本號後：
+
+```console
+git tag v2.0.3.3-aax-beta.1
+git push origin v2.0.3.3-aax-beta.1
+```
+
+上述標籤只是範例，不代表已發布此版本。AAX 測試期間會標示為預發行版。發布 job 使用 GitHub 內建 token，不需新增 secret。同名標籤若已有 Release，流程不會覆寫；發布新版本請使用新標籤。
 
 ## 版本紀錄
 
