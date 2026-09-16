@@ -1,0 +1,3 @@
+PASS requested 650x650, drawing layer 650x650
+PASS requested 975x975, drawing layer 975x975
+PASS requested 240x400, drawing layer 240x400

@@ -12,6 +12,10 @@
 #include <cmath>
 #include <memory>
 #include <deque>
+#ifdef JSIF_AAX_BUILD
+#include <atomic>
+#include "base/source/timer.h"
+#endif
 
 #ifndef M_PI
 #define M_PI        3.14159265358979323846264338327950288   /* pi             */
@@ -203,6 +207,9 @@ private:
 //  JSIF_Processor
 //------------------------------------------------------------------------
 class JSIF_Processor : public Steinberg::Vst::AudioEffect
+#ifdef JSIF_AAX_BUILD
+    , public Steinberg::ITimerCallback
+#endif
 {
 public:
 	JSIF_Processor();
@@ -258,6 +265,13 @@ public:
 	//==============================================================================
 
 protected:
+#ifdef JSIF_AAX_BUILD
+    void onTimer(Steinberg::Timer*) override;
+    Steinberg::IPtr<Steinberg::Timer> uiMessageTimer;
+    std::atomic<double> pendingMeters[5] {};
+    std::atomic<bool> metersPending {false};
+    std::atomic<bool> latencyPending {false};
+#endif
 
     using SampleRate = Steinberg::Vst::SampleRate;
 	using ParamValue = Steinberg::Vst::ParamValue;

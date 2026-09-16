@@ -1,0 +1,2 @@
+1ch: output peak=0.199998 meter updates=1 input meter=0.32 output meter=0.32 PASS
+2ch: output peak=0.199998 meter updates=1 input meter=0.32 output meter=0.32 PASS

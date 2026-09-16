@@ -138,6 +138,11 @@ if(SMTG_AAX_SDK_PATH AND SMTG_ENABLE_VSTGUI_SUPPORT)
     )
 
     target_compile_features(JS_Inflator-aax PUBLIC cxx_std_17)
+    target_compile_definitions(JS_Inflator-aax PRIVATE JSIF_AAX_BUILD=1)
+    if(APPLE)
+        enable_language(OBJCXX)
+        target_sources(JS_Inflator-aax PRIVATE source/JSIF_aax_mac.mm)
+    endif()
 
     smtg_target_add_plugin_resources(JS_Inflator-aax
         RESOURCES
