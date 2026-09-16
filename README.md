@@ -1,178 +1,122 @@
-# JS Inflator — AAX Fork
+# JS Inflator — Hikari AAX Fork
 
-> **AAX adaptation — currently in testing.** This repository is a fork of [JS Inflator](https://github.com/Kiriki-liszt/JS_Inflator) focused on AAX support and Pro Tools integration. It is an experimental development version, not a stable AAX release. Current AAX testing uses Pro Tools Developer; the build has not completed Avid/PACE signing for standard Pro Tools. See the [test report](tests/results/aax-verification.md) for verified behavior and remaining test coverage.
+An audio effect based on [JS Inflator](https://github.com/Kiriki-liszt/JS_Inflator), with AAX integration and macOS/Windows builds. **This AAX adaptation is still in testing.** The AAX downloads require a licensed **Pro Tools Developer** installation; they cannot load in standard Pro Tools because they are not Avid/PACE signed.
 
-[English](README.md) | [繁體中文](README.zh-TW.md)
+[English](README.md) · [繁體中文](README.zh-TW.md) · [Downloads](#downloads) · [Install](#installation) · [Architecture](#architecture) · [GitHub Actions](#github-actions)
 
-[GitHub Actions: builds, downloads and releases](#github-actions)
+![JS Inflator architecture: hosts, format wrappers, audio core, interface and build outputs](screenshots/js-inflator-architecture.webp)
 
-![JS Inflator system architecture: hosts, AAX wrapper, audio processing, VSTGUI, and build outputs](screenshots/js-inflator-architecture.webp)
+<a id="downloads"></a>
+## Downloads and platform versions
 
-JS Inflator is a copy of Sonox Inflator.  
-Runs in double precision 64-bit internal processing.  
-Also double precision input / output if supported.  
+Current download: **[v2.0.3.2-hikari-beta.2](https://github.com/Hikari-Tsai/JS_Inflator/releases/tag/v2.0.3.2-hikari-beta.2)** — a Pre-release. The plug-in's internal version remains `2.0.3.2`; the Hikari suffix identifies this fork's distribution. [All releases](https://github.com/Hikari-Tsai/JS_Inflator/releases).
 
-The release/download badges and donation link below refer to the upstream project, not an AAX release from this fork.
+| Operating system / CPU | Available formats | Compatibility scope |
+|---|---|---|
+| macOS, Intel `x86_64` | VST3, AUv2, AAX | Build target: macOS 10.13 or later; the host may require a newer macOS |
+| macOS, Apple Silicon `arm64` | VST3, AUv2, AAX | macOS 11 or later; the host may require a newer macOS |
+| Windows 10 / 11, `x64` | VST3, AAX | 64-bit hosts; Windows host testing remains pending |
 
-[![GitHub Release](https://img.shields.io/github/v/release/kiriki-liszt/JS_Inflator?style=flat-square&label=Get%20latest%20Release)](https://github.com/Kiriki-liszt/JS_Inflator/releases/latest)
-[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/kiriki-liszt/JS_Inflator/total?style=flat-square&label=total%20downloads&color=blue)](https://tooomm.github.io/github-release-stats/?username=Kiriki-liszt&repository=JS_Inflator)  
+The macOS ZIPs are **Universal**: the same download contains Intel and Apple Silicon binaries. Windows ZIPs contain x64 binaries; there are no native Windows ARM64, 32-bit, or Linux release packages. Build targets are not a claim that every supported OS/host combination has been tested.
 
-[![Static Badge](https://img.shields.io/badge/coffee%20maybe%3F%20%3D%5D%20-gray?style=for-the-badge&logo=buy-me-a-coffee)](https://buymeacoffee.com/kirikiaris)
+| Platform | Format / intended host | Download |
+|---|---|---|
+| macOS | VST3 — VST3-capable DAWs | [VST3 ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-VST3.zip) |
+| macOS | AUv2 — Logic Pro, GarageBand and other AU hosts | [AU ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AU.zip) |
+| macOS | AAX — **Pro Tools Developer only** | [AAX ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AAX.zip) |
+| Windows x64 | VST3 — 64-bit VST3-capable DAWs | [VST3 ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-VST3.zip) |
+| Windows x64 | AAX — **Pro Tools Developer only** | [AAX ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-AAX.zip) |
 
-<img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/screenshots/screenshot_both.png"  width="600"/>  
+Choose the format your host supports; installing all formats is unnecessary. GitHub's automatically generated **Source code** archives are source downloads, not ready-to-use plug-ins. AAX supports Native/AudioSuite targets, not AAX DSP; AudioSuite functionality is not yet verified.
 
-Comes in two GUIs. The alternative GUI is made by Twarch.  
+<a id="installation"></a>
+## Installation
 
-### Compatibility
+### macOS
 
-VST3, AUv2, AAX Native / AudioSuite
+1. Quit your DAW and extract the ZIP for the format you need.
+2. In Finder, choose **Go → Go to Folder…** and open the destination below. Copy the entire extracted bundle there; an administrator password may be required.
+3. Restart the DAW, rescan plug-ins if necessary, and insert **JS Inflator** on an audio track or bus. AU may appear under manufacturer **yg331**.
 
-### System Requirements
+| Copy this bundle | Into this folder |
+|---|---|
+| `JS_Inflator.vst3` | `/Library/Audio/Plug-Ins/VST3/` |
+| `JS_Inflator.component` | `/Library/Audio/Plug-Ins/Components/` |
+| `JS_Inflator.aaxplugin` | `/Library/Application Support/Avid/Audio/Plug-Ins/` |
 
-Audio Units
-* Mac OS X 10.13 or later on Intel
-* macOS 11.0 or later on Apple Silicon
+The AU download includes its VST3 implementation inside the `.component`; it does **not** need a separately installed VST3. Keep the bundle intact. These macOS builds are ad-hoc signed and not notarized; if macOS blocks loading, record the exact message when reporting the issue. Re-signing cannot provide the PACE authorization needed by standard Pro Tools.
 
-VST3
-* Mac OS X 10.13 or later on Intel
-* macOS 11.0 or later on Apple Silicon
-* Windows 10 or later
+### Windows
 
-AAX Native / AudioSuite
-* Mac OS X 10.13 or later on Intel
-* macOS 11.0 or later on Apple Silicon
+1. Quit your DAW and extract the Windows ZIP.
+2. Copy the entire `.vst3` or `.aaxplugin` **folder**, including `Contents`, to the destination below. Administrator permission may be required.
+3. Restart your 64-bit DAW, rescan plug-ins if necessary, and insert **JS Inflator**. For AAX, launch the licensed Developer edition of Pro Tools.
 
-### Supported DAW
+| Copy this folder | Into this folder |
+|---|---|
+| `JS_Inflator.vst3` | `C:\Program Files\Common Files\VST3\` |
+| `JS_Inflator.aaxplugin` | `C:\Program Files\Common Files\Avid\Audio\Plug-Ins\` |
 
-Cubase, Ableton Live, Logic Pro, Cakewalk by Bandlab, Bitwig are tested as working.  
+Do not install only the binary inside `Contents/x86_64-win/` or `Contents/x64/`. These are complete plug-in bundles, not installers, and the Windows binaries are unsigned.
 
-## How to use  
+Installation paths follow the [Steinberg VST3 locations](https://steinbergmedia.github.io/vst3_dev_portal/pages/Technical%2BDocumentation/Locations%2BFormat/Plugin%2BLocations.html), [Apple AU locations](https://support.apple.com/en-ie/102239), and [Avid AAX locations](https://learn-cdn.avid.com/AAX_SDK_2p1p1/Documentation/Doxygen/output/html/a00274.html).
 
-### Windows  
+### Updating or troubleshooting
 
-Unzip Windows version from latest Release and copy to "C:\Program Files\Common Files\VST3".  
+Back up the previous plug-in and important sessions before replacing a beta build; verify the replacement in a test session first. To uninstall, quit the host and remove the installed bundle.
 
-### MacOS  
+- **Not listed in the host:** check the OS/format, install location, complete bundle structure, and host scan results. Standard Pro Tools will reject these unsigned-for-PACE AAX builds.
+- **Interface opens but meters do not move:** feed audio into the track/bus and check the host's routing, playback and bypass state. This is an effect, not a sound generator.
+- **A control seems inactive:** `Curve` does not change audio at `Effect = 0`; `Phase` does not change audio at `OS = 1x`.
 
-Unzip macOS version from latest Release and copy vst3 to "/Library/Audio/Plug-Ins/VST3" and component to "/Library/Audio/Plug-Ins/Components".  
+Report issues with the release tag, OS version, CPU, host/version, plug-in format, sample rate and reproduction steps in [Issues](https://github.com/Hikari-Tsai/JS_Inflator/issues).
 
-> If it doesn't go well, CodeSign plugins in console as  
->
-> ``` console  
-> sudo xattr -r -d com.apple.quarantine /Library/Audio/Plug-Ins/VST3/JS_Inflator.vst3  
-> sudo xattr -r -d com.apple.quarantine /Library/Audio/Plug-Ins/Components/JS_Inflator.component
->
-> sudo codesign --force --sign - /Library/Audio/Plug-Ins/VST3/JS_Inflator.vst3  
-> sudo codesign --force --sign - /Library/Audio/Plug-Ins/Components/JS_Inflator.component  
-> ```  
->
-> tested by @jonasborneland [here](https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/issues/12#issuecomment-1616671177)
+<a id="architecture"></a>
+## Architecture and features
 
-### Version upgrade from v1.x.x to v2.x.x  
+The core uses **C++ + Steinberg VST3 SDK + VSTGUI**. Steinberg's wrappers adapt that core to AUv2 and AAX; r8brain-free-src handles linear-phase resampling. JUCE is only the repository source for the Avid SDK used by CI, not this plug-in's application framework. The diagram's build row illustrates the macOS path; current CI also builds Windows VST3 and AAX.
 
-Just delete old one and use new one!  
-Any DAW with steinberg standard will automatically replace old plugins while opening project.  
-Settings are also transfered automatically.  
+- Input/output gain, Effect, Curve, Clip, Split and bypass controls.
+- 1x, 2x, 4x and 8x oversampling with selectable phase behavior.
+- Double-precision internal audio processing and input/output/effect meters.
+- Original and Twarch interfaces with skin switching and zoom.
 
-Also, after plugin version change, do not open projects directly.  
-Please open a blank project first, and let DAW scan plugins and change from v1 to v2,
-and then we can safely open previous projects.  
+## Testing status
 
-Tested as working are;
+| Scope | Evidence / limitation |
+|---|---|
+| macOS + Windows build/package checks | [Five-format verification run](https://github.com/Hikari-Tsai/JS_Inflator/actions/runs/35078130661); archive structure and architectures checked |
+| macOS AAX controls and interface | Pro Tools Developer 2025.6 on Apple Silicon: controls, meters, skin changes and zoom checked on the documented local build |
+| Processor and UI regression tests | 96 audio cases plus meter transport and editor integration checks; see the [test report](tests/results/aax-verification.md) |
+| Still pending | Windows host testing, recorded automation, session save/reload, and AudioSuite functional verification |
 
-1. Cubase 12(Windows), plugin v1.7.0 -> v2.0.0  
-2. Cubase 12(macOS), plugin v1.7.0 -> v2.0.0  
-3. Cubase 12(Windows), plugin v1.7.0 -> Cubase 12(macOS), plugin v2.0.0  
-4. Logic 10, plugin v1.7.0 -> v2.0.0
-5. Ableton 12(Windows), plugin v1.7.0 -> v2.0.0
-6. Ableton 12(macOS), plugin v1.7.0 -> v2.0.0
-7. Ableton 12(Windows), plugin v1.7.0 -> Ableton 12(macOS), plugin v2.0.0  
+These are separate checks, not a claim that every release ZIP was manually tested in every host. See [tests/README.md](tests/README.md) for regression-test instructions. AAX remains experimental.
 
-## Licensing
+## Building from source
 
-JS Inflator and this derivative are licensed under **GNU GPLv3**; see [LICENSE](LICENSE). You may use, modify, and sell copies. When distributing a modified version or binary, retain the required copyright/license notices, identify modifications, and provide the complete corresponding source under GPLv3, including the required build material. Private modifications do not have to be published. Using the plug-in to process your own audio does not normally place that audio under GPL. See the [GNU GPL FAQ](https://www.gnu.org/licenses/gpl-faq.en.html).
-
-Dependencies retain their own licenses:
-
-* **r8brain-free-src:** MIT; retain its copyright and license notice.
-* **VSTGUI:** BSD 3-Clause; retain its notices and disclaimer and follow its non-endorsement condition.
-* **AudioUnitSDK:** Apache 2.0; retain applicable notices and identify modifications.
-* **VST3 SDK 3.7.12 used by this build:** Steinberg commercial license or GPLv3, with file-specific licenses where stated. Newer MIT-licensed VST SDK versions are available, but changing SDK versions does not remove this project's GPL obligations. See [Steinberg's licensing FAQ](https://steinbergmedia.github.io/vst3_dev_portal/pages/FAQ/Licensing.html).
-* **AAX SDK 2.9.0:** its `LICENSE.txt` and source headers explicitly offer commercial or GPLv3 licensing. Apply the selected license and any file-specific terms; the SDK is not categorically prohibited from redistribution under its GPLv3 option. This repository does not bundle the SDK.
-
-AAX SDK licensing, authorization to run Pro Tools Developer, and AAX binary signing are separate matters. The Developer authorization does not itself authorize a product release. Standard Pro Tools requires Avid/PACE-signed AAX binaries; local macOS ad-hoc signing is not a substitute. For commercialization, contact `audiosdk@avid.com` about the required tools and license, as directed by [Avid's AAX developer page](https://developer.avid.com/aax/). SDK source licensing does not automatically cover separately supplied Pro Tools binaries or signing tools.
-
-These software licenses do not automatically grant rights to third-party trademarks or artwork beyond the applicable rights holder's license.
-
-<img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/VST_Compatible_Logo_Steinberg_with_TM.png"  width="200"/>
-
-## Current Build Support
-
-This repository builds the same audio-processing algorithm in the following plug-in formats:
-
-* VST3
-* AUv2 through Steinberg's VST3-to-AUv2 wrapper
-* AAX Native and AudioSuite through Steinberg's VST3-to-AAX wrapper
-
-The macOS targets are universal binaries containing Intel `x86_64` and Apple Silicon `arm64` slices. All macOS targets use a deployment target of macOS 10.13. Intel slices support macOS 10.13 or later, while Apple Silicon slices require macOS 11.0 or later.
-
-The project and bundle version is `2.0.3.2`. The AU `AudioComponent` version is `2.0.3` because Apple's `0xMMMMmmDD` component-version field cannot represent a fourth version component.
-
-### Required Toolchain
-
-The following versions are currently used or verified:
-
-* CMake 3.19 or later
-* Xcode 16.2 / AppleClang 16
-* VST3 SDK 3.7.12
-* VSTGUI 4.14
-* AudioUnitSDK 1.3.0 for macOS 10.13-compatible AUv2 builds
-* AAX SDK 2.9.0 for AAX builds
-
-AudioUnitSDK 1.4.0 requires C++23 and macOS 11.0, so it cannot be used while preserving macOS 10.13 AUv2 compatibility.
-
-### macOS Build
-
-Configure an Xcode build with the required SDK paths:
-
-```console
-cmake -S . -B build -G Xcode \
-  -DSMTG_MAC=ON \
-  -DGITHUB_ACTIONS=ON \
-  -DSMTG_AUDIOUNIT_SDK_PATH=/absolute/path/to/AudioUnitSDK-1.3.0 \
-  -DSMTG_AAX_SDK_PATH=/absolute/path/to/aax-sdk-2-9-0 \
-  -DSMTG_ENABLE_AUV2_BUILDS=ON \
-  -DSMTG_CODE_SIGN_IDENTITY_MAC=- \
-  -DSMTG_ENABLE_VST3_PLUGIN_EXAMPLES=OFF \
-  -DSMTG_ENABLE_VST3_HOSTING_EXAMPLES=OFF
+```bash
+git clone --recurse-submodules https://github.com/Hikari-Tsai/JS_Inflator.git
+cd JS_Inflator
 ```
 
-Build each plug-in format:
+Use CMake 3.19 or later and the toolchains/SDK revisions pinned in the [macOS workflow](.github/workflows/macOS%20Build.yml) or [Windows workflow](.github/workflows/Windows%20Build.yml). Those files contain the dependency checkout, configuration, build, verification and packaging commands used for downloads.
 
-```console
-cmake --build build --config Release --target JS_Inflator
-cmake --build build --config Release --target JS_Inflator-au
-cmake --build build --config Release --target JS_Inflator-aax
-```
+| CMake target | Output |
+|---|---|
+| `JS_Inflator` | VST3 |
+| `JS_Inflator-au` | macOS AUv2; requires Xcode, AudioUnitSDK and `SMTG_ENABLE_AUV2_BUILDS=ON` |
+| `JS_Inflator-aax` | AAX; requires a valid `SMTG_AAX_SDK_PATH` and VSTGUI |
 
-The AAX target is only generated when `SMTG_AAX_SDK_PATH` points to a valid AAX SDK. See [How_to_build.md](How_to_build.md) for additional build details.
-
-### Validation Status
-
-The current macOS builds have been verified as follows:
-
-* VST3 validator: 47 tests passed, 0 failed
-* Apple `auval`: validation succeeded
-* AAX: universal bundle build, required AAX/ACF symbols, and bundle loading verified
-* AAX Native in Pro Tools Developer 2025.6 on Apple Silicon: manual controls, live metering, skin switching, and zoom checked
-* Processor regression tests: 96 audio cases passed; mono/stereo meter transport and editor resize/zoom integration passed
-* Intel `x86_64` Mach-O minimum system version: macOS 10.13 for VST3, AUv2, and AAX
-
-The AAX version remains in testing. Recorded host automation, session save/reload, and AudioSuite processing have not been verified in this test pass; see the [test report](tests/results/aax-verification.md). Builds without Avid/PACE signing require Pro Tools Developer for testing and cannot load in standard Pro Tools. Redistribution rights depend on the applicable licenses, separately from this loading restriction. The wrapper target supports Native and AudioSuite processing, not AAX DSP.
-
-Windows and Linux VST3 builds continue to follow the supported platforms and toolchains of the VST3 SDK.
+After configuration, use `cmake --build <build-directory> --config Release --target <target>`. For a distributable local AU, also follow the workflow's VST3 embedding and re-signing steps; the SDK's development symlink alone is not portable. Bundle version changes belong in `CMakeLists.txt`; pushing a differently named Git tag does not update that value.
 
 ## GitHub Actions
+
+**Build plug-ins** runs macOS and Windows in parallel and produces five ZIPs. PR updates and pushes to `main` build automatically; a plain `staging` push without a PR does not. Manual builds upload Artifacts only. A new `v*` tag push publishes one **Pre-release** after both platform jobs succeed; it is not marked Latest.
+
+[Actions and build artifacts](https://github.com/Hikari-Tsai/JS_Inflator/actions) · [Release downloads](https://github.com/Hikari-Tsai/JS_Inflator/releases)
+
+<details>
+<summary>Full workflow reference: triggers, SDKs, artifacts, release rules, CLI and PR Agent</summary>
 
 ### Workflow map
 
@@ -300,8 +244,8 @@ gh run download RUN_ID --dir downloaded-artifacts
 To publish, first check out the intended release commit and confirm the version tag is unused. This example tags the current `HEAD`; it does not imply that this version has been released:
 
 ```bash
-git tag -a v2.0.3.2-hikari-beta.2 -m "Hikari beta 2"
-git push origin v2.0.3.2-hikari-beta.2
+git tag -a v2.0.3.2-hikari-beta.3 -m "Hikari beta 3"
+git push origin v2.0.3.2-hikari-beta.3
 ```
 
 Pushing that new tag starts both builds and, if successful, publishes the five ZIPs. Pushing only `staging`, manually building a tag, or rerunning a non-tag build does not publish a Release. For an unpublished tag run with a transient failure, use **Re-run failed jobs** after checking whether a Release already exists. A source/workflow fix requires a new commit and normally a new tag, not merely rerunning an old revision.
@@ -310,7 +254,7 @@ Pushing that new tag starts both builds and, if successful, publishes the five Z
 
 PR Agent is independent of `Build plug-ins`. Its workflow subscribes to `opened`, `reopened`, `synchronize`, and `ready_for_review`; a sender with type `Bot` skips the review job. It runs `the-pr-agent/pr-agent@main` on `ubuntu-latest`. One concurrency group per PR (`pr-agent-<number>`) cancels an older in-progress review when a new one starts.
 
-The workflow requests automatic description and review (`auto_describe: true`, `auto_review: true`) and sets `auto_improve: false`. **There is a configuration inconsistency:** [`.pr_agent.toml`](.pr_agent.toml) sets `auto_improve = true`. These are the actual current values, not a guarantee that code suggestions are disabled; consult the resolved `auto_improve` value and execution log for the action version used. This documentation update does not change either setting. The upstream action follows `@main`, so its implementation can change independently of this repository; a triggered workflow does not necessarily mean every review tool ran.
+The workflow requests automatic description and review (`auto_describe: true`, `auto_review: true`) and sets `auto_improve: false`. **There is a configuration inconsistency:** [`.pr_agent.toml`](.pr_agent.toml) sets `auto_improve = true`. These are the actual current values, not a guarantee that code suggestions are disabled; consult the resolved `auto_improve` value and execution log for the action version used. The upstream action follows `@main`, so its implementation can change independently of this repository; a triggered workflow does not necessarily mean every review tool ran.
 
 The repository config requests model `gpt-5.5-2026-04-23`, fallback `gpt-5.4-mini`, and Traditional Chinese (`zh-TW`). It asks for up to five findings, persistent review comments, correctness/regression checks, tests/security/effort assessment, real-time audio safety, parameter/state/channel/latency compatibility, and SDK/macOS compatibility. PR description label publication and diagrams are disabled; the original user description is retained. Build directories, `vst3sdk/**`, and `AudioUnitSDK/**` are excluded from review by the configured ignore patterns. See [the upstream automation guide](https://github.com/the-pr-agent/pr-agent/blob/main/docs/docs/usage-guide/automations_and_usage.md) for action behavior.
 
@@ -321,191 +265,10 @@ The repository config requests model `gpt-5.5-2026-04-23`, fallback `gpt-5.4-min
 | PR Agent | Built-in `GITHUB_TOKEN`, `contents: read`, `issues: write`, `pull-requests: write`; requires repository secret `OPENAI_KEY` |
 
 Set `OPENAI_KEY` under **Settings → Secrets and variables → Actions**. Build jobs do not use this key. Fork PRs may require Actions approval, do not normally receive repository secrets, and generally have a read-only token; therefore the public-SDK builds can be available while PR Agent cannot authenticate or write its review. A PR Agent failure is not a compilation failure. When diagnosing a red check, open the specific workflow/job and its failing step before rerunning.
+</details>
 
-## Version logs
+## License and credits
 
-v1.0.0: intial try.  
+This fork and JS Inflator are licensed under **GNU GPLv3**; see [LICENSE](LICENSE). When distributing binaries or modified versions, retain the required notices and provide the corresponding source and build material under GPLv3. Dependencies keep their own licenses: r8brain-free-src (MIT), VSTGUI (BSD 3-Clause), AudioUnitSDK (Apache 2.0), and the applicable GPLv3/commercial or file-specific terms of the pinned Steinberg and Avid SDKs. SDK licensing, Pro Tools authorization and PACE signing are separate requirements.
 
-v1.1.0: VuPPM meter change(mono -> stereo, continuous to discrete), but not complete!  
-
-v1.2.0: VuPPM meter corrected!  
-
-v1.2.1: Channel configuration corrected. probably a bug fix for crashing sometimes.  
-
-v1.3.0: Curve knob fixed!!! and 32FP dither by airwindows.  
-
-v1.4.0: Oversampling up to x8 now works! DPC works.  
-
-v1.5.0: Band Split added.  
-
-v1.5.1: macOS build added. Intel x86 & Apple silicon tested.  
-
-v1.6.0rc: FX meter(Effect Meter) is added. Original GUI is now on high definition.  
-
-v1.6.0rc1: Linear phase Oversampling is now added.  
-
-v1.6.0: Linear knob mode is now specified, and GUI size flinching fixed.  
-
-v1.7.0.beta + beta 2
-
-1. AUv2 build added. VSTSDK update to 3.7.9. Xcode 15.2, OSX 14.2 build.  
-2. Changed oversampling method from whole buff resample to each sample resample, for less crashes.  
-3. hiir min-phase resampler is no longer used, and implememted my own FIR resampler with SSE2 optimization.
-4. Fir filter is now hardwired.
-5. Bypass latency compensated.
-
-v1.7.0: Fir using Kaiser-Bessel window, label change from 'Lin' to 'Max'.  
-
-v2.0.0  
-
-* Rename 'InflatorPackage' into 'JS Inflator'.  
-* AUv2: Controller state was overwriting Processor state. Fixed.  
-* Ctrl-Z: VU meter was using parameter to send data to Controller, and it caued 'undo history' to be filled with meter changes. Fixed.  
-* Meters are now following envelope detector with time contants.  
-
-v2.0.1: Fix for Crash for Ableton, and fix for VU meter in Twarch GUI.  
-
-v2.0.2: Two GUIs are now integrated to one plugin.  
-
-v2.0.2.1: GUI recall state corrected(Bitwig).  
-
-v2.0.2.2: Re-structure how GUI switching works to more safe way.  
-
-v2.0.3: Error in Apple Silicon Native build fixed.  
-
-v2.0.3.1: Fixed issue with Cubase 13. It was caused by 'DataExchange' method so fixed by reverting to lagacy method(sendMesseage).  
-
-v2.0.3.2: Fixed issue with Cakewalk by Bandlab. It was caused by 'setDirty' in VuMeters so deleted it.  
-
-## What I've learned
-
-* Volumefader  
-
-For someone like me, wondering how to use volume fader;  
-Use a RangeParameter!  
-param as normalized parameter[0.0, 1.0],  
-dB as Plain value,  
-gain as multiplier of each samples.  
-For normParam to gain, check ~process.cpp  
-
-ex)  
-| param  | dB   | gain  |
-|------- |----- |------ |
-| 0.0    | -12  | 0.25  |
-| 0.5    | 0    | 1     |
-| 1.0    | +12  | 4     |  
-
-| param  | dB   | gain  |
-|------- |----- |------ |
-| 0.0    | -12  | 0.25  |
-| 0.5    | -6   | 0.5   |
-| 1.0    | 0    | 1     |  
-
-* Resampling  
-
-Generally, the process goes as:  
-
-1. doubling samples  
-2. LP Filtering  
-3. ProcessAudio  
-4. LP Filtering  
-5. reducing samples  
-
-* Linear Phase  
-
-HIIR resampling is Min-phase resampler, meaning phase disorder at high freqs.  
-For more natural high frequency hearing, Linear resampling such as r8brain-free-src designed by Aleksey Vaneev of Voxengo is recomanded.  
-About weird choices for x4 and x8 - these resamplers have asynchronous latencies so downsampling starts little before upsampling starts.  
-To fix it, I just changed Transition band for x4 and 24-bit for x8.  
-Now it is free of Phase issuses.
-
-* Comparisons  
-1x  
-<img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/screenshots/OS_1x_Min.png"  width="400"/>  
-
-2x Min-phase  
-<img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/screenshots/OS_2x_Min.png"  width="400"/>  
-
-2x Lin-phase  
-<img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/screenshots/OS_2x_Lin.png"  width="400"/>  
-
-4x Min-phase  
-<img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/screenshots/OS_4x_Min.png"  width="400"/>  
-
-4x Lin-phase  
-<img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/screenshots/OS_4x_Lin.png"  width="400"/>  
-
-8x Min-phase  
-<img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/screenshots/OS_8x_Min.png"  width="400"/>  
-
-8x Lin-phase  
-<img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/screenshots/OS_8x_Lin.png"  width="400"/>  
-
-* SIMD optimization
-
-To my surprise, manual SSE2 SIMD optimization was slower then compiler's O3 maximum optimization.  
-The compiler's vectorization was more efficient than mine... 
-Anyone trying to do so, check and compare!  
-
-* Latency change reporting  
-
-Restarting plugin should be from Contorller side.  
-One example would be using 'sendTextMessage' and 'receiveText' pair, so when Processor detects parameter change related to latency, it sends textMessage and Controller receives it and restarts.  
-
-However, In AUv2, the restartComponent should call setupProcess, but it does not...  
-Due to this, we should move any initializing into new custom function, and call it in setupProcess and process both, with checking if that new function is called.  
-
-[https://forums.steinberg.net/t/reporting-latency-change/201601](https://forums.steinberg.net/t/reporting-latency-change/201601)  
-[https://forums.steinberg.net/t/how-to-use-restartcomponent-and-which-flags-are-the-right-one-when-changing-all-characteristics-parameters-except-size/202031](https://forums.steinberg.net/t/how-to-use-restartcomponent-and-which-flags-are-the-right-one-when-changing-all-characteristics-parameters-except-size/202031)  
-[https://steinbergmedia.github.io/vst3_dev_portal/pages/Technical+Documentation/Workflow+Diagrams/Audio+Processor+Call+Sequence.html](https://steinbergmedia.github.io/vst3_dev_portal/pages/Technical+Documentation/Workflow+Diagrams/Audio+Processor+Call+Sequence.html)  
-
-* Knob Modes
-
-Specifying knob modes at 'createView' in 'controller.cpp' makes knobs work in selected mode.  
-
-``` c++
-setKnobMode(Steinberg::Vst::KnobModes::kLinearMode);
-```
-
-[https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/blob/v1.6.0/source/InflatorPackagecontroller.cpp#L339](https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/blob/v1.6.0/source/InflatorPackagecontroller.cpp#L339)  
-
-* How VSTSDK identifies each plugins  
-
-It uses "Steinberg::FUID kProcessorUID" in cid header to identify plugin.  
-So, if ProcessorUID is kept same, host will see it as same plugin.  
-In example, project using v1.7.0 'InflatorPackage' will automatically replace it with v2.0.0 'JS Inflator', with same settings.  
-
-However, ParamIDs should be same as before while replacing old plugin with new one.  
-If else, one should use Vst::IRemapParamID introduced in VSTSDK v3.7.11.  
-
-* About AUv2  
-
-While using AUv2 wrapper of VSTSDK, one should save Controller state also.  
-IDK why, but in AUv2 wrapper overwrites values set from state to default UI values.  
-
-The version number in plist is converted from hex to decimal.  
-For example, v1.7.2 -> 0x010702 -> 67330.  
-
-* VSTSDK with apple ARM Release setting  
-
-By default, VSTSDK sets Release setting with -O3 and -ffast-math.  
-It caused std::sqrt(1.0 - (i\*i)/(n\*n)) to return NaN instead of 0.0, when i == n.  
-
-## references
-
-1. RC Inflator  
-<https://forum.cockos.com/showthread.php?t=256286>  
-<https://github.com/ReaTeam/JSFX/tree/master/Distortion>  
-
-2. HIIR resampling codes by 'Laurent De Soras'.  
-<http://ldesoras.free.fr/index.html>  
-
-3. r8brain-free-src - Sample rate converter designed by Aleksey Vaneev of Voxengo  
-<https://github.com/avaneev/r8brain-free-src>  
-Modified for my need: Fractional resampling, Interpolation parts are deleted.  
-
-## Todo
-
-* [ ] GUI : double click to enter value.
-* [ ] Double click to reset to default.
-* [ ] Bypass automation flag.
+Based on [JS Inflator by yg331 / Kiriki-liszt](https://github.com/Kiriki-liszt/JS_Inflator). The alternative interface is by **Twarch**; resampling uses [r8brain-free-src by Aleksey Vaneev](https://github.com/avaneev/r8brain-free-src). This repository maintains the Hikari AAX adaptation and cross-platform build integration.
