@@ -1,0 +1,156 @@
+name: Mac Build
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  BUILD_DIR: build-macos
+  BUILD_TYPE: Release
+  AU_SDK_DIR: build-au-ci-deps/AudioUnitSDK
+  AAX_SDK_DIR: build-aax-ci-deps/juce/modules/juce_audio_plugin_client/AAX/SDK
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout plugin repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Checkout VST3 SDK 3.7.12
+        uses: actions/checkout@v4
+        with:
+          repository: steinbergmedia/vst3sdk
+          ref: v3.7.12_build_20
+          path: vst3sdk
+          submodules: recursive
+
+      # AAX SDK 2.9.0, used under its GPLv3 option. No JUCE modules are linked.
+      - name: Checkout public AAX SDK
+        uses: actions/checkout@v4
+        with:
+          repository: juce-framework/JUCE
+          ref: 72782788ce18c2d4d760b28e0921d6ffc6431102
+          path: build-aax-ci-deps/juce
+          sparse-checkout: modules/juce_audio_plugin_client/AAX/SDK
+          persist-credentials: false
+
+      - name: Verify AAX SDK version
+        run: |
+          test -f "${AAX_SDK_DIR}/LICENSE.txt"
+          grep -Eq '^#define AAX_SDK_CURRENT_REVISION[[:space:]]+\([[:space:]]*20209000[[:space:]]*\)' "${AAX_SDK_DIR}/Interfaces/AAX_Version.h"
+
+      - name: Checkout AudioUnitSDK 1.3.0
+        uses: actions/checkout@v4
+        with:
+          repository: apple/AudioUnitSDK
+          ref: e789bc83ddc07cbf80e7bfaf84f1ade975287400
+          path: build-au-ci-deps/AudioUnitSDK
+          persist-credentials: false
+
+      - name: Select Xcode 16.2
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.2'
+
+      - name: Show toolchain versions
+        run: |
+          xcodebuild -version
+          cmake --version
+
+      - name: Configure Xcode project
+        shell: bash
+        run: |
+          cmake_args=(
+            -S "${GITHUB_WORKSPACE}"
+            -B "${GITHUB_WORKSPACE}/${BUILD_DIR}"
+            -G Xcode
+            -DGITHUB_ACTIONS=ON
+            -DSMTG_MAC=ON
+            -DSMTG_ENABLE_VSTGUI_SUPPORT=ON
+            -DSMTG_ENABLE_VST3_PLUGIN_EXAMPLES=OFF
+            -DSMTG_ENABLE_VST3_HOSTING_EXAMPLES=OFF
+            -DSMTG_CODE_SIGN_IDENTITY_MAC=-
+            -DSMTG_ENABLE_AUV2_BUILDS=ON
+            "-DSMTG_AUDIOUNIT_SDK_PATH=${GITHUB_WORKSPACE}/${AU_SDK_DIR}"
+            "-DSMTG_AAX_SDK_PATH=${GITHUB_WORKSPACE}/${AAX_SDK_DIR}"
+            "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64"
+          )
+
+          cmake "${cmake_args[@]}"
+
+      - name: Build VST3
+        run: cmake --build "${GITHUB_WORKSPACE}/${BUILD_DIR}" --config "${BUILD_TYPE}" --target JS_Inflator
+
+      - name: Verify VST3 architectures
+        run: |
+          binary="${BUILD_DIR}/VST3/${BUILD_TYPE}/JS_Inflator.vst3/Contents/MacOS/JS_Inflator"
+          lipo "${binary}" -verify_arch x86_64 arm64
+          lipo -archs "${binary}"
+
+      - name: Build AAX
+        run: cmake --build "${GITHUB_WORKSPACE}/${BUILD_DIR}" --config "${BUILD_TYPE}" --target JS_Inflator-aax
+
+      - name: Verify AAX architectures
+        run: |
+          binary="${BUILD_DIR}/AAXPLUGIN/${BUILD_TYPE}/JS_Inflator.aaxplugin/Contents/MacOS/JS_Inflator"
+          lipo "${binary}" -verify_arch x86_64 arm64
+          lipo -archs "${binary}"
+
+      - name: Sign and package AAX development build
+        run: |
+          bundle="${BUILD_DIR}/AAXPLUGIN/${BUILD_TYPE}/JS_Inflator.aaxplugin"
+          codesign --force --sign - "${bundle}"
+          codesign --verify --deep --strict "${bundle}"
+          # ZIP the bundle before upload to preserve executable permissions.
+          ditto -c -k --sequesterRsrc --keepParent "${bundle}" "${BUILD_DIR}/JS_Inflator-macOS-AAX.zip"
+
+      - name: Package VST3
+        run: |
+          bundle="${BUILD_DIR}/VST3/${BUILD_TYPE}/JS_Inflator.vst3"
+          codesign --verify --deep --strict "${bundle}"
+          ditto -c -k --sequesterRsrc --keepParent "${bundle}" "${BUILD_DIR}/JS_Inflator-macOS-VST3.zip"
+
+      - name: Upload VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: JS_Inflator-macOS-VST3-${{ github.sha }}
+          path: ${{ env.BUILD_DIR }}/JS_Inflator-macOS-VST3.zip
+          if-no-files-found: error
+
+      - name: Upload AAX
+        uses: actions/upload-artifact@v4
+        with:
+          name: JS_Inflator-macOS-AAX-${{ github.sha }}
+          path: ${{ env.BUILD_DIR }}/JS_Inflator-macOS-AAX.zip
+          if-no-files-found: error
+
+      - name: Build AUv2
+        run: cmake --build "${GITHUB_WORKSPACE}/${BUILD_DIR}" --config "${BUILD_TYPE}" --target JS_Inflator-au
+
+      - name: Verify and package AUv2
+        run: |
+          bundle="${BUILD_DIR}/VST3/${BUILD_TYPE}/JS_Inflator.component"
+          # The SDK creates a development symlink to the VST3 build directory.
+          # Embed the signed VST3 bundle so the AU works outside this runner.
+          embedded="${bundle}/Contents/Resources/plugin.vst3"
+          test -L "${embedded}"
+          rm "${embedded}"
+          ditto "${BUILD_DIR}/VST3/${BUILD_TYPE}/JS_Inflator.vst3" "${embedded}"
+          codesign --force --sign - "${bundle}"
+          lipo "${bundle}/Contents/MacOS/JS_Inflator" -verify_arch x86_64 arm64
+          codesign --verify --deep --strict "${bundle}"
+          ditto -c -k --sequesterRsrc --keepParent "${bundle}" "${BUILD_DIR}/JS_Inflator-macOS-AU.zip"
+
+      - name: Upload AUv2
+        uses: actions/upload-artifact@v4
+        with:
+          name: JS_Inflator-macOS-AU-${{ github.sha }}
+          path: ${{ env.BUILD_DIR }}/JS_Inflator-macOS-AU.zip
+          if-no-files-found: error
