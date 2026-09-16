@@ -170,16 +170,11 @@ Windows and Linux VST3 builds continue to follow the supported platforms and too
 
 ### GitHub Actions macOS Build
 
-The `Mac Build` workflow builds and uploads a universal macOS VST3 artifact using Xcode 16.2. It runs automatically for pull requests and pushes to `main`.
+The `Mac Build` workflow automatically builds **both VST3 and AAX** for pull requests and pushes to `main`. It can also be run manually without selecting an AAX option. Both formats contain Intel `x86_64` and Apple Silicon `arm64` slices, built using Xcode 16.2.
 
-The AAX SDK is obtained separately. The existing workflow fetches it from a private repository as a build configuration choice, not a blanket licensing requirement. Ensure you have the rights to host and use the selected SDK files under their applicable license. To build AAX in GitHub Actions:
+CI downloads AAX SDK 2.9.0 from [JUCE's public SDK copy](https://github.com/juce-framework/JUCE/tree/72782788ce18c2d4d760b28e0921d6ffc6431102/modules/juce_audio_plugin_client/AAX/SDK), pinned to commit `72782788ce18c2d4d760b28e0921d6ffc6431102`, and uses its GPLv3 license option. Only the SDK is used; JUCE modules are not linked into the plug-in. No `AAX_SDK_REPOSITORY` or `AAX_SDK_TOKEN` secret is required, including for fork PRs.
 
-1. Store the AAX SDK at the root of a private GitHub repository.
-2. Add `AAX_SDK_REPOSITORY` as a repository secret containing `owner/private-aax-sdk-repository`.
-3. Add `AAX_SDK_TOKEN` as a repository secret containing a fine-grained token with read access to that private repository.
-4. Run the `Mac Build` workflow manually and enable the `build_aax` input.
-
-The generated AAX artifact is a test build without Avid/PACE signing. Use in standard Pro Tools requires that signing; any redistribution must also comply with GPLv3 and the applicable SDK terms.
+Each successful run uploads VST3 and AAX artifacts. The AAX bundle receives a local ad-hoc signature and is packaged as `JS_Inflator-macOS-AAX.zip` to preserve executable permissions. This is a development build for Pro Tools Developer; ad-hoc signing does not provide the Avid/PACE signature required by standard Pro Tools. Redistribution must comply with GPLv3 and the applicable SDK terms. The workflow does not publish a GitHub Release or run Pro Tools GUI tests.
 
 ## Version logs
 
