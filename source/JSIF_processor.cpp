@@ -42,7 +42,11 @@ namespace yg331 {
 
 	//------------------------------------------------------------------------
 	JSIF_Processor::~JSIF_Processor()
-	{}
+	{
+#ifdef JSIF_AAX_BUILD
+        uiMessageTimer = nullptr;
+#endif
+    }
 
 	//------------------------------------------------------------------------
 	tresult PLUGIN_API JSIF_Processor::initialize(FUnknown* context)
@@ -57,7 +61,11 @@ namespace yg331 {
 			return result;
 		}
 
-		//--- create Audio IO ------
+#ifdef JSIF_AAX_BUILD
+        // AAX's ConnectionProxy only forwards messages on the UI thread.
+        uiMessageTimer = owned(Timer::create(this, 33));
+#endif
+        //--- create Audio IO ------
 		addAudioInput (STR16("Audio Input"),  Vst::SpeakerArr::kStereo);
 		addAudioOutput(STR16("Audio Output"), Vst::SpeakerArr::kStereo);
 
@@ -70,7 +78,10 @@ namespace yg331 {
 	//------------------------------------------------------------------------
 	tresult PLUGIN_API JSIF_Processor::terminate()
 	{
-		// Here the Plug-in will be de-instantiated, last possibility to remove some memory!
+#ifdef JSIF_AAX_BUILD
+        uiMessageTimer = nullptr;
+#endif
+        // Here the Plug-in will be de-instantiated, last possibility to remove some memory!
 
 #define clear_delete(vec) {vec.clear(); vec.shrink_to_fit();}
 
@@ -379,11 +390,19 @@ else if (filter[channel].TAP_CONDITION == 3) \
 						case kParamSplit:  bSplit      = (value > 0.5f); break;
 						case kParamPhase:
 						                   fParamPhase = (value > 0.5f);
-						                   sendTextMessage("OS");
+#ifdef JSIF_AAX_BUILD
+                                       latencyPending.store(true, std::memory_order_release);
+#else
+                                       sendTextMessage("OS");
+#endif
 						                   break;
 						case kParamOS:
 						                   fParamOS    = static_cast<overSample>(Steinberg::FromNormalized<ParamValue> (value, overSample_num));
-						                   sendTextMessage("OS");
+#ifdef JSIF_AAX_BUILD
+                                       latencyPending.store(true, std::memory_order_release);
+#else
+                                       sendTextMessage("OS");
+#endif
 						                   break;
 						}
 					}
@@ -475,6 +494,16 @@ else if (filter[channel].TAP_CONDITION == 3) \
 			fMeterVu *= monoIn;
 		}
         
+#ifdef JSIF_AAX_BUILD
+        // Publish scalar values without allocating or touching UI objects in process().
+        const double meters[] = {fInputVu[0], numChannels > 1 ? fInputVu[1] : fInputVu[0],
+                                 fOutputVu[0], numChannels > 1 ? fOutputVu[1] : fOutputVu[0],
+                                 fMeterVu};
+        static_assert(std::atomic<double>::is_always_lock_free);
+        for (int i = 0; i < 5; ++i)
+            pendingMeters[i].store(meters[i], std::memory_order_relaxed);
+        metersPending.store(true, std::memory_order_release);
+#else
         //---send a message
         if (IPtr<Vst::IMessage> message = owned (allocateMessage ()))
         {
@@ -518,9 +547,30 @@ else if (filter[channel].TAP_CONDITION == 3) \
             sendMessage (message);
         }
 
+#endif
+
 		return kResultOk;
 	}
 
+
+#ifdef JSIF_AAX_BUILD
+    void JSIF_Processor::onTimer(Timer*)
+    {
+        if (latencyPending.exchange(false, std::memory_order_acquire))
+            sendTextMessage("OS");
+        if (!metersPending.exchange(false, std::memory_order_acquire))
+            return;
+        if (auto message = owned(allocateMessage()))
+        {
+            message->setMessageID("VUmeter");
+            const char* names[] = {"vuInL", "vuInR", "vuOutL", "vuOutR", "vuEffect"};
+            for (int i = 0; i < 5; ++i)
+                message->getAttributes()->setFloat(names[i], pendingMeters[i].load(std::memory_order_relaxed));
+            message->getAttributes()->setInt("update", true);
+            sendMessage(message);
+        }
+    }
+#endif
 
 	//------------------------------------------------------------------------
 	tresult PLUGIN_API JSIF_Processor::setState(IBStream* state)

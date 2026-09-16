@@ -159,6 +159,9 @@ public:
         : VSTGUI::VST3Editor(controller, templateName, xmlFile) {}
 
     Steinberg::tresult PLUGIN_API canResize() SMTG_OVERRIDE;
+#if defined(JSIF_AAX_BUILD) && SMTG_OS_MACOS
+    CMessageResult notify(CBaseObject* sender, const char* message) override;
+#endif
     
     double getGuiState() {return guiState;}
     void   setGuiState(double newState) {guiState = newState;}
@@ -301,6 +304,7 @@ public:
 
 
 	//---from VST3EditorDelegate-----------
+    void onZoomChanged(VSTGUI::VST3Editor* editor, double newZoom) override;
 	/** verify a view after it was created */
 	/*
 	VSTGUI::CView* PLUGIN_API verifyView(VSTGUI::CView* view, 

@@ -4,6 +4,9 @@
 
 #include "JSIF_controller.h"
 #include "JSIF_cids.h"
+#if defined(JSIF_AAX_BUILD) && SMTG_OS_MACOS
+#include "JSIF_aax_mac.h"
+#endif
 #include "vstgui/plugin-bindings/vst3editor.h"
 
 #include "pluginterfaces/base/ustring.h"
@@ -20,6 +23,17 @@ static const std::string kAttrVuOnColor  = "vu-on-color";
 static const std::string kAttrVuOffColor = "vu-off-color";
 
 namespace VSTGUI {
+#if defined(JSIF_AAX_BUILD) && SMTG_OS_MACOS
+CMessageResult GUIEditor::notify(CBaseObject* sender, const char* message)
+{
+    if (message == CVSTGUITimer::kMsgTimer && getFrame())
+    {
+        JSIF::synchronizeAAXDrawingLayer(getFrame()->getPlatformFrame());
+    }
+    return VST3Editor::notify(sender, message);
+}
+#endif
+
 class myVuMeterFactory : public ViewCreatorAdapter
 {
 public:
@@ -598,14 +612,35 @@ IPlugView* PLUGIN_API JSIF_Controller::createView(FIDString name)
         _zoomFactors.push_back(1.75);
         _zoomFactors.push_back(2.00);
         view->setAllowedZoomFactors(_zoomFactors);
-		view->setZoomFactor(0.5);
-		view->setIdleRate(1.0/60.0);
+		const auto zoomIndex = static_cast<size_t>(getParameterObject(kParamZoom)->toPlain(getParamNormalized(kParamZoom)));
+        view->setZoomFactor(zoomFactors[std::min(zoomIndex, zoomFactors.size() - 1)].factor);
+		// The interval is integer milliseconds; AAX also checks layer size at 30 Hz.
+#ifdef JSIF_AAX_BUILD
+        view->setIdleRate(1000 / 30);
+#else
+        view->setIdleRate(1000 / 60);
+#endif
 
 		setKnobMode(Steinberg::Vst::KnobModes::kLinearMode);
 
 		return view;
 	}
 	return nullptr;
+}
+
+void JSIF_Controller::onZoomChanged(VSTGUI::VST3Editor*, double newZoom)
+{
+    // The VSTGUI context menu changes the editor directly; keep the private
+    // parameter in sync so the displayed percentage and reopened view agree.
+    for (size_t index = 0; index < zoomFactors.size(); ++index)
+    {
+        if (std::abs(zoomFactors[index].factor - newZoom) < 0.0001)
+        {
+            auto* zoom = getParameterObject(kParamZoom);
+            setParamNormalized(kParamZoom, zoom->toNormalized(static_cast<double>(index)));
+            break;
+        }
+    }
 }
 
 VSTGUI::IController* JSIF_Controller::createSubController(
@@ -668,6 +703,15 @@ void PLUGIN_API JSIF_Controller::update(FUnknown* changedUnknown, int32 message)
 	if (param->getInfo().id == kGuiSwitch)
 	{
         stateGUI = param->getNormalized();
+        // Twarch is 1300px tall versus Original's 800px. Start the larger skin
+        // at 50% so its bottom controls remain reachable on laptop displays.
+        if (stateGUI == 1.0 && getParamNormalized(kParamZoom) > 0.0)
+        {
+            setParamNormalized(kParamZoom, 0.0);
+            for (auto* openEditor : editors)
+                if (auto* view = dynamic_cast<VSTGUI::GUIEditor*>(openEditor))
+                    view->setZoomFactor(0.5);
+        }
         for (EditorVector::const_iterator it = editors.begin(), end = editors.end(); it != end; ++it)
         {
             /*

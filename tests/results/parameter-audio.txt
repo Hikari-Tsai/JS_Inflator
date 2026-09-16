@@ -1,0 +1,97 @@
+44100Hz 1ch Input delta=0.244516 latency=0,0 PASS
+44100Hz 1ch Output delta=0.244516 latency=0,0 PASS
+44100Hz 1ch Effect delta=0.125429 latency=0,0 PASS
+44100Hz 1ch Curve delta=0.122737 latency=0,0 PASS
+44100Hz 1ch Clip delta=0.137402 latency=0,0 PASS
+44100Hz 1ch Split delta=0.02315 latency=0,0 PASS
+44100Hz 1ch In delta=0.125429 latency=0,0 PASS
+44100Hz 1ch Bypass delta=0.100018 latency=0,0 PASS
+44100Hz 1ch OS x2 delta=0.369954 latency=0,49 PASS
+44100Hz 1ch OS x4 delta=0.682756 latency=0,56 PASS
+44100Hz 1ch OS x8 delta=0.787103 latency=0,60 PASS
+44100Hz 1ch Phase at x2 delta=0.86121 latency=49,3388 PASS
+44100Hz 1ch Phase at x4 delta=0.691891 latency=56,3431 PASS
+44100Hz 1ch Phase at x8 delta=0.170245 latency=60,3465 PASS
+44100Hz 1ch Curve with Effect=0 (expected no change) delta=0 latency=0,0 PASS
+44100Hz 1ch Phase at x1 (expected no change) delta=0 latency=0,0 PASS
+44100Hz 2ch Input delta=0.244549 latency=0,0 PASS
+44100Hz 2ch Output delta=0.244549 latency=0,0 PASS
+44100Hz 2ch Effect delta=0.125438 latency=0,0 PASS
+44100Hz 2ch Curve delta=0.122735 latency=0,0 PASS
+44100Hz 2ch Clip delta=0.137491 latency=0,0 PASS
+44100Hz 2ch Split delta=0.0231613 latency=0,0 PASS
+44100Hz 2ch In delta=0.125438 latency=0,0 PASS
+44100Hz 2ch Bypass delta=0.100036 latency=0,0 PASS
+44100Hz 2ch OS x2 delta=0.369908 latency=0,49 PASS
+44100Hz 2ch OS x4 delta=0.682739 latency=0,56 PASS
+44100Hz 2ch OS x8 delta=0.787204 latency=0,60 PASS
+44100Hz 2ch Phase at x2 delta=0.861326 latency=49,3388 PASS
+44100Hz 2ch Phase at x4 delta=0.691915 latency=56,3431 PASS
+44100Hz 2ch Phase at x8 delta=0.170254 latency=60,3465 PASS
+44100Hz 2ch Curve with Effect=0 (expected no change) delta=0 latency=0,0 PASS
+44100Hz 2ch Phase at x1 (expected no change) delta=0 latency=0,0 PASS
+48000Hz 1ch Input delta=0.24444 latency=0,0 PASS
+48000Hz 1ch Output delta=0.24444 latency=0,0 PASS
+48000Hz 1ch Effect delta=0.125414 latency=0,0 PASS
+48000Hz 1ch Curve delta=0.122767 latency=0,0 PASS
+48000Hz 1ch Clip delta=0.137241 latency=0,0 PASS
+48000Hz 1ch Split delta=0.0231584 latency=0,0 PASS
+48000Hz 1ch In delta=0.125414 latency=0,0 PASS
+48000Hz 1ch Bypass delta=0.0999753 latency=0,0 PASS
+48000Hz 1ch OS x2 delta=0.307254 latency=0,49 PASS
+48000Hz 1ch OS x4 delta=0.449521 latency=0,56 PASS
+48000Hz 1ch OS x8 delta=0.639644 latency=0,60 PASS
+48000Hz 1ch Phase at x2 delta=0.784585 latency=49,3388 PASS
+48000Hz 1ch Phase at x4 delta=0.389025 latency=56,3431 PASS
+48000Hz 1ch Phase at x8 delta=0.65251 latency=60,3465 PASS
+48000Hz 1ch Curve with Effect=0 (expected no change) delta=0 latency=0,0 PASS
+48000Hz 1ch Phase at x1 (expected no change) delta=0 latency=0,0 PASS
+48000Hz 2ch Input delta=0.244457 latency=0,0 PASS
+48000Hz 2ch Output delta=0.244457 latency=0,0 PASS
+48000Hz 2ch Effect delta=0.125415 latency=0,0 PASS
+48000Hz 2ch Curve delta=0.122743 latency=0,0 PASS
+48000Hz 2ch Clip delta=0.137238 latency=0,0 PASS
+48000Hz 2ch Split delta=0.023117 latency=0,0 PASS
+48000Hz 2ch In delta=0.125415 latency=0,0 PASS
+48000Hz 2ch Bypass delta=0.0999861 latency=0,0 PASS
+48000Hz 2ch OS x2 delta=0.307246 latency=0,49 PASS
+48000Hz 2ch OS x4 delta=0.449494 latency=0,56 PASS
+48000Hz 2ch OS x8 delta=0.639736 latency=0,60 PASS
+48000Hz 2ch Phase at x2 delta=0.784627 latency=49,3388 PASS
+48000Hz 2ch Phase at x4 delta=0.389098 latency=56,3431 PASS
+48000Hz 2ch Phase at x8 delta=0.652463 latency=60,3465 PASS
+48000Hz 2ch Curve with Effect=0 (expected no change) delta=0 latency=0,0 PASS
+48000Hz 2ch Phase at x1 (expected no change) delta=0 latency=0,0 PASS
+96000Hz 1ch Input delta=0.244167 latency=0,0 PASS
+96000Hz 1ch Output delta=0.244167 latency=0,0 PASS
+96000Hz 1ch Effect delta=0.125251 latency=0,0 PASS
+96000Hz 1ch Curve delta=0.122578 latency=0,0 PASS
+96000Hz 1ch Clip delta=0.137054 latency=0,0 PASS
+96000Hz 1ch Split delta=0.0228964 latency=0,0 PASS
+96000Hz 1ch In delta=0.125251 latency=0,0 PASS
+96000Hz 1ch Bypass delta=0.099875 latency=0,0 PASS
+96000Hz 1ch OS x2 delta=0.870642 latency=0,49 PASS
+96000Hz 1ch OS x4 delta=0.867913 latency=0,56 PASS
+96000Hz 1ch OS x8 delta=0.824072 latency=0,60 PASS
+96000Hz 1ch Phase at x2 delta=0.72944 latency=49,3388 PASS
+96000Hz 1ch Phase at x4 delta=0.292044 latency=56,3431 PASS
+96000Hz 1ch Phase at x8 delta=0.778028 latency=60,3465 PASS
+96000Hz 1ch Curve with Effect=0 (expected no change) delta=0 latency=0,0 PASS
+96000Hz 1ch Phase at x1 (expected no change) delta=0 latency=0,0 PASS
+96000Hz 2ch Input delta=0.244221 latency=0,0 PASS
+96000Hz 2ch Output delta=0.244221 latency=0,0 PASS
+96000Hz 2ch Effect delta=0.12529 latency=0,0 PASS
+96000Hz 2ch Curve delta=0.122648 latency=0,0 PASS
+96000Hz 2ch Clip delta=0.137212 latency=0,0 PASS
+96000Hz 2ch Split delta=0.0229647 latency=0,0 PASS
+96000Hz 2ch In delta=0.12529 latency=0,0 PASS
+96000Hz 2ch Bypass delta=0.0998917 latency=0,0 PASS
+96000Hz 2ch OS x2 delta=0.870986 latency=0,49 PASS
+96000Hz 2ch OS x4 delta=0.867681 latency=0,56 PASS
+96000Hz 2ch OS x8 delta=0.823799 latency=0,60 PASS
+96000Hz 2ch Phase at x2 delta=0.729586 latency=49,3388 PASS
+96000Hz 2ch Phase at x4 delta=0.29154 latency=56,3431 PASS
+96000Hz 2ch Phase at x8 delta=0.778016 latency=60,3465 PASS
+96000Hz 2ch Curve with Effect=0 (expected no change) delta=0 latency=0,0 PASS
+96000Hz 2ch Phase at x1 (expected no change) delta=0 latency=0,0 PASS
+Failures: 0

@@ -1,0 +1,6 @@
+PASS Original view 240x400 layer 240x400 zoom 0.50 parameter 0.000
+FAIL Twarch view 650x650 layer 240x400 zoom 0.50 parameter 0.000
+FAIL Twarch 75% view 975x975 layer 240x400 zoom 0.75 parameter 0.167
+FAIL Original return view 360x600 layer 240x400 zoom 0.75 parameter 0.167
+PASS Reopened 75% view 360x600 layer 360x600 zoom 0.75 parameter 0.167
+Failures: 3

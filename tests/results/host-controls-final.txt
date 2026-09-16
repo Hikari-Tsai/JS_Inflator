@@ -1,0 +1,242 @@
+Window: "", App: Pro Tools Developer.
+0 floating window Plug-in: JS Inflator, Secondary Actions: Raise
+	1 text Value: Track Preset Auto, ID: trtx
+	2 button Effect Bypass, ID: Byps
+	3 pop up button Settings menu, ID: StPU
+	4 button Target button, ID: targ
+	5 pop up button Plug-In Type, Value: Native, ID: pity
+	6 button Automation safe, Value: off, ID: RecP
+	7 button Compare, Value: inactive, ID: StCp
+	8 pop up button Librarian menu, Value: <factory default>, ID: StTl
+	9 pop up button Insert Position selector, Value: b, ID: Numb
+	10 pop up button Value: JS Inflator, ID: Type, Plugin Selector
+Package: AAX Native
+	11 pop up button Track Selector, Value: Audio 1, ID: Trck
+	12 button Previous setting, Value: inactive, ID: decS
+	13 button Next setting, Value: inactive, ID: incS
+	14 button Plugin Settings select, Value: inactive, ID: setD
+	15 button Plugin Automation enable, Value: Selected, ID: Auto
+	16 container FXTDMEditView, ID: FXTD
+		17 Parameter Input, Value: 598, Details: 2.02, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		18 Parameter Output, Value: 538, Details: -5.69, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		19 Parameter Effect, Value: 716, Details: 70.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		20 Parameter Curve, Value: 1023, Details: 50.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		21 Parameter Clip, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		22 Parameter OS, Value: 1, Details: x2, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		23 Parameter Split, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		24 Parameter Phase, Value: 0, Details: Min, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		25 Parameter In, Value: 0, Details: Off, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		26 Parameter Bypass, Value: 0, Details: Off, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+	27 close button
+	28 minimize button
+29 menu bar
+	30 Pro Tools Developer
+	31 File
+	32 Edit
+	33 View
+	34 Track
+	35 Clip
+	36 Event
+	37 AudioSuite
+	38 Options
+	39 Setup
+	40 Window
+	41 Help
+
+The focused UI element is 0 floating window Plug-in: JS Inflator, Secondary Actions: Raise
+
+--- observation ---
+
+Window: "", App: Pro Tools Developer.
+0 floating window Plug-in: JS Inflator, Secondary Actions: Raise
+	1 text Value: Track Preset Auto, ID: trtx
+	2 button Effect Bypass, ID: Byps
+	3 pop up button Settings menu, ID: StPU
+	4 button Target button, ID: targ
+	5 pop up button Plug-In Type, Value: Native, ID: pity
+	6 button Automation safe, Value: off, ID: RecP
+	7 button Compare, Value: inactive, ID: StCp
+	8 pop up button Librarian menu, Value: <factory default>, ID: StTl
+	9 pop up button Insert Position selector, Value: b, ID: Numb
+	10 pop up button Value: JS Inflator, ID: Type, Plugin Selector
+Package: AAX Native
+	11 pop up button Track Selector, Value: Audio 1, ID: Trck
+	12 button Previous setting, Value: inactive, ID: decS
+	13 button Next setting, Value: inactive, ID: incS
+	14 button Plugin Settings select, Value: inactive, ID: setD
+	15 button Plugin Automation enable, Value: Selected, ID: Auto
+	16 container FXTDMEditView, ID: FXTD
+		17 Parameter Input, Value: 598, Details: 2.02, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		18 Parameter Output, Value: 538, Details: -5.69, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		19 Parameter Effect, Value: 716, Details: 70.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		20 Parameter Curve, Value: 1023, Details: 50.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		21 Parameter Clip, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		22 Parameter OS, Value: 2, Details: x4, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		23 Parameter Split, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		24 Parameter Phase, Value: 1, Details: Max, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		25 Parameter In, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		26 Parameter Bypass, Value: 0, Details: Off, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+	27 close button
+	28 minimize button
+29 menu bar
+	30 Pro Tools Developer
+	31 File
+	32 Edit
+	33 View
+	34 Track
+	35 Clip
+	36 Event
+	37 AudioSuite
+	38 Options
+	39 Setup
+	40 Window
+	41 Help
+
+The focused UI element is 0 floating window Plug-in: JS Inflator, Secondary Actions: Raise
+
+--- observation ---
+
+Window: "", App: Pro Tools Developer.
+0 floating window Plug-in: JS Inflator, Secondary Actions: Raise
+	1 text Value: Track Preset Auto, ID: trtx
+	2 button Effect Bypass, Value: on, ID: Byps
+	3 pop up button Settings menu, ID: StPU
+	4 button Target button, ID: targ
+	5 pop up button Plug-In Type, Value: Native, ID: pity
+	6 button Automation safe, Value: off, ID: RecP
+	7 button Compare, Value: inactive, ID: StCp
+	8 pop up button Librarian menu, Value: <factory default>, ID: StTl
+	9 pop up button Insert Position selector, Value: b, ID: Numb
+	10 pop up button Value: JS Inflator, ID: Type, Plugin Selector
+Package: AAX Native
+	11 pop up button Track Selector, Value: Audio 1, ID: Trck
+	12 button Previous setting, Value: inactive, ID: decS
+	13 button Next setting, Value: inactive, ID: incS
+	14 button Plugin Settings select, Value: inactive, ID: setD
+	15 button Plugin Automation enable, Value: Selected, ID: Auto
+	16 container FXTDMEditView, ID: FXTD
+		17 Parameter Input, Value: 598, Details: 2.02, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		18 Parameter Output, Value: 538, Details: -5.69, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		19 Parameter Effect, Value: 716, Details: 70.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		20 Parameter Curve, Value: 1023, Details: 50.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		21 Parameter Clip, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		22 Parameter OS, Value: 3, Details: x8, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		23 Parameter Split, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		24 Parameter Phase, Value: 1, Details: Max, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		25 Parameter In, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		26 Parameter Bypass, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+	27 close button
+	28 minimize button
+29 menu bar
+	30 Pro Tools Developer
+	31 File
+	32 Edit
+	33 View
+	34 Track
+	35 Clip
+	36 Event
+	37 AudioSuite
+	38 Options
+	39 Setup
+	40 Window
+	41 Help
+
+The focused UI element is 0 floating window Plug-in: JS Inflator, Secondary Actions: Raise
+
+--- observation ---
+
+Window: "", App: Pro Tools Developer.
+0 floating window Plug-in: JS Inflator, Secondary Actions: Raise
+	1 text Value: Track Preset Auto, ID: trtx
+	2 button Effect Bypass, ID: Byps
+	3 pop up button Settings menu, ID: StPU
+	4 button Target button, ID: targ
+	5 pop up button Plug-In Type, Value: Native, ID: pity
+	6 button Automation safe, Value: off, ID: RecP
+	7 button Compare, Value: inactive, ID: StCp
+	8 pop up button Librarian menu, Value: <factory default>, ID: StTl
+	9 pop up button Insert Position selector, Value: b, ID: Numb
+	10 pop up button Value: JS Inflator, ID: Type, Plugin Selector
+Package: AAX Native
+	11 pop up button Track Selector, Value: Audio 1, ID: Trck
+	12 button Previous setting, Value: inactive, ID: decS
+	13 button Next setting, Value: inactive, ID: incS
+	14 button Plugin Settings select, Value: inactive, ID: setD
+	15 button Plugin Automation enable, Value: Selected, ID: Auto
+	16 container FXTDMEditView, ID: FXTD
+		17 Parameter Input, Value: 512, Details: 0.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		18 Parameter Output, Value: 1023, Details: 0.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		19 Parameter Effect, Value: 0, Details: 0.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		20 Parameter Curve, Value: 512, Details: 0.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		21 Parameter Clip, Value: 0, Details: Off, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		22 Parameter OS, Value: 0, Details: x1, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		23 Parameter Split, Value: 0, Details: Off, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		24 Parameter Phase, Value: 0, Details: Min, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		25 Parameter In, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		26 Parameter Bypass, Value: 0, Details: Off, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+	27 close button
+	28 minimize button
+29 menu bar
+	30 Pro Tools Developer
+	31 File
+	32 Edit
+	33 View
+	34 Track
+	35 Clip
+	36 Event
+	37 AudioSuite
+	38 Options
+	39 Setup
+	40 Window
+	41 Help
+
+The focused UI element is 0 floating window Plug-in: JS Inflator, Secondary Actions: Raise
+
+--- observation ---
+
+Window: "", App: Pro Tools Developer.
+0 floating window Plug-in: JS Inflator, Secondary Actions: Raise
+	1 text Value: Track Preset Auto, ID: trtx
+	2 button Effect Bypass, ID: Byps
+	3 pop up button Settings menu, ID: StPU
+	4 button Target button, ID: targ
+	5 pop up button Plug-In Type, Value: Native, ID: pity
+	6 button Automation safe, Value: off, ID: RecP
+	7 button Compare, Value: inactive, ID: StCp
+	8 pop up button Librarian menu, Value: <factory default>, ID: StTl
+	9 pop up button Insert Position selector, Value: b, ID: Numb
+	10 pop up button Value: JS Inflator, ID: Type, Plugin Selector
+Package: AAX Native
+	11 pop up button Track Selector, Value: Audio 1, ID: Trck
+	12 button Previous setting, Value: inactive, ID: decS
+	13 button Next setting, Value: inactive, ID: incS
+	14 button Plugin Settings select, Value: inactive, ID: setD
+	15 button Plugin Automation enable, Value: Selected, ID: Auto
+	16 container FXTDMEditView, ID: FXTD
+		17 Parameter Input, Value: 512, Details: 0.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		18 Parameter Output, Value: 1023, Details: 0.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		19 Parameter Effect, Value: 0, Details: 0.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		20 Parameter Curve, Value: 512, Details: 0.00, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		21 Parameter Clip, Value: 0, Details: Off, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		22 Parameter OS, Value: 0, Details: x1, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		23 Parameter Split, Value: 0, Details: Off, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		24 Parameter Phase, Value: 0, Details: Min, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		25 Parameter In, Value: 1, Details: On, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+		26 Parameter Bypass, Value: 0, Details: Off, ID: FXEW, Secondary Actions: Pick, Increment, Decrement
+	27 close button
+	28 minimize button
+29 menu bar
+	30 Pro Tools Developer
+	31 File
+	32 Edit
+	33 View
+	34 Track
+	35 Clip
+	36 Event
+	37 AudioSuite
+	38 Options
+	39 Setup
+	40 Window
+	41 Help
+
+The focused UI element is 0 floating window Plug-in: JS Inflator, Secondary Actions: Raise
