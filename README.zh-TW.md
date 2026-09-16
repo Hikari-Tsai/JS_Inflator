@@ -170,20 +170,30 @@ AAX 版本仍在測試中。本輪尚未驗證主機 automation 錄製、session
 
 Windows 與 Linux VST3 build 仍遵循 VST3 SDK 支援的平台與工具鏈。
 
-### GitHub Actions macOS 建置
+### GitHub Actions 跨平台建置
 
-`Mac Build` workflow 會在 pull request 與推送至 `main` 時，自動建置 **VST3 與 AAX**。也可手動執行，不必另外勾選 AAX。兩種格式均使用 Xcode 16.2 建置，包含 Intel `x86_64` 與 Apple Silicon `arm64`。
+`Build plug-ins` workflow 在 pull request、推送至 `main`、推送 `v*` 標籤或手動執行時，並行呼叫 `Mac Build` 與 `Windows Build`：
 
-CI 從 [JUCE 公開提供的 SDK 副本](https://github.com/juce-framework/JUCE/tree/72782788ce18c2d4d760b28e0921d6ffc6431102/modules/juce_audio_plugin_client/AAX/SDK) 下載 AAX SDK 2.9.0，固定在 commit `72782788ce18c2d4d760b28e0921d6ffc6431102`，並採用其 GPLv3 授權選項。僅使用 SDK，不會將 JUCE 模組連結至外掛。不需要 `AAX_SDK_REPOSITORY` 或 `AAX_SDK_TOKEN` secret，因此 fork PR 也能建置。
+| 平台 | 格式 | 架構與工具鏈 |
+|---|---|---|
+| macOS | VST3、AUv2、AAX | Intel `x86_64` + Apple Silicon `arm64`，Xcode 16.2 |
+| Windows | VST3、AAX | `x64`，Visual Studio 2022 |
 
-每次成功執行都會上傳 VST3 與 AAX artifact。AAX bundle 會加上本機 ad-hoc 簽章，再打包為 `JS_Inflator-macOS-AAX.zip`，保留執行檔權限。這是供 Pro Tools Developer 使用的開發版本；ad-hoc 簽章無法取代標準版 Pro Tools 所需的 Avid/PACE 簽章。再散布須遵守 GPLv3 與適用的 SDK 條款。兩種格式均以 ZIP 檔保存於 Artifacts。此 workflow 不會執行 Pro Tools 介面測試。
+兩個平台 workflow 也保留各自的手動入口。一般推送至 `staging` 不會直接觸發建置；若有開啟中的 PR，PR 更新會觸發統一 workflow。
+
+VST3 SDK 固定為 3.7.12。macOS AU 使用 Apple AudioUnitSDK 1.3.0；兩個平台的 AAX 使用 [JUCE repository 中的 Avid SDK 2.9.0 副本](https://github.com/juce-framework/JUCE/tree/72782788ce18c2d4d760b28e0921d6ffc6431102/modules/juce_audio_plugin_client/AAX/SDK)，採用 GPLv3 授權選項。SDK 版本固定於 workflow；沒有連結 JUCE 模組，也不需要額外 SDK secret。
+
+各格式均打包成 ZIP 後上傳 Artifacts。AU bundle 會嵌入完整 VST3 實作，取代 SDK 預設的開發用捷徑，因此可獨立安裝。macOS 使用 ad-hoc 簽章並保留 bundle 權限；Windows 使用完整外掛 bundle 結構並檢查 x64 PE 標頭。兩個平台的 AAX 都尚未經 Avid/PACE 簽章，需使用 Pro Tools Developer。建置與打包檢查不代表通過 Pro Tools 功能測試，workflow 不執行宿主 GUI 測試。
 
 ### 自動發布預發行版
 
-推送符合 `v*` 的版本標籤會觸發 `Mac Build`。兩種格式都完成編譯、架構檢查、簽章／打包檢查與 artifact 上傳後，獨立的發布 job 會建立 **GitHub Pre-release**，附上：
+推送符合 `v*` 的版本標籤會觸發 `Build plug-ins`。macOS 與 Windows 的建置工作都成功後，單一發布 job 會收集五份 ZIP，建立 **GitHub Pre-release**：
 
 * `JS_Inflator-macOS-VST3.zip`
+* `JS_Inflator-macOS-AU.zip`
 * `JS_Inflator-macOS-AAX.zip`
+* `JS_Inflator-Windows-VST3.zip`
+* `JS_Inflator-Windows-AAX.zip`
 
 PR、分支推送及手動執行只上傳 Artifacts。版本標籤必須指向包含此 workflow 的 commit。例如，選定要發布的 commit 與尚未使用的版本號後：
 

@@ -1,4 +1,4 @@
-name: Mac Build
+name: Build plug-ins
 
 on:
   pull_request:
@@ -10,134 +10,30 @@ on:
 permissions:
   contents: read
 
-env:
-  BUILD_DIR: build-macos
-  BUILD_TYPE: Release
-  AAX_SDK_DIR: build-aax-ci-deps/juce/modules/juce_audio_plugin_client/AAX/SDK
-
 jobs:
-  build:
-    runs-on: macos-15
+  macos:
+    name: macOS (VST3, AU, AAX)
+    uses: ./.github/workflows/macOS Build.yml
 
-    steps:
-      - name: Checkout plugin repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Checkout VST3 SDK 3.7.12
-        uses: actions/checkout@v4
-        with:
-          repository: steinbergmedia/vst3sdk
-          ref: v3.7.12_build_20
-          path: vst3sdk
-          submodules: recursive
-
-      # AAX SDK 2.9.0, used under its GPLv3 option. No JUCE modules are linked.
-      - name: Checkout public AAX SDK
-        uses: actions/checkout@v4
-        with:
-          repository: juce-framework/JUCE
-          ref: 72782788ce18c2d4d760b28e0921d6ffc6431102
-          path: build-aax-ci-deps/juce
-          sparse-checkout: modules/juce_audio_plugin_client/AAX/SDK
-          persist-credentials: false
-
-      - name: Verify AAX SDK version
-        run: |
-          test -f "${AAX_SDK_DIR}/LICENSE.txt"
-          grep -Eq '^#define AAX_SDK_CURRENT_REVISION[[:space:]]+\([[:space:]]*20209000[[:space:]]*\)' "${AAX_SDK_DIR}/Interfaces/AAX_Version.h"
-
-      - name: Select Xcode 16.2
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: '16.2'
-
-      - name: Show toolchain versions
-        run: |
-          xcodebuild -version
-          cmake --version
-
-      - name: Configure Xcode project
-        shell: bash
-        run: |
-          cmake_args=(
-            -S "${GITHUB_WORKSPACE}"
-            -B "${GITHUB_WORKSPACE}/${BUILD_DIR}"
-            -G Xcode
-            -DGITHUB_ACTIONS=ON
-            -DSMTG_MAC=ON
-            -DSMTG_ENABLE_VSTGUI_SUPPORT=ON
-            -DSMTG_ENABLE_VST3_PLUGIN_EXAMPLES=OFF
-            -DSMTG_ENABLE_VST3_HOSTING_EXAMPLES=OFF
-            -DSMTG_CODE_SIGN_IDENTITY_MAC=-
-            "-DSMTG_AAX_SDK_PATH=${GITHUB_WORKSPACE}/${AAX_SDK_DIR}"
-            "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64"
-          )
-
-          cmake "${cmake_args[@]}"
-
-      - name: Build VST3
-        run: cmake --build "${GITHUB_WORKSPACE}/${BUILD_DIR}" --config "${BUILD_TYPE}" --target JS_Inflator
-
-      - name: Verify VST3 architectures
-        run: |
-          binary="${BUILD_DIR}/VST3/${BUILD_TYPE}/JS_Inflator.vst3/Contents/MacOS/JS_Inflator"
-          lipo "${binary}" -verify_arch x86_64 arm64
-          lipo -archs "${binary}"
-
-      - name: Build AAX
-        run: cmake --build "${GITHUB_WORKSPACE}/${BUILD_DIR}" --config "${BUILD_TYPE}" --target JS_Inflator-aax
-
-      - name: Verify AAX architectures
-        run: |
-          binary="${BUILD_DIR}/AAXPLUGIN/${BUILD_TYPE}/JS_Inflator.aaxplugin/Contents/MacOS/JS_Inflator"
-          lipo "${binary}" -verify_arch x86_64 arm64
-          lipo -archs "${binary}"
-
-      - name: Sign and package AAX development build
-        run: |
-          bundle="${BUILD_DIR}/AAXPLUGIN/${BUILD_TYPE}/JS_Inflator.aaxplugin"
-          codesign --force --sign - "${bundle}"
-          codesign --verify --deep --strict "${bundle}"
-          # ZIP the bundle before upload to preserve executable permissions.
-          ditto -c -k --sequesterRsrc --keepParent "${bundle}" "${BUILD_DIR}/JS_Inflator-macOS-AAX.zip"
-
-      - name: Package VST3
-        run: |
-          bundle="${BUILD_DIR}/VST3/${BUILD_TYPE}/JS_Inflator.vst3"
-          codesign --verify --deep --strict "${bundle}"
-          ditto -c -k --sequesterRsrc --keepParent "${bundle}" "${BUILD_DIR}/JS_Inflator-macOS-VST3.zip"
-
-      - name: Upload VST3
-        uses: actions/upload-artifact@v4
-        with:
-          name: JS_Inflator-macOS-VST3-${{ github.sha }}
-          path: ${{ env.BUILD_DIR }}/JS_Inflator-macOS-VST3.zip
-          if-no-files-found: error
-
-      - name: Upload AAX
-        uses: actions/upload-artifact@v4
-        with:
-          name: JS_Inflator-macOS-AAX-${{ github.sha }}
-          path: ${{ env.BUILD_DIR }}/JS_Inflator-macOS-AAX.zip
-          if-no-files-found: error
+  windows:
+    name: Windows (VST3, AAX)
+    uses: ./.github/workflows/Windows Build.yml
 
   release:
-    name: Publish macOS pre-release
-    needs: build
+    name: Publish plug-in pre-release
+    needs: [macos, windows]
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
       contents: write
     concurrency:
-      group: mac-release-${{ github.ref }}
+      group: plugin-release-${{ github.ref }}
       cancel-in-progress: false
     steps:
       - name: Download packaged plug-ins
         uses: actions/download-artifact@v4
         with:
-          pattern: JS_Inflator-macOS-*-${{ github.sha }}
+          pattern: JS_Inflator-*-${{ github.sha }}
           path: dist
           merge-multiple: true
 
@@ -149,11 +45,15 @@ jobs:
         run: |
           test -s dist/JS_Inflator-macOS-VST3.zip
           test -s dist/JS_Inflator-macOS-AAX.zip
+          test -s dist/JS_Inflator-macOS-AU.zip
+          test -s dist/JS_Inflator-Windows-VST3.zip
+          test -s dist/JS_Inflator-Windows-AAX.zip
           cat > release-notes.md <<EOF
           AAX 改作測試版 / Experimental AAX adaptation.
 
-          - macOS VST3 and AAX universal binaries: Intel x86_64 and Apple Silicon arm64.
-          - AAX requires Pro Tools Developer. It is ad-hoc signed, not Avid/PACE signed for standard Pro Tools.
+          - macOS VST3, AUv2 and AAX universal binaries: Intel x86_64 and Apple Silicon arm64.
+          - Windows VST3 and AAX: x64.
+          - AAX requires Pro Tools Developer on both platforms. macOS bundles are ad-hoc signed; Windows builds are unsigned. Neither has Avid/PACE signing for standard Pro Tools.
           - Build, architecture, and bundle checks do not replace Pro Tools functional testing.
           - GPLv3: source and build instructions are available at ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_SHA}. Clone this revision with recursive submodules and use the SDK revisions pinned in the workflow.
           - Test coverage: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/${GITHUB_SHA}/tests/results/aax-verification.md
@@ -161,6 +61,9 @@ jobs:
           gh release create "${RELEASE_TAG}" \
             dist/JS_Inflator-macOS-VST3.zip \
             dist/JS_Inflator-macOS-AAX.zip \
+            dist/JS_Inflator-macOS-AU.zip \
+            dist/JS_Inflator-Windows-VST3.zip \
+            dist/JS_Inflator-Windows-AAX.zip \
             --verify-tag --prerelease --latest=false \
             --title "JS Inflator ${RELEASE_TAG} — AAX testing" \
             --notes-file release-notes.md

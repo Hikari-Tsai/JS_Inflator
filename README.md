@@ -170,20 +170,30 @@ The AAX version remains in testing. Recorded host automation, session save/reloa
 
 Windows and Linux VST3 builds continue to follow the supported platforms and toolchains of the VST3 SDK.
 
-### GitHub Actions macOS Build
+### GitHub Actions cross-platform builds
 
-The `Mac Build` workflow automatically builds **both VST3 and AAX** for pull requests and pushes to `main`. It can also be run manually without selecting an AAX option. Both formats contain Intel `x86_64` and Apple Silicon `arm64` slices, built using Xcode 16.2.
+`Build plug-ins` runs on pull requests, pushes to `main`, `v*` tag pushes, and manual dispatch. It calls `Mac Build` and `Windows Build` in parallel:
 
-CI downloads AAX SDK 2.9.0 from [JUCE's public SDK copy](https://github.com/juce-framework/JUCE/tree/72782788ce18c2d4d760b28e0921d6ffc6431102/modules/juce_audio_plugin_client/AAX/SDK), pinned to commit `72782788ce18c2d4d760b28e0921d6ffc6431102`, and uses its GPLv3 license option. Only the SDK is used; JUCE modules are not linked into the plug-in. No `AAX_SDK_REPOSITORY` or `AAX_SDK_TOKEN` secret is required, including for fork PRs.
+| Platform | Formats | Architecture and toolchain |
+|---|---|---|
+| macOS | VST3, AUv2, AAX | Intel `x86_64` + Apple Silicon `arm64`, Xcode 16.2 |
+| Windows | VST3, AAX | `x64`, Visual Studio 2022 |
 
-Each successful run uploads VST3 and AAX artifacts. The AAX bundle receives a local ad-hoc signature and is packaged as `JS_Inflator-macOS-AAX.zip` to preserve executable permissions. This is a development build for Pro Tools Developer; ad-hoc signing does not provide the Avid/PACE signature required by standard Pro Tools. Redistribution must comply with GPLv3 and the applicable SDK terms. Both formats are uploaded as ZIP files. The workflow does not run Pro Tools GUI tests.
+Both platform workflows also retain independent manual entry points. A push to `staging` does not directly trigger builds; updating an open PR triggers the unified workflow.
+
+VST3 SDK is pinned to 3.7.12. macOS AU uses Apple AudioUnitSDK 1.3.0. Both platforms use [Avid AAX SDK 2.9.0 from JUCE's repository](https://github.com/juce-framework/JUCE/tree/72782788ce18c2d4d760b28e0921d6ffc6431102/modules/juce_audio_plugin_client/AAX/SDK) under its GPLv3 option. SDK revisions are pinned in the workflows; no JUCE modules are linked and no extra SDK secrets are needed.
+
+Each format is packaged as a ZIP and uploaded to Artifacts. The AU bundle embeds its VST3 implementation instead of retaining the SDK's development symlink, so it is self-contained. macOS bundles are ad-hoc signed with bundle permissions preserved; Windows uses complete plug-in bundles and checks x64 PE headers. AAX on both platforms requires Pro Tools Developer because these builds have no Avid/PACE signature. Build and package checks do not establish Pro Tools functional compatibility; workflows do not run host GUI tests.
 
 ### Automatic pre-releases
 
-Pushing a version tag matching `v*` triggers `Mac Build`. After both builds, architecture checks, signing/package checks, and artifact uploads succeed, a separate job publishes a **GitHub Pre-release** with:
+Pushing a version tag matching `v*` triggers `Build plug-ins`. After both platform build jobs succeed, a single release job collects all five ZIPs and creates a **GitHub Pre-release**:
 
 * `JS_Inflator-macOS-VST3.zip`
+* `JS_Inflator-macOS-AU.zip`
 * `JS_Inflator-macOS-AAX.zip`
+* `JS_Inflator-Windows-VST3.zip`
+* `JS_Inflator-Windows-AAX.zip`
 
 PRs, branch pushes, and manual runs only upload Artifacts. Version tags must point to a commit containing this workflow. For example, after choosing the release commit and an unused version:
 
