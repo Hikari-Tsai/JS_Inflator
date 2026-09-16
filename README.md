@@ -4,6 +4,8 @@
 
 [English](README.md) | [繁體中文](README.zh-TW.md)
 
+![JS Inflator system architecture: hosts, AAX wrapper, audio processing, VSTGUI, and build outputs](screenshots/js-inflator-architecture.webp)
+
 JS Inflator is a copy of Sonox Inflator.  
 Runs in double precision 64-bit internal processing.  
 Also double precision input / output if supported.  

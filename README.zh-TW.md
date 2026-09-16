@@ -4,6 +4,8 @@
 
 [English](README.md) | [繁體中文](README.zh-TW.md)
 
+![JS Inflator 系統架構：宿主、AAX wrapper、音訊處理、VSTGUI 與建置輸出](screenshots/js-inflator-architecture.webp)
+
 JS Inflator 是 Sonox Inflator 的仿製版本。  
 內部採用雙精度 64 位元處理。  
 若宿主支援，也可使用雙精度輸入／輸出。  
