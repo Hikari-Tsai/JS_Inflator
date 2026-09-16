@@ -1,10 +1,14 @@
-# JS Inflator
+# JS Inflator — AAX 改作版
+
+> **這是 AAX 改作版本，目前尚在測試中。** 本 repository 以 [JS Inflator](https://github.com/Kiriki-liszt/JS_Inflator) 為基礎，針對 AAX 支援與 Pro Tools 整合進行改作，屬於實驗性開發版本，尚非穩定的 AAX 正式版本。目前使用 Pro Tools Developer 測試，尚未完成標準版 Pro Tools 所需的 Avid/PACE 簽章。已驗證項目與尚未涵蓋的測試範圍請見[測試紀錄](tests/results/aax-verification.md)。
 
 [English](README.md) | [繁體中文](README.zh-TW.md)
 
 JS Inflator 是 Sonox Inflator 的仿製版本。  
 內部採用雙精度 64 位元處理。  
 若宿主支援，也可使用雙精度輸入／輸出。  
+
+以下版本／下載徽章與贊助連結指向上游專案，不代表此改作版已發布 AAX 正式版本。
 
 [![GitHub Release](https://img.shields.io/github/v/release/kiriki-liszt/JS_Inflator?style=flat-square&label=Get%20latest%20Release)](https://github.com/Kiriki-liszt/JS_Inflator/releases/latest)
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/kiriki-liszt/JS_Inflator/total?style=flat-square&label=total%20downloads&color=blue)](https://tooomm.github.io/github-release-stats/?username=Kiriki-liszt&repository=JS_Inflator)  
@@ -82,13 +86,19 @@ AAX Native／AudioSuite
 
 ## 授權
 
-> 問：我想在 GitHub 或其他平台分享 VST 3 外掛／宿主的原始碼。
->
-> * 你可以選擇 GPLv3 授權，並自由分享包含或引用 VST 3 SDK 原始碼的外掛／宿主原始碼。
-> * **你也可以提供外掛／宿主的二進位版本，前提是同時以 GPLv3 提供其原始碼。**
-> * 請遵循 Steinberg VST 使用規範。
->
-> <https://steinbergmedia.github.io/vst3_dev_portal/pages/FAQ/Licensing.html>
+JS Inflator 與此改作版本採用 **GNU GPLv3**，詳見 [LICENSE](LICENSE)。可以使用、修改與販售副本。散布修改版或二進位版本時，須保留必要的版權及授權聲明、標明修改，並依 GPLv3 提供完整對應原始碼，包含必要建置資料。私人修改不必公開；使用外掛處理自己的音訊，通常不會使音訊作品受 GPL 約束。詳見 [GNU GPL 官方常見問題](https://www.gnu.org/licenses/gpl-faq.en.html)。
+
+第三方依賴各自保留其授權：
+
+* **r8brain-free-src：** MIT；須保留版權與授權聲明。
+* **VSTGUI：** BSD 三條款；須保留聲明及免責條款，並遵守不得擅用作者名義背書的條件。
+* **AudioUnitSDK：** Apache 2.0；須保留適用聲明並標明修改。
+* **目前建置使用的 VST3 SDK 3.7.12：** Steinberg 商業授權或 GPLv3，另有個別檔案自己的授權。新版已有採用 MIT 的 VST SDK，但更換 SDK 不會解除本專案的 GPL 義務。詳見 [Steinberg 授權說明](https://steinbergmedia.github.io/vst3_dev_portal/pages/FAQ/Licensing.html)。
+* **AAX SDK 2.9.0：** 其 `LICENSE.txt` 與原始碼標頭明確提供商業授權或 GPLv3 選項。應遵循所選授權及個別檔案條款，不能一概認定 GPLv3 選項下的 SDK 禁止再散布。本 repository 未附帶 SDK。
+
+AAX SDK 授權、Pro Tools Developer 的使用授權，以及 AAX 二進位簽章是不同事項。取得 Developer 使用授權不等於完成產品發布授權。標準版 Pro Tools 需要經 Avid/PACE 簽章的 AAX；本機 macOS ad-hoc 簽章無法取代它。若要商業化，請依 [Avid 官方 AAX 開發頁面](https://developer.avid.com/aax/) 指示，聯絡 `audiosdk@avid.com` 確認所需工具與授權。SDK 原始碼授權不會自動涵蓋另外提供的 Pro Tools 執行檔或簽章工具。
+
+上述軟體授權不會自動授予超出各權利人授權範圍的第三方商標或美術素材權利。
 
 <img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/VST_Compatible_Logo_Steinberg_with_TM.png" width="200"/>
 
@@ -150,9 +160,11 @@ cmake --build build --config Release --target JS_Inflator-aax
 * VST3 validator：47 項測試通過，0 項失敗
 * Apple `auval`：驗證成功
 * AAX：已驗證 universal bundle build、必要 AAX／ACF symbols 與 bundle 載入
+* Apple Silicon 上的 Pro Tools Developer 2025.6／AAX Native：已實測手動控制、即時電表、換膚及縮放
+* Processor 回歸測試：96 項音訊案例通過；單／雙聲道電表傳遞與 editor 尺寸／縮放整合測試通過
 * VST3、AUv2 與 AAX 的 Intel `x86_64` Mach-O 最低系統版本均為 macOS 10.13
 
-AAX 開發版本未經 Avid/PACE 簽章，無法散布，也無法在公開版 Pro Tools 中載入。測試未簽章 AAX 需要 Pro Tools developer build。目前的 AAX wrapper target 支援 Native 與 AudioSuite 處理，不支援 AAX DSP。
+AAX 版本仍在測試中。本輪尚未驗證主機 automation 錄製、session 儲存／重開，以及 AudioSuite 處理，詳見[測試紀錄](tests/results/aax-verification.md)。未經 Avid/PACE 簽章的 build 需使用 Pro Tools Developer 測試，無法在標準版 Pro Tools 載入。能否再散布取決於適用授權，與此載入限制分開判斷。目前 wrapper target 支援 Native 與 AudioSuite 處理，不支援 AAX DSP。
 
 Windows 與 Linux VST3 build 仍遵循 VST3 SDK 支援的平台與工具鏈。
 
@@ -160,14 +172,14 @@ Windows 與 Linux VST3 build 仍遵循 VST3 SDK 支援的平台與工具鏈。
 
 `Mac Build` workflow 使用 Xcode 16.2 建置並上傳 universal macOS VST3 artifact。它會在 pull request 與推送至 `main` 時自動執行。
 
-AAX SDK 為專有 SDK，無法包含在此公開 repository 中。若要在 GitHub Actions 建置 AAX：
+AAX SDK 需另行取得。現有 workflow 從私有 repository 讀取 SDK，這是建置配置選擇，不代表授權一律要求 SDK 保密。請確認所選 SDK 檔案的適用授權允許你儲存及使用它們。若要在 GitHub Actions 建置 AAX：
 
 1. 將 AAX SDK 放在私有 GitHub repository 的根目錄。
 2. 新增 repository secret `AAX_SDK_REPOSITORY`，內容為 `owner/private-aax-sdk-repository`。
 3. 新增 repository secret `AAX_SDK_TOKEN`，內容為具有該私有 repository 讀取權限的 fine-grained token。
 4. 手動執行 `Mac Build` workflow，並啟用 `build_aax` input。
 
-產生的 AAX artifact 為開發版本，正式散布前仍需要 Avid/PACE 簽章。
+產生的 AAX artifact 為未經 Avid/PACE 簽章的測試版本。在標準版 Pro Tools 使用前須完成該簽章；任何再散布也必須遵守 GPLv3 與適用的 SDK 條款。
 
 ## 版本紀錄
 

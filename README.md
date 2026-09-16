@@ -1,10 +1,14 @@
-# JS Inflator
+# JS Inflator — AAX Fork
+
+> **AAX adaptation — currently in testing.** This repository is a fork of [JS Inflator](https://github.com/Kiriki-liszt/JS_Inflator) focused on AAX support and Pro Tools integration. It is an experimental development version, not a stable AAX release. Current AAX testing uses Pro Tools Developer; the build has not completed Avid/PACE signing for standard Pro Tools. See the [test report](tests/results/aax-verification.md) for verified behavior and remaining test coverage.
 
 [English](README.md) | [繁體中文](README.zh-TW.md)
 
 JS Inflator is a copy of Sonox Inflator.  
 Runs in double precision 64-bit internal processing.  
 Also double precision input / output if supported.  
+
+The release/download badges and donation link below refer to the upstream project, not an AAX release from this fork.
 
 [![GitHub Release](https://img.shields.io/github/v/release/kiriki-liszt/JS_Inflator?style=flat-square&label=Get%20latest%20Release)](https://github.com/Kiriki-liszt/JS_Inflator/releases/latest)
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/kiriki-liszt/JS_Inflator/total?style=flat-square&label=total%20downloads&color=blue)](https://tooomm.github.io/github-release-stats/?username=Kiriki-liszt&repository=JS_Inflator)  
@@ -80,15 +84,21 @@ Tested as working are;
 6. Ableton 12(macOS), plugin v1.7.0 -> v2.0.0
 7. Ableton 12(Windows), plugin v1.7.0 -> Ableton 12(macOS), plugin v2.0.0  
 
-## Licensing  
+## Licensing
 
-> Q: I would like to share the source code of my VST 3 plug-in/host on GitHub or other such platform.  
->
-> * You can choose the GPLv3 license and feel free to share your plug-ins/host's source code including or referencing the VST 3 SDK's sources on GitHub.  
-> * **You are allowed to provide a binary form of your plug-ins/host too, provided that you provide its source code as GPLv3 too.**
-> * Note that you have to follow the Steinberg VST usage guidelines.  
->
-> <https://steinbergmedia.github.io/vst3_dev_portal/pages/FAQ/Licensing.html>  
+JS Inflator and this derivative are licensed under **GNU GPLv3**; see [LICENSE](LICENSE). You may use, modify, and sell copies. When distributing a modified version or binary, retain the required copyright/license notices, identify modifications, and provide the complete corresponding source under GPLv3, including the required build material. Private modifications do not have to be published. Using the plug-in to process your own audio does not normally place that audio under GPL. See the [GNU GPL FAQ](https://www.gnu.org/licenses/gpl-faq.en.html).
+
+Dependencies retain their own licenses:
+
+* **r8brain-free-src:** MIT; retain its copyright and license notice.
+* **VSTGUI:** BSD 3-Clause; retain its notices and disclaimer and follow its non-endorsement condition.
+* **AudioUnitSDK:** Apache 2.0; retain applicable notices and identify modifications.
+* **VST3 SDK 3.7.12 used by this build:** Steinberg commercial license or GPLv3, with file-specific licenses where stated. Newer MIT-licensed VST SDK versions are available, but changing SDK versions does not remove this project's GPL obligations. See [Steinberg's licensing FAQ](https://steinbergmedia.github.io/vst3_dev_portal/pages/FAQ/Licensing.html).
+* **AAX SDK 2.9.0:** its `LICENSE.txt` and source headers explicitly offer commercial or GPLv3 licensing. Apply the selected license and any file-specific terms; the SDK is not categorically prohibited from redistribution under its GPLv3 option. This repository does not bundle the SDK.
+
+AAX SDK licensing, authorization to run Pro Tools Developer, and AAX binary signing are separate matters. The Developer authorization does not itself authorize a product release. Standard Pro Tools requires Avid/PACE-signed AAX binaries; local macOS ad-hoc signing is not a substitute. For commercialization, contact `audiosdk@avid.com` about the required tools and license, as directed by [Avid's AAX developer page](https://developer.avid.com/aax/). SDK source licensing does not automatically cover separately supplied Pro Tools binaries or signing tools.
+
+These software licenses do not automatically grant rights to third-party trademarks or artwork beyond the applicable rights holder's license.
 
 <img src="https://github.com/Kiriki-liszt/JS_Inflator_to_VST2_VST3/raw/main/VST_Compatible_Logo_Steinberg_with_TM.png"  width="200"/>
 
@@ -150,9 +160,11 @@ The current macOS builds have been verified as follows:
 * VST3 validator: 47 tests passed, 0 failed
 * Apple `auval`: validation succeeded
 * AAX: universal bundle build, required AAX/ACF symbols, and bundle loading verified
+* AAX Native in Pro Tools Developer 2025.6 on Apple Silicon: manual controls, live metering, skin switching, and zoom checked
+* Processor regression tests: 96 audio cases passed; mono/stereo meter transport and editor resize/zoom integration passed
 * Intel `x86_64` Mach-O minimum system version: macOS 10.13 for VST3, AUv2, and AAX
 
-AAX development builds are not distributable or loadable in public Pro Tools releases without Avid/PACE signing. Unsigned AAX testing requires a Pro Tools developer build. The current AAX wrapper target supports Native and AudioSuite processing, not AAX DSP.
+The AAX version remains in testing. Recorded host automation, session save/reload, and AudioSuite processing have not been verified in this test pass; see the [test report](tests/results/aax-verification.md). Builds without Avid/PACE signing require Pro Tools Developer for testing and cannot load in standard Pro Tools. Redistribution rights depend on the applicable licenses, separately from this loading restriction. The wrapper target supports Native and AudioSuite processing, not AAX DSP.
 
 Windows and Linux VST3 builds continue to follow the supported platforms and toolchains of the VST3 SDK.
 
@@ -160,14 +172,14 @@ Windows and Linux VST3 builds continue to follow the supported platforms and too
 
 The `Mac Build` workflow builds and uploads a universal macOS VST3 artifact using Xcode 16.2. It runs automatically for pull requests and pushes to `main`.
 
-The AAX SDK is proprietary and cannot be included in this public repository. To build AAX in GitHub Actions:
+The AAX SDK is obtained separately. The existing workflow fetches it from a private repository as a build configuration choice, not a blanket licensing requirement. Ensure you have the rights to host and use the selected SDK files under their applicable license. To build AAX in GitHub Actions:
 
 1. Store the AAX SDK at the root of a private GitHub repository.
 2. Add `AAX_SDK_REPOSITORY` as a repository secret containing `owner/private-aax-sdk-repository`.
 3. Add `AAX_SDK_TOKEN` as a repository secret containing a fine-grained token with read access to that private repository.
 4. Run the `Mac Build` workflow manually and enable the `build_aax` input.
 
-The generated AAX artifact is a development build and still requires Avid/PACE signing before distribution.
+The generated AAX artifact is a test build without Avid/PACE signing. Use in standard Pro Tools requires that signing; any redistribution must also comply with GPLv3 and the applicable SDK terms.
 
 ## Version logs
 
