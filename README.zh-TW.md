@@ -21,11 +21,11 @@ macOS ZIP 為 **Universal**，同一份下載同時包含 Intel 與 Apple Silico
 
 | 平台 | 格式／適用宿主 | 下載 |
 |---|---|---|
-| macOS | VST3 — 支援 VST3 的 DAW | [VST3 ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-VST3.zip) |
-| macOS | AUv2 — Logic Pro、GarageBand 等 AU 宿主 | [AU ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AU.zip) |
-| macOS | AAX — **僅限 Pro Tools Developer** | [AAX ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AAX.zip) |
-| Windows x64 | VST3 — 支援 VST3 的 64 位元 DAW | [VST3 ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-VST3.zip) |
-| Windows x64 | AAX — **僅限 Pro Tools Developer** | [AAX ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-AAX.zip) |
+| macOS | VST3 — 支援 VST3 的 DAW | [![下載 macOS VST3 ZIP](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-VST3%20ZIP-2563eb?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-VST3.zip) |
+| macOS | AUv2 — Logic Pro、GarageBand 等 AU 宿主 | [![下載 macOS AU ZIP](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-AU%20ZIP-2563eb?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AU.zip) |
+| macOS | AAX — **僅限 Pro Tools Developer** | [![下載 macOS AAX ZIP](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-AAX%20ZIP-2563eb?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AAX.zip) |
+| Windows x64 | VST3 — 支援 VST3 的 64 位元 DAW | [![下載 Windows VST3 ZIP](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-VST3%20ZIP-087f5b?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-VST3.zip) |
+| Windows x64 | AAX — **僅限 Pro Tools Developer** | [![下載 Windows AAX ZIP](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-AAX%20ZIP-087f5b?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-AAX.zip) |
 
 選擇宿主支援的格式即可，不必全部安裝。GitHub 自動產生的 **Source code** 壓縮檔是原始碼，不是可直接使用的外掛。AAX 提供 Native／AudioSuite target，不支援 AAX DSP；AudioSuite 功能尚未驗證。
 

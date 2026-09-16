@@ -21,11 +21,11 @@ The macOS ZIPs are **Universal**: the same download contains Intel and Apple Sil
 
 | Platform | Format / intended host | Download |
 |---|---|---|
-| macOS | VST3 — VST3-capable DAWs | [VST3 ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-VST3.zip) |
-| macOS | AUv2 — Logic Pro, GarageBand and other AU hosts | [AU ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AU.zip) |
-| macOS | AAX — **Pro Tools Developer only** | [AAX ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AAX.zip) |
-| Windows x64 | VST3 — 64-bit VST3-capable DAWs | [VST3 ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-VST3.zip) |
-| Windows x64 | AAX — **Pro Tools Developer only** | [AAX ZIP](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-AAX.zip) |
+| macOS | VST3 — VST3-capable DAWs | [![Download macOS VST3 ZIP](https://img.shields.io/badge/Download-VST3%20ZIP-2563eb?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-VST3.zip) |
+| macOS | AUv2 — Logic Pro, GarageBand and other AU hosts | [![Download macOS AU ZIP](https://img.shields.io/badge/Download-AU%20ZIP-2563eb?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AU.zip) |
+| macOS | AAX — **Pro Tools Developer only** | [![Download macOS AAX ZIP](https://img.shields.io/badge/Download-AAX%20ZIP-2563eb?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AAX.zip) |
+| Windows x64 | VST3 — 64-bit VST3-capable DAWs | [![Download Windows VST3 ZIP](https://img.shields.io/badge/Download-VST3%20ZIP-087f5b?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-VST3.zip) |
+| Windows x64 | AAX — **Pro Tools Developer only** | [![Download Windows AAX ZIP](https://img.shields.io/badge/Download-AAX%20ZIP-087f5b?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-AAX.zip) |
 
 Choose the format your host supports; installing all formats is unnecessary. GitHub's automatically generated **Source code** archives are source downloads, not ready-to-use plug-ins. AAX supports Native/AudioSuite targets, not AAX DSP; AudioSuite functionality is not yet verified.
 
