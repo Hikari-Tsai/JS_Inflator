@@ -29,10 +29,29 @@ The macOS ZIPs are **Universal**: the same download contains Intel and Apple Sil
 
 Choose the format your host supports; installing all formats is unnecessary. GitHub's automatically generated **Source code** archives are source downloads, not ready-to-use plug-ins. AAX supports Native/AudioSuite targets, not AAX DSP; AudioSuite functionality is not yet verified.
 
+### Installer packages
+
+Workflows containing the installer packaging change also produce the files below. **The existing beta.2 release contains only the five plug-in ZIPs above.** Get new installer builds from [Actions → a successful run → Artifacts](https://github.com/Hikari-Tsai/JS_Inflator/actions), or from a subsequent [Release](https://github.com/Hikari-Tsai/JS_Inflator/releases) that lists these assets.
+
+| File | Contents |
+|---|---|
+| `JS_Inflator-macOS.dmg` | Selectable PKG installer, `Uninstall-JS-Inflator.command`, license and instructions |
+| `JS_Inflator-Windows-Setup.exe` | x64 installer with a registered uninstaller |
+| `JS_Inflator-Windows-Uninstall.zip` | CMD + PowerShell removal tool, also usable for earlier manual ZIP installations |
+
 <a id="installation"></a>
 ## Installation
 
-### macOS
+### Installers and uninstalling
+
+Quit all DAWs first. On macOS, mount the DMG and open `JS_Inflator.pkg`; VST3 and AU are selected by default. Use **Customize** to opt into AAX. On Windows, run the Setup EXE; VST3 is selected by default, with AAX available under **Custom installation**. AAX requires licensed Pro Tools Developer on both platforms.
+
+- **macOS uninstall:** run `Uninstall-JS-Inflator.command` inside the DMG, type `REMOVE` and enter the administrator password. If executable permissions were lost, run `bash /path/to/Uninstall-JS-Inflator.command`. It removes the three system-wide JS Inflator bundles and this installer's package receipts.
+- **Windows uninstall:** use **Settings → Apps → JS Inflator (Hikari)**, or `C:\Program Files\Hikari\JS Inflator\unins000.exe` (keep its accompanying `.dat`). For manual ZIP installs, extract the Uninstall ZIP and run `Uninstall-JS-Inflator.cmd` with the `.ps1` beside it; confirm with `REMOVE` and accept the administrator prompt. This tool also invokes the installed EXE uninstaller when present.
+
+Installers replace JS Inflator at the standard paths, including upstream copies with the same bundle names. Back up an older bundle if needed. Removal preserves other plug-ins, presets and sessions; user-specific or custom plug-in folders are not scanned. PKG/DMG and Windows installers are unsigned and macOS packages are not notarized, so OS security checks may block launch. Packaging does not add PACE signing. [Included instructions](packaging/INSTALL.txt).
+
+### macOS — manual ZIP installation
 
 1. Quit your DAW and extract the ZIP for the format you need.
 2. In Finder, choose **Go → Go to Folder…** and open the destination below. Copy the entire extracted bundle there; an administrator password may be required.
@@ -46,7 +65,7 @@ Choose the format your host supports; installing all formats is unnecessary. Git
 
 The AU download includes its VST3 implementation inside the `.component`; it does **not** need a separately installed VST3. Keep the bundle intact. These macOS builds are ad-hoc signed and not notarized; if macOS blocks loading, record the exact message when reporting the issue. Re-signing cannot provide the PACE authorization needed by standard Pro Tools.
 
-### Windows
+### Windows — manual ZIP installation
 
 1. Quit your DAW and extract the Windows ZIP.
 2. Copy the entire `.vst3` or `.aaxplugin` **folder**, including `Contents`, to the destination below. Administrator permission may be required.
@@ -142,7 +161,7 @@ After configuration, use `cmake --build <build-directory> --config Release --tar
 
 ## GitHub Actions
 
-**Build plug-ins** runs macOS and Windows in parallel and produces five ZIPs. PR updates and pushes to `main` build automatically; a plain `staging` push without a PR does not. Manual builds upload Artifacts only. A new `v*` tag push publishes one **Pre-release** after both platform jobs succeed; it is not marked Latest.
+**Build plug-ins** runs macOS and Windows in parallel and produces five plug-in ZIPs plus a macOS DMG, Windows Setup EXE and Windows Uninstall ZIP (eight files). PR updates and pushes to `main` build automatically; a plain `staging` push without a PR does not. Manual builds upload Artifacts only. A new `v*` tag push publishes one **Pre-release** after both platform jobs succeed; it is not marked Latest.
 
 [Actions and build artifacts](https://github.com/Hikari-Tsai/JS_Inflator/actions) · [Release downloads](https://github.com/Hikari-Tsai/JS_Inflator/releases)
 
@@ -181,13 +200,13 @@ A `staging` push with an open PR can therefore build through the PR event. Mergi
 ```mermaid
 flowchart TD
     event["PR / main push / v* tag push / manual"] --> entry["Build plug-ins"]
-    entry --> mac["macOS: VST3 → AAX → AU"]
-    entry --> win["Windows: VST3 → AAX"]
-    mac --> ma["3 ZIP artifacts"]
-    win --> wa["2 ZIP artifacts"]
+    entry --> mac["macOS: VST3 → AAX → AU → DMG + install test"]
+    entry --> win["Windows: VST3 → AAX → EXE + install test"]
+    mac --> ma["3 plug-in ZIPs + DMG"]
+    win --> wa["2 plug-in ZIPs + EXE + Uninstall ZIP"]
     ma --> gate{"Both jobs succeeded AND v* tag push?"}
     wa --> gate
-    gate -->|Yes| release["One Pre-release with 5 ZIP assets"]
+    gate -->|Yes| release["One Pre-release with 8 assets"]
     gate -->|No| stop["Skip release; retain any uploaded artifacts"]
 ```
 
@@ -217,36 +236,43 @@ The workflows use `actions/checkout@v4`, `actions/upload-artifact@v4`, and `acti
 
 **Windows:** enable `SMTG_CREATE_BUNDLE_FOR_WINDOWS`, disable installation links, then build `JS_Inflator` and `JS_Inflator-aax`. Packaging requires a real binary at each expected bundle path and checks the DOS header, PE signature, and x64 machine type. PowerShell `Compress-Archive` packages each complete bundle. These Windows builds are unsigned.
 
+**Installers:** [macOS packaging](packaging/build_macos.py) uses `pkgbuild` / `productbuild` for non-relocatable components and `hdiutil` for a compressed DMG. [Windows packaging](packaging/windows/build.ps1) uses the runner's Inno Setup 6 compiler and registers an uninstaller. Both include GPLv3 and a `BUILD-SOURCE.txt` pointing to the checkout revision. AAX is optional and unselected by default. Packaging scripts use the version from `CMakeLists.txt`; new tags do not change it.
+
+**Installation smoke tests:** disposable CI runners install default components, opt into AAX while upgrading, verify cancellation/dry-run behavior, uninstall twice, and ensure a neighboring sentinel file remains untouched. macOS also checks installed code signatures and package-receipt removal. Windows checks uninstall registration and removal of older ZIP installations. Installer upload happens only after these checks pass. See the [installer verification report](tests/results/installer-verification.md). These checks do not launch a DAW or establish compatibility across every supported OS version.
+
 The VST3 SDK can also invoke its validator as a post-build step when the validator target is available; consult the build log for that output. The workflows do **not** explicitly run `auval`, the repository's 96-case processor regression suite, Pro Tools GUI tests, session save/reload tests, or AudioSuite functional tests. Earlier local/manual verification is documented separately in the [test report](tests/results/aax-verification.md).
 
 Both platforms' AAX builds require **Pro Tools Developer**. Ad-hoc signing is not Avid/PACE signing, and this pipeline does not perform PACE signing or Apple notarization. A successful CI run establishes the configured build/package checks, not full host compatibility.
 
 ### Output locations and downloads
 
-Paths below are relative to the temporary runner checkout. Each named ZIP is created directly inside `build-macos/` or `build-windows/` before upload.
+Paths below are relative to the temporary runner checkout. Each packaged file is created directly inside `build-macos/` or `build-windows/` before upload.
 
-| Format | Runner bundle path | Uploaded ZIP / Release asset |
+| Format | Runner bundle path | Uploaded file / Release asset |
 |---|---|---|
 | macOS VST3 | `build-macos/VST3/Release/JS_Inflator.vst3` | `JS_Inflator-macOS-VST3.zip` |
 | macOS AUv2 | `build-macos/VST3/Release/JS_Inflator.component` | `JS_Inflator-macOS-AU.zip` |
 | macOS AAX | `build-macos/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-macOS-AAX.zip` |
 | Windows VST3 | `build-windows/VST3/Release/JS_Inflator.vst3` | `JS_Inflator-Windows-VST3.zip` |
 | Windows AAX | `build-windows/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-Windows-AAX.zip` |
+| macOS installer | Verified VST3, AU and AAX bundles | `JS_Inflator-macOS.dmg` |
+| Windows installer | Verified VST3 and AAX bundles | `JS_Inflator-Windows-Setup.exe` |
+| Windows removal tool | `packaging/windows/Uninstall-JS-Inflator.*` | `JS_Inflator-Windows-Uninstall.zip` |
 
 Windows binaries are inside `JS_Inflator.vst3/Contents/x86_64-win/JS_Inflator.vst3` and `JS_Inflator.aaxplugin/Contents/x64/JS_Inflator.aaxplugin`. Install the whole bundle, not only the inner binary.
 
-**Artifacts** are files attached to an individual Actions run, named `JS_Inflator-<platform>-<format>-<github.sha>`. They contain the ZIPs above. Open [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions) → a run → **Artifacts**. Downloading through the GitHub UI requires signing in and repository read access; its download archive may wrap the plug-in ZIP, requiring a second extraction. These workflows do not set `retention-days`, so the repository/organization retention policy applies. See [GitHub's artifact download guide](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts).
+**Artifacts** are files attached to an individual Actions run, named `JS_Inflator-<platform>-<format>-<github.sha>`. They contain the files above; `Installer` artifacts hold the new packages. Open [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions) → a run → **Artifacts**. Downloading through the GitHub UI requires signing in and repository read access; its download archive may wrap the plug-in ZIP, requiring a second extraction. These workflows do not set `retention-days`, so the repository/organization retention policy applies. See [GitHub's artifact download guide](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts).
 
-**Release assets** are the same packaged ZIP files copied from that run's Artifacts to a [versioned Release page](https://github.com/Hikari-Tsai/JS_Inflator/releases). Their availability is separate from Actions artifact expiration. Neither mechanism installs the plug-in on your computer. Local and CI builds use the same project sources and targets, but SDK versions, toolchains, flags, signatures and packaging must also match before expecting equivalent results; byte-identical binaries are not guaranteed.
+**Release assets** are the same packaged files copied from that run's Artifacts to a [versioned Release page](https://github.com/Hikari-Tsai/JS_Inflator/releases). Their availability is separate from Actions artifact expiration. Neither mechanism installs the plug-in on your computer. Local and CI builds use the same project sources and targets, but SDK versions, toolchains, flags, signatures and packaging must also match before expecting equivalent results; byte-identical binaries are not guaranteed.
 
 ### Release gating and failure behavior
 
-The release job declares `needs: [macos, windows]` and runs only when `github.event_name == 'push'` and `github.ref` starts with `refs/tags/v`. It downloads artifacts from the **same workflow run**, matching `JS_Inflator-*-${{ github.sha }}`, merges them into `dist/`, and checks all five expected ZIPs exist and are non-empty.
+The release job declares `needs: [macos, windows]` and runs only when `github.event_name == 'push'` and `github.ref` starts with `refs/tags/v`. It downloads artifacts from the **same workflow run**, matching `JS_Inflator-*-${{ github.sha }}`, merges them into `dist/`, and checks all eight expected files exist and are non-empty.
 
-It then runs `gh release create` with all five files, `--verify-tag --prerelease --latest=false`, a title based on the tag, and generated notes containing platform/signing information plus source and test-report links at the build SHA. The notes are generated by this workflow, not by PR Agent.
+It then runs `gh release create` with all eight files, `--verify-tag --prerelease --latest=false`, a title based on the tag, and generated notes containing platform/signing information plus source and test-report links at the build SHA. The notes are generated by this workflow, not by PR Agent.
 
 - Any failed or cancelled platform job prevents publication. Earlier successful upload steps may still leave partial Artifacts; inspect both jobs before treating a run as complete.
-- Missing upload files fail the upload step. Missing or empty release ZIPs stop the script before `gh release create`.
+- Missing upload files fail the upload step. Missing or empty release files stop the script before `gh release create`.
 - A missing tag fails `--verify-tag`. An existing Release with the same tag is not updated or overwritten; the create command fails. If publication fails, inspect the Release page before retrying, since a network/upload failure can leave a partially created Release.
 - `plugin-release-${{ github.ref }}` is the release concurrency group. The same tag cannot run two release jobs simultaneously; `cancel-in-progress: false` preserves an already running release job. This is not deduplication or an update mechanism.
 - Every matching `v*` tag is currently published as a **Pre-release**, even if its name does not contain `beta`. It is not marked **Latest**, and no stable release is automatically promoted.
@@ -279,7 +305,7 @@ git tag -a v2.0.3.2-hikari-beta.3 -m "Hikari beta 3"
 git push origin v2.0.3.2-hikari-beta.3
 ```
 
-Pushing that new tag starts both builds and, if successful, publishes the five ZIPs. Pushing only `staging`, manually building a tag, or rerunning a non-tag build does not publish a Release. For an unpublished tag run with a transient failure, use **Re-run failed jobs** after checking whether a Release already exists. A source/workflow fix requires a new commit and normally a new tag, not merely rerunning an old revision.
+Pushing that new tag starts both builds and, if successful, publishes all eight files. Pushing only `staging`, manually building a tag, or rerunning a non-tag build does not publish a Release. For an unpublished tag run with a transient failure, use **Re-run failed jobs** after checking whether a Release already exists. A source/workflow fix requires a new commit and normally a new tag, not merely rerunning an old revision.
 
 ### PR Agent, permissions and secrets
 

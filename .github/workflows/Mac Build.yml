@@ -48,11 +48,18 @@ jobs:
           test -s dist/JS_Inflator-macOS-AU.zip
           test -s dist/JS_Inflator-Windows-VST3.zip
           test -s dist/JS_Inflator-Windows-AAX.zip
+          test -s dist/JS_Inflator-macOS.dmg
+          test -s dist/JS_Inflator-Windows-Setup.exe
+          test -s dist/JS_Inflator-Windows-Uninstall.zip
           cat > release-notes.md <<EOF
           AAX 改作測試版 / Experimental AAX adaptation.
 
           - macOS VST3, AUv2 and AAX universal binaries: Intel x86_64 and Apple Silicon arm64.
           - Windows VST3 and AAX: x64.
+          - macOS DMG: selectable PKG installer plus Uninstall-JS-Inflator.command.
+          - Windows Setup EXE: selectable installer and registered uninstaller; separate Uninstall ZIP also supports manual ZIP installations.
+          - AAX is optional and unselected by default. Quit all DAWs before installing or uninstalling. Existing JS Inflator bundles at the same paths are replaced.
+          - Installers are unsigned/not notarized. Install/uninstall smoke tests run on disposable CI runners; they do not establish OS-wide compatibility.
           - AAX requires Pro Tools Developer on both platforms. macOS bundles are ad-hoc signed; Windows builds are unsigned. Neither has Avid/PACE signing for standard Pro Tools.
           - Build, architecture, and bundle checks do not replace Pro Tools functional testing.
           - GPLv3: source and build instructions are available at ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_SHA}. Clone this revision with recursive submodules and use the SDK revisions pinned in the workflow.
@@ -64,6 +71,9 @@ jobs:
             dist/JS_Inflator-macOS-AU.zip \
             dist/JS_Inflator-Windows-VST3.zip \
             dist/JS_Inflator-Windows-AAX.zip \
+            dist/JS_Inflator-macOS.dmg \
+            dist/JS_Inflator-Windows-Setup.exe \
+            dist/JS_Inflator-Windows-Uninstall.zip \
             --verify-tag --prerelease --latest=false \
             --title "JS Inflator ${RELEASE_TAG} — AAX testing" \
             --notes-file release-notes.md

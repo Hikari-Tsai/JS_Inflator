@@ -154,3 +154,16 @@ jobs:
           name: JS_Inflator-macOS-AU-${{ github.sha }}
           path: ${{ env.BUILD_DIR }}/JS_Inflator-macOS-AU.zip
           if-no-files-found: error
+
+      - name: Build DMG installer and uninstaller
+        run: python3 packaging/build_macos.py --build-dir "${BUILD_DIR}" --config "${BUILD_TYPE}"
+
+      - name: Verify macOS install and uninstall
+        run: bash packaging/macos/verify-installer.sh "${BUILD_DIR}/JS_Inflator-macOS.dmg"
+
+      - name: Upload macOS installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: JS_Inflator-macOS-Installer-${{ github.sha }}
+          path: ${{ env.BUILD_DIR }}/JS_Inflator-macOS.dmg
+          if-no-files-found: error

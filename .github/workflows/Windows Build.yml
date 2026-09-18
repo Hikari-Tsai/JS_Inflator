@@ -100,3 +100,18 @@ jobs:
           name: JS_Inflator-Windows-AAX-${{ github.sha }}
           path: ${{ env.BUILD_DIR }}/JS_Inflator-Windows-AAX.zip
           if-no-files-found: error
+
+      - name: Build Windows installer and uninstaller
+        run: ./packaging/windows/build.ps1 -BuildDir "$env:BUILD_DIR"
+
+      - name: Verify Windows install and uninstall
+        run: ./packaging/windows/verify-installer.ps1 -BuildDir "$env:BUILD_DIR"
+
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: JS_Inflator-Windows-Installer-${{ github.sha }}
+          path: |
+            ${{ env.BUILD_DIR }}/JS_Inflator-Windows-Setup.exe
+            ${{ env.BUILD_DIR }}/JS_Inflator-Windows-Uninstall.zip
+          if-no-files-found: error
