@@ -29,10 +29,29 @@ macOS ZIP 為 **Universal**，同一份下載同時包含 Intel 與 Apple Silico
 
 選擇宿主支援的格式即可，不必全部安裝。GitHub 自動產生的 **Source code** 壓縮檔是原始碼，不是可直接使用的外掛。AAX 提供 Native／AudioSuite target，不支援 AAX DSP；AudioSuite 功能尚未驗證。
 
+### 安裝程式
+
+包含新版打包流程的建置會額外產生以下檔案。**既有 beta.2 Release 仍只有上方五份外掛 ZIP。** 新安裝包請從 [Actions → 成功的執行 → Artifacts](https://github.com/Hikari-Tsai/JS_Inflator/actions)，或日後列有這些檔案的 [Release](https://github.com/Hikari-Tsai/JS_Inflator/releases) 下載。
+
+| 檔案 | 內容 |
+|---|---|
+| `JS_Inflator-macOS.dmg` | 可選格式的 PKG 安裝程式、`Uninstall-JS-Inflator.command`、授權與說明 |
+| `JS_Inflator-Windows-Setup.exe` | x64 安裝程式，註冊系統解除安裝入口 |
+| `JS_Inflator-Windows-Uninstall.zip` | CMD＋PowerShell 解除安裝工具，也適用於之前手動複製的 ZIP 版本 |
+
 <a id="installation"></a>
 ## 安裝方法
 
-### macOS
+### 使用安裝程式與解除安裝
+
+先關閉所有 DAW。macOS 掛載 DMG 後開啟 `JS_Inflator.pkg`，預設勾選 VST3 與 AU；在 **Customize／自訂** 勾選 AAX。Windows 執行 Setup EXE，預設勾選 VST3，可在 **Custom installation** 選擇 AAX。兩個平台的 AAX 都需要已授權的 Pro Tools Developer。
+
+- **macOS 解除安裝：** 執行 DMG 內的 `Uninstall-JS-Inflator.command`，輸入 `REMOVE` 確認，再輸入管理員密碼。若執行權限遺失，可改用 `bash /path/to/Uninstall-JS-Inflator.command`。工具會刪除系統路徑內三種 JS Inflator bundle，以及本安裝程式的 package receipts。
+- **Windows 解除安裝：** 使用「**設定 → 應用程式 → JS Inflator (Hikari)**」，或執行 `C:\Program Files\Hikari\JS Inflator\unins000.exe`（需保留旁邊的 `.dat`）。之前使用 ZIP 安裝者，可解壓 Uninstall ZIP，保留 `.cmd` 與 `.ps1` 在同一目錄，執行 `Uninstall-JS-Inflator.cmd`，輸入 `REMOVE` 並同意管理員提示；若存在 EXE 安裝紀錄，工具也會先執行其解除安裝程式。
+
+安裝會取代標準路徑內同名的 JS Inflator，包括上游版本；需要保留舊版時請先備份 bundle。解除安裝會保留其他外掛、預設檔與 Session，不掃描使用者個人或自訂外掛目錄。PKG／DMG 與 Windows 安裝程式未簽章，macOS 套件尚未 notarize，系統安全檢查可能阻擋啟動；打包不會增加 PACE 簽章。詳見[包內說明](packaging/INSTALL.txt)。
+
+### macOS — 手動 ZIP 安裝
 
 1. 關閉 DAW，解壓縮所需格式的 ZIP。
 2. 在 Finder 選擇「**前往 → 前往檔案夾⋯**」，開啟下表目的地，將解壓後的完整 bundle 複製進去；系統可能要求管理員密碼。
@@ -46,7 +65,7 @@ macOS ZIP 為 **Universal**，同一份下載同時包含 Intel 與 Apple Silico
 
 AU 下載檔已在 `.component` 內嵌入 VST3 實作，**不需另外安裝 VST3**，請保留整個 bundle。macOS 成品採 ad-hoc 簽章，尚未 notarize；若被 macOS 攔截，回報問題時請附上完整錯誤訊息。重新簽章無法取代標準版 Pro Tools 要求的 PACE 授權。
 
-### Windows
+### Windows — 手動 ZIP 安裝
 
 1. 關閉 DAW，解壓縮 Windows ZIP。
 2. 將整個 `.vst3` 或 `.aaxplugin` **資料夾**，連同其中的 `Contents`，複製到下表目的地；可能需要管理員權限。
@@ -142,7 +161,7 @@ cd JS_Inflator
 
 ## GitHub Actions
 
-統一入口 **Build plug-ins** 並行建置 macOS 與 Windows，產生五份 ZIP。PR 更新及推送至 `main` 會自動建置；沒有 PR 的一般 `staging` 推送不會觸發。手動建置只上傳 Artifacts；推送新的 `v*` Tag 時，兩個平台都成功才建立同一個 **Pre-release**，且不標示 Latest。
+統一入口 **Build plug-ins** 並行建置 macOS 與 Windows，產生五份外掛 ZIP，加上 macOS DMG、Windows Setup EXE 與 Uninstall ZIP，共八份檔案。PR 更新及推送至 `main` 會自動建置；沒有 PR 的一般 `staging` 推送不會觸發。手動建置只上傳 Artifacts；推送新的 `v*` Tag 時，兩個平台都成功才建立同一個 **Pre-release**，且不標示 Latest。
 
 [Actions 與建置產物](https://github.com/Hikari-Tsai/JS_Inflator/actions) · [Release 下載](https://github.com/Hikari-Tsai/JS_Inflator/releases)
 
@@ -181,13 +200,13 @@ cd JS_Inflator
 ```mermaid
 flowchart TD
     event["PR / main 推送 / v* Tag 推送 / 手動"] --> entry["Build plug-ins"]
-    entry --> mac["macOS：VST3 → AAX → AU"]
-    entry --> win["Windows：VST3 → AAX"]
-    mac --> ma["3 份 ZIP Artifacts"]
-    win --> wa["2 份 ZIP Artifacts"]
+    entry --> mac["macOS：VST3 → AAX → AU → DMG 與安裝測試"]
+    entry --> win["Windows：VST3 → AAX → EXE 與安裝測試"]
+    mac --> ma["3 份外掛 ZIP＋DMG"]
+    win --> wa["2 份外掛 ZIP＋EXE＋Uninstall ZIP"]
     ma --> gate{"兩個工作成功，且為 v* Tag 推送？"}
     wa --> gate
-    gate -->|是| release["同一個 Pre-release，附上 5 份 ZIP"]
+    gate -->|是| release["同一個 Pre-release，附上 8 份檔案"]
     gate -->|否| stop["跳過發布；保留已上傳的 Artifacts"]
 ```
 
@@ -217,36 +236,43 @@ AAX 僅 checkout `modules/juce_audio_plugin_client/AAX/SDK`，並檢查 `LICENSE
 
 **Windows：** 開啟 `SMTG_CREATE_BUNDLE_FOR_WINDOWS`、關閉安裝用連結，再編譯 `JS_Inflator` 與 `JS_Inflator-aax`。打包前檢查預期 bundle 路徑內有實際二進位，並驗證 DOS 標頭、PE signature 與 x64 machine type。PowerShell `Compress-Archive` 將完整 bundle 打包；Windows 成品未簽章。
 
+**安裝包：** [macOS 打包腳本](packaging/build_macos.py) 使用 `pkgbuild`／`productbuild` 建立固定安裝位置的元件，再以 `hdiutil` 製作壓縮 DMG。[Windows 打包腳本](packaging/windows/build.ps1) 使用 runner 內的 Inno Setup 6，並註冊解除安裝程式。兩者附上 GPLv3 與指向 checkout revision 的 `BUILD-SOURCE.txt`。AAX 預設不勾選；安裝程式版本取自 `CMakeLists.txt`，不會因 Tag 名稱而改變。
+
+**安裝驗證：** 在可拋棄的 CI runner 安裝預設格式，再升級並勾選 AAX，檢查取消與 dry-run、連續兩次解除安裝，並確認相鄰的測試檔沒有被刪除。macOS 另外驗證安裝後的程式簽章與 package receipts 清除；Windows 驗證系統解除安裝紀錄，以及之前 ZIP 安裝版本的移除。安裝包通過測試後才上傳，詳見[安裝包驗證紀錄](tests/results/installer-verification.md)。這些測試不啟動 DAW，也不代表所有支援系統版本都已實測。
+
 VST3 SDK 在 validator target 可用時，也能於 post-build 階段執行 validator，實際結果請查建置紀錄。這些 workflow **沒有明確執行** `auval`、repository 的 96 項 processor 回歸測試、Pro Tools GUI 測試、session 儲存／重開測試或 AudioSuite 功能測試。先前的本地及人工驗證另見[測試紀錄](tests/results/aax-verification.md)。
 
 兩個平台的 AAX 成品都需要 **Pro Tools Developer**。ad-hoc 簽章不是 Avid/PACE 簽章；這套流程不執行 PACE 簽章或 Apple notarization。CI 成功表示通過既定的建置／打包檢查，不等於完整宿主相容性驗證。
 
 ### 成品位置與下載方式
 
-下表路徑相對於 runner 的暫時 checkout 目錄。上傳前，各 ZIP 直接存於 `build-macos/` 或 `build-windows/`。
+下表路徑相對於 runner 的暫時 checkout 目錄。上傳前，各打包檔案直接存於 `build-macos/` 或 `build-windows/`。
 
-| 格式 | Runner 內的 bundle 路徑 | 上傳 ZIP／Release asset |
+| 格式 | Runner 內的 bundle 路徑 | 上傳檔案／Release asset |
 |---|---|---|
 | macOS VST3 | `build-macos/VST3/Release/JS_Inflator.vst3` | `JS_Inflator-macOS-VST3.zip` |
 | macOS AUv2 | `build-macos/VST3/Release/JS_Inflator.component` | `JS_Inflator-macOS-AU.zip` |
 | macOS AAX | `build-macos/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-macOS-AAX.zip` |
 | Windows VST3 | `build-windows/VST3/Release/JS_Inflator.vst3` | `JS_Inflator-Windows-VST3.zip` |
 | Windows AAX | `build-windows/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-Windows-AAX.zip` |
+| macOS 安裝程式 | 已驗證的 VST3、AU、AAX bundles | `JS_Inflator-macOS.dmg` |
+| Windows 安裝程式 | 已驗證的 VST3、AAX bundles | `JS_Inflator-Windows-Setup.exe` |
+| Windows 解除安裝工具 | `packaging/windows/Uninstall-JS-Inflator.*` | `JS_Inflator-Windows-Uninstall.zip` |
 
 Windows 二進位位於 `JS_Inflator.vst3/Contents/x86_64-win/JS_Inflator.vst3` 與 `JS_Inflator.aaxplugin/Contents/x64/JS_Inflator.aaxplugin`。安裝時應複製整個 bundle，不是只拿最內層的二進位檔。
 
-**Artifacts** 是附在單次 Actions 執行上的檔案，名稱為 `JS_Inflator-<platform>-<format>-<github.sha>`，內含上述 ZIP。到 [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions) → 點選一次執行 → **Artifacts** 下載。GitHub 網頁下載需要登入及 repository 讀取權限；下載封裝內可能還有外掛 ZIP，因此需要再解壓一次。workflow 未設定 `retention-days`，保留期限依 repository／organization 設定，詳見 [GitHub Artifact 下載文件](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts)。
+**Artifacts** 是附在單次 Actions 執行上的檔案，名稱為 `JS_Inflator-<platform>-<format>-<github.sha>`，內含上述檔案；新增安裝包放在 `Installer` Artifact。到 [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions) → 點選一次執行 → **Artifacts** 下載。GitHub 網頁下載需要登入及 repository 讀取權限；下載封裝內可能還有外掛 ZIP，因此需要再解壓一次。workflow 未設定 `retention-days`，保留期限依 repository／organization 設定，詳見 [GitHub Artifact 下載文件](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts)。
 
-**Release assets** 則是將同一次建置的相同 ZIP，從 Artifacts 複製到[版本發布頁](https://github.com/Hikari-Tsai/JS_Inflator/releases)，不會隨 Actions Artifact 到期而一起消失。兩者都不會自動將外掛安裝到你的電腦。本地與 CI 使用相同專案原始碼及 target，但 SDK、工具鏈、編譯選項、簽章與打包方式也要一致，才能期待相近結果；不保證二進位檔案逐位元相同。
+**Release assets** 則是將同一次建置的相同打包檔案，從 Artifacts 複製到[版本發布頁](https://github.com/Hikari-Tsai/JS_Inflator/releases)，不會隨 Actions Artifact 到期而一起消失。兩者都不會自動將外掛安裝到你的電腦。本地與 CI 使用相同專案原始碼及 target，但 SDK、工具鏈、編譯選項、簽章與打包方式也要一致，才能期待相近結果；不保證二進位檔案逐位元相同。
 
 ### Release 的條件與失敗處理
 
-發布 job 設定 `needs: [macos, windows]`，且只有 `github.event_name == 'push'`、`github.ref` 以 `refs/tags/v` 開頭時才執行。它從**同一次 workflow run** 下載符合 `JS_Inflator-*-${{ github.sha }}` 的 Artifacts，合併到 `dist/`，再確認五份預期 ZIP 都存在且不是空檔。
+發布 job 設定 `needs: [macos, windows]`，且只有 `github.event_name == 'push'`、`github.ref` 以 `refs/tags/v` 開頭時才執行。它從**同一次 workflow run** 下載符合 `JS_Inflator-*-${{ github.sha }}` 的 Artifacts，合併到 `dist/`，再確認八份預期檔案都存在且不是空檔。
 
-接著以 `gh release create` 上傳五份檔案，使用 `--verify-tag --prerelease --latest=false`，依 Tag 產生標題。Release notes 包含平台、簽章限制，以及指向建置 SHA 的原始碼與測試紀錄連結；這份說明由 workflow 產生，不是 PR Agent 產生。
+接著以 `gh release create` 上傳八份檔案，使用 `--verify-tag --prerelease --latest=false`，依 Tag 產生標題。Release notes 包含平台、簽章限制，以及指向建置 SHA 的原始碼與測試紀錄連結；這份說明由 workflow 產生，不是 PR Agent 產生。
 
 - 任一平台工作失敗或取消，就不發布。先前成功的上傳步驟仍可能留下部分 Artifacts，不能只看到有檔案就認定整次建置成功。
-- 上傳來源不存在會讓 upload 步驟失敗；發布階段若缺 ZIP 或檔案為空，腳本會在執行 `gh release create` 前停止。
+- 上傳來源不存在會讓 upload 步驟失敗；發布階段若缺檔或檔案為空，腳本會在執行 `gh release create` 前停止。
 - `--verify-tag` 會拒絕不存在的 Tag。同名 Tag 已有 Release 時，不會更新或覆寫，而是建立失敗。若發布途中出現網路／上傳錯誤，可能已留下部分建立的 Release，重跑前先檢查發布頁。
 - 同一 Tag 使用 `plugin-release-${{ github.ref }}` concurrency group，避免兩個發布工作同時進行；`cancel-in-progress: false` 會保留正在執行的發布工作。這不代表會自動去重或更新既有 Release。
 - 目前所有符合 `v*` 的 Tag 都發布成 **Pre-release**，即使名稱沒有 `beta` 也一樣；不標示 **Latest**，也不會自動升級成正式發布。
@@ -279,7 +305,7 @@ git tag -a v2.0.3.2-hikari-beta.3 -m "Hikari beta 3"
 git push origin v2.0.3.2-hikari-beta.3
 ```
 
-推送這個新 Tag 會啟動兩個平台，成功後發布五份 ZIP。只推送 `staging`、手動選 Tag 建置，或重跑非 Tag 的執行，都不會發布 Release。尚未發布的 Tag 若因暫時性問題失敗，可先確認發布頁是否已有 Release，再使用 **Re-run failed jobs**。若修改了原始碼或 workflow，則需要新 commit，通常也應使用新 Tag，重跑舊 revision 不會包含修正。
+推送這個新 Tag 會啟動兩個平台，成功後發布八份檔案。只推送 `staging`、手動選 Tag 建置，或重跑非 Tag 的執行，都不會發布 Release。尚未發布的 Tag 若因暫時性問題失敗，可先確認發布頁是否已有 Release，再使用 **Re-run failed jobs**。若修改了原始碼或 workflow，則需要新 commit，通常也應使用新 Tag，重跑舊 revision 不會包含修正。
 
 ### PR Agent、權限與 Secrets
 

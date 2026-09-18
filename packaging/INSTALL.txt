@@ -1,0 +1,31 @@
+JS Inflator - Hikari testing build
+
+Close all DAWs before installing, upgrading, or uninstalling.
+An existing JS Inflator at the same path will be replaced, including upstream builds.
+Back up the previous bundle if you need to keep it. Presets and sessions are not removed.
+
+macOS: Open JS_Inflator.pkg inside the DMG. VST3 and AU are selected by default.
+Choose Customize to opt into AAX (Pro Tools Developer only).
+To remove the system-wide bundles, run Uninstall-JS-Inflator.command from this DMG.
+If executable permissions were lost, run: bash /path/to/Uninstall-JS-Inflator.command
+You will be asked to confirm removal and enter an administrator password.
+
+Windows: Run JS_Inflator-Windows-Setup.exe. VST3 is selected by default.
+Choose Custom installation to opt into AAX (Pro Tools Developer only).
+Uninstall via Settings > Apps > JS Inflator (Hikari), or run unins000.exe in
+C:\Program Files\Hikari\JS Inflator. Keep the accompanying unins000.dat file.
+The separate Windows-Uninstall ZIP includes Uninstall-JS-Inflator.cmd and .ps1;
+extract both together and run the CMD. It requests confirmation and administrator
+access, runs the registered installer uninstaller, then removes any remaining
+JS_Inflator.vst3 / JS_Inflator.aaxplugin bundles at the standard system paths.
+This also supports earlier manual ZIP installations. Other plug-ins are untouched.
+
+AAX REQUIRES LICENSED PRO TOOLS DEVELOPER. Standard Pro Tools cannot load these
+AAX binaries until Avid/PACE signing is available. AAX is optional in installers.
+macOS plug-ins are ad-hoc signed; the PKG/DMG are not Developer ID signed or
+notarized. Windows binaries/installers are unsigned. OS security checks may
+block launch. Packaging does not change signing or host compatibility.
+
+License: GNU GPLv3; see LICENSE. See BUILD-SOURCE.txt for the exact source revision.
+Project, installation paths and build instructions:
+https://github.com/Hikari-Tsai/JS_Inflator
