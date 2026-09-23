@@ -2,14 +2,20 @@
 
 以 [JS Inflator](https://github.com/Kiriki-liszt/JS_Inflator) 為基礎，加入 AAX 整合與 macOS／Windows 建置的音訊效果器。**此 AAX 改作版本目前仍在測試中。** AAX 下載檔需搭配已取得授權的 **Pro Tools Developer**；尚未經 Avid/PACE 簽章，無法在標準版 Pro Tools 載入。
 
-[English](README.md) · [繁體中文](README.zh-TW.md) · [下載](#downloads) · [安裝](#installation) · [架構](#architecture) · [演算法](#algorithm) · [GitHub Actions](#github-actions)
+[![English](https://img.shields.io/badge/English-475569?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjkiLz48ZWxsaXBzZSBjeD0iMTIiIGN5PSIxMiIgcng9IjQiIHJ5PSI5Ii8%2BPHBhdGggZD0iTTMgMTJoMTgiLz48L3N2Zz4%3D&logoColor=white)](README.md)
+[![繁體中文](https://img.shields.io/badge/%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87-1E293B?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjkiLz48ZWxsaXBzZSBjeD0iMTIiIGN5PSIxMiIgcng9IjQiIHJ5PSI5Ii8%2BPHBhdGggZD0iTTMgMTJoMTgiLz48L3N2Zz4%3D&logoColor=white)](README.zh-TW.md)
+[![下載](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-047857?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAzdjEybS01LTUgNSA1IDUtNU00IDE2djVoMTZ2LTUiLz48L3N2Zz4%3D&logoColor=white)](#downloads)
+[![安裝](https://img.shields.io/badge/%E5%AE%89%E8%A3%9D-2563EB?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Im0xMiAyIDkgNXYxMGwtOSA1LTktNVY3Wm0tOSA1IDkgNSA5LTVNMTIgMTJ2MTBNNy41IDQuNWw5IDV2NSIvPjwvc3ZnPg%3D%3D&logoColor=white)](#installation)
+[![架構](https://img.shields.io/badge/%E6%9E%B6%E6%A7%8B-0E7490?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxyZWN0IHg9IjkiIHk9IjIiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIHJ4PSIxIi8%2BPHJlY3QgeD0iMiIgeT0iMTYiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIHJ4PSIxIi8%2BPHJlY3QgeD0iMTYiIHk9IjE2IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiByeD0iMSIvPjxwYXRoIGQ9Ik0xMiA4djRINXY0bTctNGg3djQiLz48L3N2Zz4%3D&logoColor=white)](#architecture)
+[![演算法](https://img.shields.io/badge/%E6%BC%94%E7%AE%97%E6%B3%95-7C3AED?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0yIDEyaDNsMy04IDQgMTYgNC0xNiAzIDhoMyIvPjwvc3ZnPg%3D%3D&logoColor=white)](#algorithm)
+[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-4338CA?style=flat-square&logo=githubactions&logoColor=white)](#github-actions)
 
 ![JS Inflator 系統架構：宿主、格式轉接、音訊核心、介面與建置輸出](screenshots/js-inflator-architecture.webp)
 
 <a id="downloads"></a>
 ## 下載與平台版本
 
-目前提供 **[v2.0.3.2-hikari-beta.2](https://github.com/Hikari-Tsai/JS_Inflator/releases/tag/v2.0.3.2-hikari-beta.2)** 預發行版。外掛內部版本仍為 `2.0.3.2`，Hikari 後綴用來識別此改作版的發布版本。[查看所有版本](https://github.com/Hikari-Tsai/JS_Inflator/releases)。
+目前提供 **[v2.0.3.2-hikari-beta.3](https://github.com/Hikari-Tsai/JS_Inflator/releases/tag/v2.0.3.2-hikari-beta.3)** 預發行版。外掛內部版本仍為 `2.0.3.2`，Hikari 後綴用來識別此改作版的發布版本。[查看所有版本](https://github.com/Hikari-Tsai/JS_Inflator/releases)。
 
 | 作業系統／CPU | 提供格式 | 相容性範圍 |
 |---|---|---|
@@ -19,25 +25,24 @@
 
 macOS ZIP 為 **Universal**，同一份下載同時包含 Intel 與 Apple Silicon 二進位，不必分開選。Windows ZIP 為 x64；目前沒有原生 Windows ARM64、32 位元或 Linux 發布套件。建置最低版本不代表每種作業系統與宿主組合都已實測。
 
-| 平台 | 格式／適用宿主 | 下載 |
+| 平台 | 外掛 ZIP（手動安裝） | 安裝程式 |
 |---|---|---|
-| macOS | VST3 — 支援 VST3 的 DAW | [![下載 macOS VST3 ZIP](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-VST3%20ZIP-2563eb?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-VST3.zip) |
-| macOS | AUv2 — Logic Pro、GarageBand 等 AU 宿主 | [![下載 macOS AU ZIP](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-AU%20ZIP-2563eb?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AU.zip) |
-| macOS | AAX — **僅限 Pro Tools Developer** | [![下載 macOS AAX ZIP](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-AAX%20ZIP-2563eb?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-macOS-AAX.zip) |
-| Windows x64 | VST3 — 支援 VST3 的 64 位元 DAW | [![下載 Windows VST3 ZIP](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-VST3%20ZIP-087f5b?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-VST3.zip) |
-| Windows x64 | AAX — **僅限 Pro Tools Developer** | [![下載 Windows AAX ZIP](https://img.shields.io/badge/%E4%B8%8B%E8%BC%89-AAX%20ZIP-087f5b?style=for-the-badge)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.2/JS_Inflator-Windows-AAX.zip) |
+| macOS · Universal | [![下載 macOS AAX ZIP](https://img.shields.io/badge/AAX-6B2C91?style=for-the-badge&logo=protools&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-AAX.zip) [![下載 macOS AU ZIP](https://img.shields.io/badge/AU-D1D1D3?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzMzMzMzIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMiAxMHY0TTcgNnYxMk0xMiAydjIwTTE3IDZ2MTJNMjIgMTB2NCIvPjwvc3ZnPg%3D%3D&logoColor=333333)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-AU.zip) [![下載 macOS VST3 ZIP](https://img.shields.io/badge/VST3-CC0030?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xMiAxIDEgMTJsMTEgMTEgNC00LTctNyA3LTdaIi8%2BPGNpcmNsZSBjeD0iMTgiIGN5PSIxMiIgcj0iNCIvPjwvc3ZnPg%3D%3D&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-VST3.zip) | [![下載 macOS DMG](https://img.shields.io/badge/DMG-000000?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS.dmg) |
+| Windows · x64 | [![下載 Windows AAX ZIP](https://img.shields.io/badge/AAX-6B2C91?style=for-the-badge&logo=protools&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-AAX.zip) [![下載 Windows VST3 ZIP](https://img.shields.io/badge/VST3-CC0030?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xMiAxIDEgMTJsMTEgMTEgNC00LTctNyA3LTdaIi8%2BPGNpcmNsZSBjeD0iMTgiIGN5PSIxMiIgcj0iNCIvPjwvc3ZnPg%3D%3D&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-VST3.zip) | [![下載 Windows EXE](https://img.shields.io/badge/EXE-0078D4?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xIDFoMTB2MTBIMXptMTIgMGgxMHYxMEgxM3pNMSAxM2gxMHYxMEgxem0xMiAwaDEwdjEwSDEzeiIvPjwvc3ZnPg%3D%3D&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-Setup.exe) |
+
+**格式選擇：** AAX 僅適用於 **Pro Tools Developer**；AU 適用於 Logic Pro、GarageBand 等 AU 宿主；VST3 適用於支援 VST3 的 DAW。DMG／EXE 提供可選格式的安裝程式。
 
 選擇宿主支援的格式即可，不必全部安裝。GitHub 自動產生的 **Source code** 壓縮檔是原始碼，不是可直接使用的外掛。AAX 提供 Native／AudioSuite target，不支援 AAX DSP；AudioSuite 功能尚未驗證。
 
 ### 安裝程式
 
-包含新版打包流程的建置會額外產生以下檔案。**既有 beta.2 Release 仍只有上方五份外掛 ZIP。** 新安裝包請從 [Actions → 成功的執行 → Artifacts](https://github.com/Hikari-Tsai/JS_Inflator/actions)，或日後列有這些檔案的 [Release](https://github.com/Hikari-Tsai/JS_Inflator/releases) 下載。
+**beta.3 已提供以下安裝與移除工具。** 上方 DMG／EXE 按鈕可直接下載安裝程式；Windows 獨立移除工具請使用下表連結。
 
 | 檔案 | 內容 |
 |---|---|
 | `JS_Inflator-macOS.dmg` | 可選格式的 PKG 安裝程式、`Uninstall-JS-Inflator.command`、授權與說明 |
 | `JS_Inflator-Windows-Setup.exe` | x64 安裝程式，註冊系統解除安裝入口 |
-| `JS_Inflator-Windows-Uninstall.zip` | CMD＋PowerShell 解除安裝工具，也適用於之前手動複製的 ZIP 版本 |
+| [`JS_Inflator-Windows-Uninstall.zip`](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-Uninstall.zip) | CMD＋PowerShell 解除安裝工具，也適用於之前手動複製的 ZIP 版本 |
 
 <a id="installation"></a>
 ## 安裝方法
@@ -257,7 +262,7 @@ VST3 SDK 在 validator target 可用時，也能於 post-build 階段執行 vali
 | Windows AAX | `build-windows/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-Windows-AAX.zip` |
 | macOS 安裝程式 | 已驗證的 VST3、AU、AAX bundles | `JS_Inflator-macOS.dmg` |
 | Windows 安裝程式 | 已驗證的 VST3、AAX bundles | `JS_Inflator-Windows-Setup.exe` |
-| Windows 解除安裝工具 | `packaging/windows/Uninstall-JS-Inflator.*` | `JS_Inflator-Windows-Uninstall.zip` |
+| Windows 解除安裝工具 | `packaging/windows/Uninstall-JS-Inflator.*` | [`JS_Inflator-Windows-Uninstall.zip`](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-Uninstall.zip) |
 
 Windows 二進位位於 `JS_Inflator.vst3/Contents/x86_64-win/JS_Inflator.vst3` 與 `JS_Inflator.aaxplugin/Contents/x64/JS_Inflator.aaxplugin`。安裝時應複製整個 bundle，不是只拿最內層的二進位檔。
 
