@@ -1,336 +1,79 @@
 # JS Inflator — Hikari AAX Fork
 
-An audio effect based on [JS Inflator](https://github.com/Kiriki-liszt/JS_Inflator), with AAX integration and macOS/Windows builds. **This AAX adaptation is still in testing.** The AAX downloads require a licensed **Pro Tools Developer** installation; they cannot load in standard Pro Tools because they are not Avid/PACE signed.
+[![繁體中文](https://img.shields.io/badge/%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87-454B50?style=for-the-badge)](README.zh-TW.md)[![English](https://img.shields.io/badge/English-62B6A5?style=for-the-badge)](README.md)
 
-[![English](https://img.shields.io/badge/English-1E293B?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjkiLz48ZWxsaXBzZSBjeD0iMTIiIGN5PSIxMiIgcng9IjQiIHJ5PSI5Ii8%2BPHBhdGggZD0iTTMgMTJoMTgiLz48L3N2Zz4%3D&logoColor=white)](README.md)
-[![繁體中文](https://img.shields.io/badge/%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87-475569?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjkiLz48ZWxsaXBzZSBjeD0iMTIiIGN5PSIxMiIgcng9IjQiIHJ5PSI5Ii8%2BPHBhdGggZD0iTTMgMTJoMTgiLz48L3N2Zz4%3D&logoColor=white)](README.zh-TW.md)
-[![Downloads](https://img.shields.io/badge/Downloads-047857?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xMiAzdjEybS01LTUgNSA1IDUtNU00IDE2djVoMTZ2LTUiLz48L3N2Zz4%3D&logoColor=white)](#downloads)
-[![Install](https://img.shields.io/badge/Install-2563EB?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Im0xMiAyIDkgNXYxMGwtOSA1LTktNVY3Wm0tOSA1IDkgNSA5LTVNMTIgMTJ2MTBNNy41IDQuNWw5IDV2NSIvPjwvc3ZnPg%3D%3D&logoColor=white)](#installation)
-[![Architecture](https://img.shields.io/badge/Architecture-0E7490?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxyZWN0IHg9IjkiIHk9IjIiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIHJ4PSIxIi8%2BPHJlY3QgeD0iMiIgeT0iMTYiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiIHJ4PSIxIi8%2BPHJlY3QgeD0iMTYiIHk9IjE2IiB3aWR0aD0iNiIgaGVpZ2h0PSI2IiByeD0iMSIvPjxwYXRoIGQ9Ik0xMiA4djRINXY0bTctNGg3djQiLz48L3N2Zz4%3D&logoColor=white)](#architecture)
-[![Algorithm](https://img.shields.io/badge/Algorithm-7C3AED?style=flat-square&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0yIDEyaDNsMy04IDQgMTYgNC0xNiAzIDhoMyIvPjwvc3ZnPg%3D%3D&logoColor=white)](#algorithm)
-[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-4338CA?style=flat-square&logo=githubactions&logoColor=white)](#github-actions)
+[![Downloads](https://img.shields.io/badge/Downloads-454B50?style=for-the-badge)](#downloads)[![Install](https://img.shields.io/badge/Install-454B50?style=for-the-badge)](#installation)[![Architecture](https://img.shields.io/badge/Architecture-454B50?style=for-the-badge)](#architecture)[![Algorithm](https://img.shields.io/badge/Algorithm-454B50?style=for-the-badge)](#algorithm)[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-454B50?style=for-the-badge)](#github-actions)
 
-![JS Inflator architecture: hosts, format wrappers, audio core, interface and build outputs](screenshots/js-inflator-architecture.webp)
+![JS Inflator interface — Original skin on the left, Twarch skin on the right](screenshots/screenshot_both.png)
+
+*Original (left) and Twarch (right) interface skins.*
+
+An audio effect based on [JS Inflator](https://github.com/Kiriki-liszt/JS_Inflator), adding AAX integration, macOS/Windows builds and installers. Built with **C++, Steinberg VST3 SDK and VSTGUI**.
+
+![JS Inflator system architecture](screenshots/js-inflator-architecture.webp)
 
 <a id="downloads"></a>
-## Downloads and platform versions
+## Download and installation
 
-Current download: **[v2.0.3.2-hikari-beta.3](https://github.com/Hikari-Tsai/JS_Inflator/releases/tag/v2.0.3.2-hikari-beta.3)** — a Pre-release. The plug-in's internal version remains `2.0.3.2`; the Hikari suffix identifies this fork's distribution. [All releases](https://github.com/Hikari-Tsai/JS_Inflator/releases).
+[![AAX](https://img.shields.io/badge/AAX-662D91?style=for-the-badge&logo=protools&logoColor=FFFFFF)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-AAX.zip)[![AU](https://img.shields.io/badge/AU-D1D1D6?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMUQxRDFGIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBkPSJNMyAxMHY0bTQtN3YxMG01LTE0djE4bTUtMTR2MTBtNC03djQiLz48L3N2Zz4%3D)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-AU.zip)[![VST3](https://img.shields.io/badge/VST3-C90526?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ijk3MCAwIDQyMCA1MDAiPjxwYXRoIGZpbGw9IiNGRkZGRkYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEyMjAuMSw3LjFsODAuMiw4MC4yYy04Mi4yLDUuNi0xNDcuMSw3NC4xLTE0Ny4xLDE1Ny43YzAsODcuMSw3MC4zLDE1Ny43LDE1Ny4zLDE1OC4xbC05MC4zLDkwLjNMOTc3LDI1MC4zIEwxMjIwLjEsNy4xTDEyMjAuMSw3LjF6IE0xMjQ0LjEsMjQ1LjFjMC0zNy4xLDMwLjEtNjcuMiw2Ny4yLTY3LjJjMzcuMSwwLDY3LjIsMzAuMSw2Ny4yLDY3LjJjMCwzNy4xLTMwLjEsNjcuMi02Ny4yLDY3LjIgQzEyNzQuMSwzMTIuMiwxMjQ0LjEsMjgyLjIsMTI0NC4xLDI0NS4xTDEyNDQuMSwyNDUuMXoiLz48L3N2Zz4%3D&logoColor=FFFFFF)](#plugin-downloads)[![DMG](https://img.shields.io/badge/DMG-000000?style=for-the-badge&logo=apple&logoColor=FFFFFF)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS.dmg)
 
-| Operating system / CPU | Available formats | Compatibility scope |
-|---|---|---|
-| macOS, Intel `x86_64` | VST3, AUv2, AAX | Build target: macOS 10.13 or later; the host may require a newer macOS |
-| macOS, Apple Silicon `arm64` | VST3, AUv2, AAX | macOS 11 or later; the host may require a newer macOS |
-| Windows 10 / 11, `x64` | VST3, AAX | 64-bit hosts; Windows host testing remains pending |
+Current version: [v2.0.3.2-hikari-beta.3](https://github.com/Hikari-Tsai/JS_Inflator/releases/tag/v2.0.3.2-hikari-beta.3) — regular Release / Latest, retaining its original Tag name. AAX, AU and DMG buttons download macOS files; choose the VST3 platform below. Source code archives contain source files.
 
-The macOS ZIPs are **Universal**: the same download contains Intel and Apple Silicon binaries. Windows ZIPs contain x64 binaries; there are no native Windows ARM64, 32-bit, or Linux release packages. Build targets are not a claim that every supported OS/host combination has been tested.
+<a id="plugin-downloads"></a>
 
-| Platform | Plug-in ZIPs (manual installation) | Installer |
-|---|---|---|
-| macOS · Universal | [![Download macOS AAX ZIP](https://img.shields.io/badge/AAX-6B2C91?style=for-the-badge&logo=protools&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-AAX.zip) [![Download macOS AU ZIP](https://img.shields.io/badge/AU-D1D1D3?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzMzMzMzIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMiAxMHY0TTcgNnYxMk0xMiAydjIwTTE3IDZ2MTJNMjIgMTB2NCIvPjwvc3ZnPg%3D%3D&logoColor=333333)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-AU.zip) [![Download macOS VST3 ZIP](https://img.shields.io/badge/VST3-CC0030?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xMiAxIDEgMTJsMTEgMTEgNC00LTctNyA3LTdaIi8%2BPGNpcmNsZSBjeD0iMTgiIGN5PSIxMiIgcj0iNCIvPjwvc3ZnPg%3D%3D&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-VST3.zip) | [![Download macOS DMG](https://img.shields.io/badge/DMG-000000?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS.dmg) |
-| Windows · x64 | [![Download Windows AAX ZIP](https://img.shields.io/badge/AAX-6B2C91?style=for-the-badge&logo=protools&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-AAX.zip) [![Download Windows VST3 ZIP](https://img.shields.io/badge/VST3-CC0030?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xMiAxIDEgMTJsMTEgMTEgNC00LTctNyA3LTdaIi8%2BPGNpcmNsZSBjeD0iMTgiIGN5PSIxMiIgcj0iNCIvPjwvc3ZnPg%3D%3D&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-VST3.zip) | [![Download Windows EXE](https://img.shields.io/badge/EXE-0078D4?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xIDFoMTB2MTBIMXptMTIgMGgxMHYxMEgxM3pNMSAxM2gxMHYxMEgxem0xMiAwaDEwdjEwSDEzeiIvPjwvc3ZnPg%3D%3D&logoColor=white)](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-Setup.exe) |
+| Platform | Installer | Plug-in ZIPs |
+| --- | --- | --- |
+| macOS · Universal Intel / Apple Silicon | [DMG](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS.dmg) → `JS_Inflator.pkg` | [AAX](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-AAX.zip), [AU](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-AU.zip), [VST3](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-macOS-VST3.zip) |
+| Windows 10 / 11 · x64 | Install VST3 ZIP manually | [VST3](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-VST3.zip) |
 
-**Format guide:** AAX requires **Pro Tools Developer**; AU supports Logic Pro, GarageBand and other AU hosts; VST3 supports VST3-capable DAWs. DMG / EXE packages provide installers with selectable formats.
-
-Choose the format your host supports; installing all formats is unnecessary. GitHub's automatically generated **Source code** archives are source downloads, not ready-to-use plug-ins. AAX supports Native/AudioSuite targets, not AAX DSP; AudioSuite functionality is not yet verified.
-
-### Installer packages
-
-**beta.3 includes the installers and removal tools below.** Use the DMG / EXE buttons above to download an installer, or the link below for the standalone Windows removal tool.
-
-| File | Contents |
-|---|---|
-| `JS_Inflator-macOS.dmg` | Selectable PKG installer, `Uninstall-JS-Inflator.command`, license and instructions |
-| `JS_Inflator-Windows-Setup.exe` | x64 installer with a registered uninstaller |
-| [`JS_Inflator-Windows-Uninstall.zip`](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-Uninstall.zip) | CMD + PowerShell removal tool, also usable for earlier manual ZIP installations |
+macOS build targets: Intel 10.13+, Apple Silicon 11+. Hosts may require newer systems; not every OS/host combination has been tested.
 
 <a id="installation"></a>
-## Installation
 
-### Installers and uninstalling
+1. **Close your DAW.** On macOS, open the PKG inside the DMG. VST3 and AU are selected by default; select AAX under **Customize** if needed.
+2. **Windows installation:** extract the ZIP and copy the complete `JS_Inflator.vst3` folder into `C:\Program Files\Common Files\VST3`.
+3. **Load:** reopen your DAW, rescan and find **JS Inflator** under audio effects. Use AU in Logic Pro / GarageBand, or VST3 in a VST3-capable host.
 
-Quit all DAWs first. On macOS, mount the DMG and open `JS_Inflator.pkg`; VST3 and AU are selected by default. Use **Customize** to opt into AAX. On Windows, run the Setup EXE; VST3 is selected by default, with AAX available under **Custom installation**. AAX requires licensed Pro Tools Developer on both platforms.
+<a id="aax-signing-status"></a>
 
-- **macOS uninstall:** run `Uninstall-JS-Inflator.command` inside the DMG, type `REMOVE` and enter the administrator password. If executable permissions were lost, run `bash /path/to/Uninstall-JS-Inflator.command`. It removes the three system-wide JS Inflator bundles and this installer's package receipts.
-- **Windows uninstall:** use **Settings → Apps → JS Inflator (Hikari)**, or `C:\Program Files\Hikari\JS Inflator\unins000.exe` (keep its accompanying `.dat`). For manual ZIP installs, extract the Uninstall ZIP and run `Uninstall-JS-Inflator.cmd` with the `.ps1` beside it; confirm with `REMOVE` and accept the administrator prompt. This tool also invokes the installed EXE uninstaller when present.
+**AAX signing:** the macOS AAX inside the ZIP / DMG updated on 2026-09-27 has a **verified PACE signature**, using a local self-signed test certificate rather than Apple Developer ID. It is not notarized; standard Pro Tools loading remains untested. **Unsigned Windows AAX ZIP / EXE downloads have been removed.** beta.1 / beta.2, original beta.3 files and original CI Artifacts are not PACE-signed; existing downloads do not update automatically. See [version status and SHA-256](docs/INSTALLATION.md#aax-signing-status).
 
-Installers replace JS Inflator at the standard paths, including upstream copies with the same bundle names. Back up an older bundle if needed. Removal preserves other plug-ins, presets and sessions; user-specific or custom plug-in folders are not scanned. PKG/DMG and Windows installers are unsigned and macOS packages are not notarized, so OS security checks may block launch. Packaging does not add PACE signing. [Included instructions](packaging/INSTALL.txt).
+**Uninstall:** on macOS, run `Uninstall-JS-Inflator.command` from the DMG, enter `REMOVE` and authorize when prompted. On Windows, remove the manually installed VST3 folder or use the [removal tool for earlier installations](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-Uninstall.zip). Close DAWs first.
 
-### macOS — manual ZIP installation
-
-1. Quit your DAW and extract the ZIP for the format you need.
-2. In Finder, choose **Go → Go to Folder…** and open the destination below. Copy the entire extracted bundle there; an administrator password may be required.
-3. Restart the DAW, rescan plug-ins if necessary, and insert **JS Inflator** on an audio track or bus. AU may appear under manufacturer **yg331**.
-
-| Copy this bundle | Into this folder |
-|---|---|
-| `JS_Inflator.vst3` | `/Library/Audio/Plug-Ins/VST3/` |
-| `JS_Inflator.component` | `/Library/Audio/Plug-Ins/Components/` |
-| `JS_Inflator.aaxplugin` | `/Library/Application Support/Avid/Audio/Plug-Ins/` |
-
-The AU download includes its VST3 implementation inside the `.component`; it does **not** need a separately installed VST3. Keep the bundle intact. These macOS builds are ad-hoc signed and not notarized; if macOS blocks loading, record the exact message when reporting the issue. Re-signing cannot provide the PACE authorization needed by standard Pro Tools.
-
-### Windows — manual ZIP installation
-
-1. Quit your DAW and extract the Windows ZIP.
-2. Copy the entire `.vst3` or `.aaxplugin` **folder**, including `Contents`, to the destination below. Administrator permission may be required.
-3. Restart your 64-bit DAW, rescan plug-ins if necessary, and insert **JS Inflator**. For AAX, launch the licensed Developer edition of Pro Tools.
-
-| Copy this folder | Into this folder |
-|---|---|
-| `JS_Inflator.vst3` | `C:\Program Files\Common Files\VST3\` |
-| `JS_Inflator.aaxplugin` | `C:\Program Files\Common Files\Avid\Audio\Plug-Ins\` |
-
-Do not install only the binary inside `Contents/x86_64-win/` or `Contents/x64/`. These are complete plug-in bundles, not installers, and the Windows binaries are unsigned.
-
-Installation paths follow the [Steinberg VST3 locations](https://steinbergmedia.github.io/vst3_dev_portal/pages/Technical%2BDocumentation/Locations%2BFormat/Plugin%2BLocations.html), [Apple AU locations](https://support.apple.com/en-ie/102239), and [Avid AAX locations](https://learn-cdn.avid.com/AAX_SDK_2p1p1/Documentation/Doxygen/output/html/a00274.html).
-
-### Updating or troubleshooting
-
-Back up the previous plug-in and important sessions before replacing a beta build; verify the replacement in a test session first. To uninstall, quit the host and remove the installed bundle.
-
-- **Not listed in the host:** check the OS/format, install location, complete bundle structure, and host scan results. Standard Pro Tools will reject these unsigned-for-PACE AAX builds.
-- **Interface opens but meters do not move:** feed audio into the track/bus and check the host's routing, playback and bypass state. This is an effect, not a sound generator.
-- **A control seems inactive:** `Curve` does not change audio at `Effect = 0`; `Phase` does not change audio at `OS = 1x`.
-
-Report issues with the release tag, OS version, CPU, host/version, plug-in format, sample rate and reproduction steps in [Issues](https://github.com/Hikari-Tsai/JS_Inflator/issues).
+See the [installation guide](docs/INSTALLATION.md) for all plug-in paths, previous installers and troubleshooting.
 
 <a id="architecture"></a>
 ## Architecture and features
 
-The core uses **C++ + Steinberg VST3 SDK + VSTGUI**. Steinberg's wrappers adapt that core to AUv2 and AAX; r8brain-free-src handles linear-phase resampling. JUCE is only the repository source for the Avid SDK used by CI, not this plug-in's application framework. The diagram's build row illustrates the macOS path; current CI also builds Windows VST3 and AAX.
+Steinberg wrappers adapt the shared DSP core to VST3, AUv2 and AAX. r8brain handles linear-phase resampling. CI obtains only Avid's SDK from the JUCE repository; **the plug-in does not use the JUCE framework**. The architecture diagram shows the macOS build path; CI also supports Windows.
 
-- Input/output gain, Effect, Curve, Clip, Split and bypass controls.
-- 1x, 2x, 4x and 8x oversampling with selectable phase behavior.
-- Double-precision internal audio processing and input/output/effect meters.
+- Input / Output, Effect, Curve, Clip, Band Split and bypass controls.
+- 1× / 2× / 4× / 8× oversampling with selectable phase behavior.
+- Double-precision audio processing and input / output / effect meters.
 - Original and Twarch interfaces with skin switching and zoom.
 
 <a id="algorithm"></a>
 ## Audio algorithm
 
-JS Inflator uses **sample-by-sample waveshaping**: a nonlinear curve changes each sample's amplitude. Small and medium amplitudes can rise relative to peaks, increasing signal density while introducing harmonics. The shaping function has no attack/release envelope; PPM meters observe the signal without controlling it. This describes the open-source JSIF implementation, not a verified account of Sonnox's internal algorithm.
+![JS Inflator audio algorithm](screenshots/js-inflator-algorithm.en.webp)
 
-![JS Inflator audio algorithm: input limits, oversampling, waveshaping, dry delay and output mixing](screenshots/js-inflator-algorithm.en.webp)
+The path is **input gain and limiting → upsampling → waveshaping → downsampling → dry/wet mix and output**. Curve controls the nonlinear shape; Effect sets the mix. Band Split shapes low, mid and high bands separately. Dry delay compensates for resampling latency.
 
-- **Input and Clip:** Input applies −12 to +12 dB. Clip optionally limits samples to ±1 before upsampling; a ±2 limit always applies at this point. The dry branch is taken after these operations.
-- **Wet processing:** Upsample by 1×, 2×, 4× or 8×, apply the Curve-controlled waveshaper, optionally clip to ±1, then downsample. Oversampling uses the custom FIR or r8brain path to reduce aliasing, with CPU and latency costs. Turning Effect In off skips shaping and wet clipping while retaining resampling.
-- **Band Split:** When enabled, filters at 240 Hz and 2400 Hz produce overlapping low, mid and high bands. Each band is shaped separately, then summed as `F(L) + F(G*M)/G + F(H)`, where `G` compensates mid-band gain.
-- **Effect and Output:** Delay the dry branch to match the wet path, then mix `(1−E)*dry + E*wet`, where `E = Effect / 100`. Output applies −12 to 0 dB afterward. **Effect = 0% is not full bypass:** Input and pre-clipping remain active. Host Bypass uses its own latency-compensated path.
+**Effect = 0% is not full bypass:** Input and pre-clipping still apply. See the [algorithm guide](docs/ALGORITHM.md) for equations, overload behavior and source references.
 
-<details>
-<summary>Waveshaping formula and overload behavior</summary>
+<a id="github-actions"></a>
+## Development and GitHub Actions
 
-Let `a = abs(x)` and `c = Curve / 100`, using the displayed Curve value from −50 to +50. Define `D = 0.0625 − 0.25*c + 0.25*c²`:
+Use **CMake 3.19+** with the toolchains and SDK revisions pinned in the [macOS](.github/workflows/macOS%20Build.yml) / [Windows](.github/workflows/Windows%20Build.yml) workflows. Targets are `JS_Inflator` (VST3), `JS_Inflator-au` and `JS_Inflator-aax`.
 
-```text
-0 ≤ a ≤ 1: F(a) = (1.5+c)*a − 2*c*a² + (c−0.5)*a³ − D*a²*(1−a)²
-1 < a < 2: F(a) = 2*a − a²
-    a ≥ 2: F(a) = 0
+PRs, pushes to `main` and manual dispatch can build; an ordinary `staging` push without a PR does not. A new `v*` Tag publishes a **Pre-release** after both platforms succeed. CI still produces eight test assets with unsigned-for-PACE AAX; the current Release retains six assets after local signing and removal, so it differs from the original Artifacts.
 
-y = sign(x) * F(abs(x))
-```
+[Build and release guide](docs/DEVELOPMENT.md) · [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions) · [Test report](tests/results/aax-verification.md)
 
-At Curve = 0, an amplitude of 0.5 becomes approximately 0.6836, while 1 remains 1. Above 1, the wet waveshaper output folds back: 1.5 becomes 0.75 and 2 becomes 0. This is why more Input gain does not always produce a louder wet signal. Clip is not a guarantee that the final output is true-peak limited.
-
-</details>
-
-Source: [waveshaper and processing chain](source/JSIF_processor.cpp) (`process_inflator`, `processAudio`) and [band-split coefficients](source/JSIF_processor.h) (`Band_Split_set`). AAX and VST3 use this shared processing core.
-
-## Testing status
-
-| Scope | Evidence / limitation |
-|---|---|
-| macOS + Windows build/package checks | [Five-format verification run](https://github.com/Hikari-Tsai/JS_Inflator/actions/runs/35078130661); archive structure and architectures checked |
-| macOS AAX controls and interface | Pro Tools Developer 2025.6 on Apple Silicon: controls, meters, skin changes and zoom checked on the documented local build |
-| Processor and UI regression tests | 96 audio cases plus meter transport and editor integration checks; see the [test report](tests/results/aax-verification.md) |
-| Still pending | Windows host testing, recorded automation, session save/reload, and AudioSuite functional verification |
-
-These are separate checks, not a claim that every release ZIP was manually tested in every host. See [tests/README.md](tests/README.md) for regression-test instructions. AAX remains experimental.
-
-## Building from source
-
-```bash
-git clone --recurse-submodules https://github.com/Hikari-Tsai/JS_Inflator.git
-cd JS_Inflator
-```
-
-Use CMake 3.19 or later and the toolchains/SDK revisions pinned in the [macOS workflow](.github/workflows/macOS%20Build.yml) or [Windows workflow](.github/workflows/Windows%20Build.yml). Those files contain the dependency checkout, configuration, build, verification and packaging commands used for downloads.
-
-| CMake target | Output |
-|---|---|
-| `JS_Inflator` | VST3 |
-| `JS_Inflator-au` | macOS AUv2; requires Xcode, AudioUnitSDK and `SMTG_ENABLE_AUV2_BUILDS=ON` |
-| `JS_Inflator-aax` | AAX; requires a valid `SMTG_AAX_SDK_PATH` and VSTGUI |
-
-After configuration, use `cmake --build <build-directory> --config Release --target <target>`. For a distributable local AU, also follow the workflow's VST3 embedding and re-signing steps; the SDK's development symlink alone is not portable. Bundle version changes belong in `CMakeLists.txt`; pushing a differently named Git tag does not update that value.
-
-## GitHub Actions
-
-**Build plug-ins** runs macOS and Windows in parallel and produces five plug-in ZIPs plus a macOS DMG, Windows Setup EXE and Windows Uninstall ZIP (eight files). PR updates and pushes to `main` build automatically; a plain `staging` push without a PR does not. Manual builds upload Artifacts only. A new `v*` tag push publishes one **Pre-release** after both platform jobs succeed; it is not marked Latest.
-
-[Actions and build artifacts](https://github.com/Hikari-Tsai/JS_Inflator/actions) · [Release downloads](https://github.com/Hikari-Tsai/JS_Inflator/releases)
-
-<details>
-<summary>Full workflow reference: triggers, SDKs, artifacts, release rules, CLI and PR Agent</summary>
-
-### Workflow map
-
-The YAML files in [`.github/workflows`](.github/workflows) are the source of truth. The Actions display name and filename are different in two places:
-
-| Actions display name | Workflow file | Responsibility |
-|---|---|---|
-| **Build plug-ins** | [Mac Build.yml](.github/workflows/Mac%20Build.yml) | Main entry: run both platforms in parallel, then publish only for a version-tag push |
-| **Mac Build** | [macOS Build.yml](.github/workflows/macOS%20Build.yml) | Reusable or manually dispatched macOS build: VST3, AUv2, AAX |
-| **Windows Build** | [Windows Build.yml](.github/workflows/Windows%20Build.yml) | Reusable or manually dispatched Windows x64 build: VST3, AAX |
-| **PR Agent** | [pr-agent.yml](.github/workflows/pr-agent.yml) | AI-assisted PR description and review; separate from compilation and release jobs |
-
-The main entry keeps its historical filename `Mac Build.yml`; it now builds **both platforms**. Each platform job builds its formats sequentially. The two platform jobs run independently in parallel, subject to runner availability. AU is an Apple format and has no Windows build here.
-
-### What triggers a run?
-
-| Event | Build plug-ins | Release publication | PR Agent workflow |
-|---|---|---|---|
-| Push a commit to `main` | Both platforms | No | No, unless a separate PR event occurs |
-| Push to `staging` or another non-main branch, without a PR | No | No | No |
-| Open, reopen, or update an existing PR with new commits | Both platforms | No | Triggered; Bot senders are skipped |
-| Change a draft PR to ready for review | Not by this event alone | No | Triggered; Bot senders are skipped |
-| Push a tag matching `v*` | Both platforms | Yes, after both succeed | No |
-| Manually run **Build plug-ins** | Both platforms | No, even when selecting a tag | No |
-| Manually run **Mac Build** / **Windows Build** | Selected platform only | No | No |
-
-There are no path filters or PR target-branch filters: documentation-only PR updates also build, and a PR targeting `staging` can build. For `pull_request`, the build normally checks GitHub's synthetic merge commit, not just the source branch tip; this also explains the SHA in its artifact names. The default PR build activity types are `opened`, `synchronize`, and `reopened`. See [GitHub's event reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows).
-
-A `staging` push with an open PR can therefore build through the PR event. Merging into `main` starts a new main-branch build. PR Agent success is not a dependency of the release job. No schedule or `issue_comment` trigger is configured.
-
-```mermaid
-flowchart TD
-    event["PR / main push / v* tag push / manual"] --> entry["Build plug-ins"]
-    entry --> mac["macOS: VST3 → AAX → AU → DMG + install test"]
-    entry --> win["Windows: VST3 → AAX → EXE + install test"]
-    mac --> ma["3 plug-in ZIPs + DMG"]
-    win --> wa["2 plug-in ZIPs + EXE + Uninstall ZIP"]
-    ma --> gate{"Both jobs succeeded AND v* tag push?"}
-    wa --> gate
-    gate -->|Yes| release["One Pre-release with 8 assets"]
-    gate -->|No| stop["Skip release; retain any uploaded artifacts"]
-```
-
-### Build environments and dependencies
-
-| Platform | Runner | Build tools and configuration | Binary architectures |
-|---|---|---|---|
-| macOS | `macos-15` | CMake → Xcode 16.2, `Release` | Universal `x86_64` + `arm64` |
-| Windows | `windows-2022` | CMake → Visual Studio 17 2022, PowerShell, `Release` | `x64` |
-| Release only | `ubuntu-latest` | Download artifacts and run GitHub CLI | No plug-in compilation |
-
-Both builders check out this repository and its recursive submodules, including `r8brain-free-src`. Dependencies are fixed to:
-
-| Dependency | Revision | Use |
-|---|---|---|
-| Steinberg VST3 SDK | `v3.7.12_build_20` | Both platforms; includes VSTGUI and the AAX/AU wrappers |
-| Apple AudioUnitSDK | `e789bc83ddc07cbf80e7bfaf84f1ade975287400` (1.3.0) | macOS AUv2 |
-| Avid AAX SDK from the JUCE repository | `72782788ce18c2d4d760b28e0921d6ffc6431102` (SDK 2.9.0) | Both platforms' AAX builds |
-
-AAX checkout is restricted to `modules/juce_audio_plugin_client/AAX/SDK`; the job checks for `LICENSE.txt` and revision constant `20209000`. Only Avid's SDK is used under its GPLv3 option: **JUCE modules are not linked**. No private SDK repository or SDK token is required. AudioUnitSDK 1.3.0 matches the project's existing AU compatibility requirements.
-
-The workflows use `actions/checkout@v4`, `actions/upload-artifact@v4`, and `actions/download-artifact@v4`; macOS also uses `maxim-lobanov/setup-xcode@v1`. These action version tags and runner images can receive upstream updates; pinning the SDK does not make the entire environment byte-for-byte reproducible.
-
-### What each build checks and packages
-
-**macOS:** configure CMake with VSTGUI, AAX and AUv2 enabled; build targets `JS_Inflator`, `JS_Inflator-aax`, and `JS_Inflator-au`. Each format's main binary must contain Intel and Apple Silicon slices, checked with `lipo`. VST3 signing is verified; AAX receives an ad-hoc signature and is verified. AU packaging replaces the SDK's external development symlink at `Contents/Resources/plugin.vst3` with a full copy of the signed VST3 bundle, signs the outer AU, and verifies it with `codesign --verify --deep --strict`. This makes the AU self-contained. `ditto` creates ZIPs while retaining bundle structure and executable permissions.
-
-**Windows:** enable `SMTG_CREATE_BUNDLE_FOR_WINDOWS`, disable installation links, then build `JS_Inflator` and `JS_Inflator-aax`. Packaging requires a real binary at each expected bundle path and checks the DOS header, PE signature, and x64 machine type. PowerShell `Compress-Archive` packages each complete bundle. These Windows builds are unsigned.
-
-**Installers:** [macOS packaging](packaging/build_macos.py) uses `pkgbuild` / `productbuild` for non-relocatable components and `hdiutil` for a compressed DMG. [Windows packaging](packaging/windows/build.ps1) uses the runner's Inno Setup 6 compiler and registers an uninstaller. Both include GPLv3 and a `BUILD-SOURCE.txt` pointing to the checkout revision. AAX is optional and unselected by default. Packaging scripts use the version from `CMakeLists.txt`; new tags do not change it.
-
-**Installation smoke tests:** disposable CI runners install default components, opt into AAX while upgrading, verify cancellation/dry-run behavior, uninstall twice, and ensure a neighboring sentinel file remains untouched. macOS also checks installed code signatures and package-receipt removal. Windows checks uninstall registration and removal of older ZIP installations. Installer upload happens only after these checks pass. See the [installer verification report](tests/results/installer-verification.md). These checks do not launch a DAW or establish compatibility across every supported OS version.
-
-The VST3 SDK can also invoke its validator as a post-build step when the validator target is available; consult the build log for that output. The workflows do **not** explicitly run `auval`, the repository's 96-case processor regression suite, Pro Tools GUI tests, session save/reload tests, or AudioSuite functional tests. Earlier local/manual verification is documented separately in the [test report](tests/results/aax-verification.md).
-
-Both platforms' AAX builds require **Pro Tools Developer**. Ad-hoc signing is not Avid/PACE signing, and this pipeline does not perform PACE signing or Apple notarization. A successful CI run establishes the configured build/package checks, not full host compatibility.
-
-### Output locations and downloads
-
-Paths below are relative to the temporary runner checkout. Each packaged file is created directly inside `build-macos/` or `build-windows/` before upload.
-
-| Format | Runner bundle path | Uploaded file / Release asset |
-|---|---|---|
-| macOS VST3 | `build-macos/VST3/Release/JS_Inflator.vst3` | `JS_Inflator-macOS-VST3.zip` |
-| macOS AUv2 | `build-macos/VST3/Release/JS_Inflator.component` | `JS_Inflator-macOS-AU.zip` |
-| macOS AAX | `build-macos/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-macOS-AAX.zip` |
-| Windows VST3 | `build-windows/VST3/Release/JS_Inflator.vst3` | `JS_Inflator-Windows-VST3.zip` |
-| Windows AAX | `build-windows/AAXPLUGIN/Release/JS_Inflator.aaxplugin` | `JS_Inflator-Windows-AAX.zip` |
-| macOS installer | Verified VST3, AU and AAX bundles | `JS_Inflator-macOS.dmg` |
-| Windows installer | Verified VST3 and AAX bundles | `JS_Inflator-Windows-Setup.exe` |
-| Windows removal tool | `packaging/windows/Uninstall-JS-Inflator.*` | [`JS_Inflator-Windows-Uninstall.zip`](https://github.com/Hikari-Tsai/JS_Inflator/releases/download/v2.0.3.2-hikari-beta.3/JS_Inflator-Windows-Uninstall.zip) |
-
-Windows binaries are inside `JS_Inflator.vst3/Contents/x86_64-win/JS_Inflator.vst3` and `JS_Inflator.aaxplugin/Contents/x64/JS_Inflator.aaxplugin`. Install the whole bundle, not only the inner binary.
-
-**Artifacts** are files attached to an individual Actions run, named `JS_Inflator-<platform>-<format>-<github.sha>`. They contain the files above; `Installer` artifacts hold the new packages. Open [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions) → a run → **Artifacts**. Downloading through the GitHub UI requires signing in and repository read access; its download archive may wrap the plug-in ZIP, requiring a second extraction. These workflows do not set `retention-days`, so the repository/organization retention policy applies. See [GitHub's artifact download guide](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts).
-
-**Release assets** are the same packaged files copied from that run's Artifacts to a [versioned Release page](https://github.com/Hikari-Tsai/JS_Inflator/releases). Their availability is separate from Actions artifact expiration. Neither mechanism installs the plug-in on your computer. Local and CI builds use the same project sources and targets, but SDK versions, toolchains, flags, signatures and packaging must also match before expecting equivalent results; byte-identical binaries are not guaranteed.
-
-### Release gating and failure behavior
-
-The release job declares `needs: [macos, windows]` and runs only when `github.event_name == 'push'` and `github.ref` starts with `refs/tags/v`. It downloads artifacts from the **same workflow run**, matching `JS_Inflator-*-${{ github.sha }}`, merges them into `dist/`, and checks all eight expected files exist and are non-empty.
-
-It then runs `gh release create` with all eight files, `--verify-tag --prerelease --latest=false`, a title based on the tag, and generated notes containing platform/signing information plus source and test-report links at the build SHA. The notes are generated by this workflow, not by PR Agent.
-
-- Any failed or cancelled platform job prevents publication. Earlier successful upload steps may still leave partial Artifacts; inspect both jobs before treating a run as complete.
-- Missing upload files fail the upload step. Missing or empty release files stop the script before `gh release create`.
-- A missing tag fails `--verify-tag`. An existing Release with the same tag is not updated or overwritten; the create command fails. If publication fails, inspect the Release page before retrying, since a network/upload failure can leave a partially created Release.
-- `plugin-release-${{ github.ref }}` is the release concurrency group. The same tag cannot run two release jobs simultaneously; `cancel-in-progress: false` preserves an already running release job. This is not deduplication or an update mechanism.
-- Every matching `v*` tag is currently published as a **Pre-release**, even if its name does not contain `beta`. It is not marked **Latest**, and no stable release is automatically promoted.
-- The tag selects a source revision; it does not move `main` or `staging`, nor automatically change the version in `CMakeLists.txt`. The tagged commit must contain the unified workflow and both reusable workflow files.
-
-### Manual builds and version releases
-
-In [Actions](https://github.com/Hikari-Tsai/JS_Inflator/actions), select **Build plug-ins** → **Run workflow** → choose a branch such as `staging`. For one platform, select **Mac Build** or **Windows Build**. Manual dispatch requires the workflow to be present on the default branch; newly introduced workflow files may not appear in the UI until merged there.
-
-Equivalent GitHub CLI commands from this repository, after `gh auth login`:
-
-```bash
-# Both platforms; historical filename is intentional.
-gh workflow run 'Mac Build.yml' --ref staging
-
-# One platform only.
-gh workflow run 'macOS Build.yml' --ref staging
-gh workflow run 'Windows Build.yml' --ref staging
-
-# Inspect a run, replacing RUN_ID with its numeric ID.
-gh run list --branch staging
-gh run view RUN_ID --log-failed
-gh run download RUN_ID --dir downloaded-artifacts
-```
-
-To publish, first check out the intended release commit and confirm the version tag is unused. This example tags the current `HEAD`; it does not imply that this version has been released:
-
-```bash
-git tag -a v2.0.3.2-hikari-beta.3 -m "Hikari beta 3"
-git push origin v2.0.3.2-hikari-beta.3
-```
-
-Pushing that new tag starts both builds and, if successful, publishes all eight files. Pushing only `staging`, manually building a tag, or rerunning a non-tag build does not publish a Release. For an unpublished tag run with a transient failure, use **Re-run failed jobs** after checking whether a Release already exists. A source/workflow fix requires a new commit and normally a new tag, not merely rerunning an old revision.
-
-### PR Agent, permissions and secrets
-
-PR Agent is independent of `Build plug-ins`. Its workflow subscribes to `opened`, `reopened`, `synchronize`, and `ready_for_review`; a sender with type `Bot` skips the review job. It runs `the-pr-agent/pr-agent@main` on `ubuntu-latest`. One concurrency group per PR (`pr-agent-<number>`) cancels an older in-progress review when a new one starts.
-
-The workflow requests automatic description and review (`auto_describe: true`, `auto_review: true`) and sets `auto_improve: false`. **There is a configuration inconsistency:** [`.pr_agent.toml`](.pr_agent.toml) sets `auto_improve = true`. These are the actual current values, not a guarantee that code suggestions are disabled; consult the resolved `auto_improve` value and execution log for the action version used. The upstream action follows `@main`, so its implementation can change independently of this repository; a triggered workflow does not necessarily mean every review tool ran.
-
-The repository config requests model `gpt-5.5-2026-04-23`, fallback `gpt-5.4-mini`, and Traditional Chinese (`zh-TW`). It asks for up to five findings, persistent review comments, correctness/regression checks, tests/security/effort assessment, real-time audio safety, parameter/state/channel/latency compatibility, and SDK/macOS compatibility. PR description label publication and diagrams are disabled; the original user description is retained. Build directories, `vst3sdk/**`, and `AudioUnitSDK/**` are excluded from review by the configured ignore patterns. See [the upstream automation guide](https://github.com/the-pr-agent/pr-agent/blob/main/docs/docs/usage-guide/automations_and_usage.md) for action behavior.
-
-| Job | Token permissions / secrets |
-|---|---|
-| Platform builds | Built-in `GITHUB_TOKEN`, `contents: read`; no private SDK secrets |
-| Release | Built-in token exposed as `GH_TOKEN`, `contents: write` only on the release job; no extra PAT |
-| PR Agent | Built-in `GITHUB_TOKEN`, `contents: read`, `issues: write`, `pull-requests: write`; requires repository secret `OPENAI_KEY` |
-
-Set `OPENAI_KEY` under **Settings → Secrets and variables → Actions**. Build jobs do not use this key. Fork PRs may require Actions approval, do not normally receive repository secrets, and generally have a read-only token; therefore the public-SDK builds can be available while PR Agent cannot authenticate or write its review. A PR Agent failure is not a compilation failure. When diagnosing a red check, open the specific workflow/job and its failing step before rerunning.
-</details>
+Recorded checks cover 96 audio regression cases and macOS Pro Tools Developer controls / interface behavior. Windows host testing, recorded automation, session reload and AudioSuite verification remain pending.
 
 ## License and credits
 
-This fork and JS Inflator are licensed under **GNU GPLv3**; see [LICENSE](LICENSE). When distributing binaries or modified versions, retain the required notices and provide the corresponding source and build material under GPLv3. Dependencies keep their own licenses: r8brain-free-src (MIT), VSTGUI (BSD 3-Clause), AudioUnitSDK (Apache 2.0), and the applicable GPLv3/commercial or file-specific terms of the pinned Steinberg and Avid SDKs. SDK licensing, Pro Tools authorization and PACE signing are separate requirements.
+Licensed under **[GNU GPLv3](LICENSE)**. Distribution must retain required notices and provide corresponding source and build material. SDKs and libraries retain their own licenses; PACE signing and host authorization are separate requirements.
 
-Based on [JS Inflator by yg331 / Kiriki-liszt](https://github.com/Kiriki-liszt/JS_Inflator). The alternative interface is by **Twarch**; resampling uses [r8brain-free-src by Aleksey Vaneev](https://github.com/avaneev/r8brain-free-src). This repository maintains the Hikari AAX adaptation and cross-platform build integration.
+Original: [yg331 / Kiriki-liszt](https://github.com/Kiriki-liszt/JS_Inflator). Interface: **Twarch**. Resampling: [Aleksey Vaneev / r8brain-free-src](https://github.com/avaneev/r8brain-free-src). **Hikari Tsai** maintains this fork's AAX adaptation and cross-platform builds.
